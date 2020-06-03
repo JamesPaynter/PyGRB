@@ -1,4 +1,4 @@
-|Travis| |Coverage| |Docs| |AstroPy|
+|Travis| |Coverage| |Docs| |pypi| |version| |AstroPy|
 
 =====
 PyGRB
@@ -211,3 +211,10 @@ Coverage
 .. |Docs| image:: https://readthedocs.org/projects/pygrb/badge/?version=latest
     :target: https://pygrb.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
+    
+.. |pypi| image:: https://badge.fury.io/py/pygrb.svg
+   :target: https://pypi.org/project/pygrb/
+
+.. |version| image:: https://img.shields.io/pypi/pyversions/pygrb.svg
+   :target: https://pypi.org/project/pygrb/
+
