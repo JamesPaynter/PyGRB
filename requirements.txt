@@ -38,8 +38,8 @@ matplotlib >= 2.2.3
 numpy >= 1.18.1
 
 # PyGRB\BATSEpreprocess.py: 10
-pandas == 0.25.3
-xlrd == 1.1.0
+pandas ?= 0.25.3
+xlrd >= 1.1.0
 
 # PyGRB\DynamicBilby.py: 13
 # build\lib\PyGRB\DynamicBilby.py: 13
