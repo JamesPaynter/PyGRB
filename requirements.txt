@@ -5,7 +5,7 @@
 # PyGRB\GRB_class.py: 6,7
 # build\lib\PyGRB\BATSEpreprocess.py: 10
 # build\lib\PyGRB\GRB_class.py: 6,7
-astropy == 4.0.1
+astropy >= 3.2.3
 
 # PyGRB\DynamicBackEnd.py: 8,9,10,11,12
 # PyGRB\DynamicBilby.py: 15,16,17,18,19,20,21
@@ -22,7 +22,7 @@ bilby == 0.5.9
 # build\lib\PyGRB\DynamicBilby.py: 9,10
 # build\lib\PyGRB\GRB_class.py: 4,5
 # scripts\run_time.py: 64
-matplotlib == 2.2.3
+matplotlib >= 2.2.3
 
 # PyGRB\BATSEpreprocess.py: 9
 # PyGRB\DynamicBackEnd.py: 2
@@ -35,7 +35,7 @@ matplotlib == 2.2.3
 # build\lib\tests\test_poissonrate.py: 1
 # tests\test_EmptyGRB.py: 2
 # tests\test_poissonrate.py: 1
-numpy == 1.18.1
+numpy >= 1.18.1
 
 # PyGRB\BATSEpreprocess.py: 10
 pandas == 1.0.1
@@ -56,6 +56,6 @@ prettytable == 0.7.2
 # build\lib\PyGRB\GRB_class.py: 3
 # build\lib\tests\test_poissonrate.py: 4
 # tests\test_poissonrate.py: 4
-scipy == 1.1.0
+scipy >= 1.1.0
 
 beautifulsoup4 == 4.9.0
