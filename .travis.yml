@@ -4,7 +4,7 @@ language: python
 notifications:
   email:
     recipients:
-      - jpaynter@student.unimelb.edu.au
+      - jims.astronomy@gmail.com
     on_success: change
     on_failure: always
 
