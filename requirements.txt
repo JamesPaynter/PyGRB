@@ -8,6 +8,6 @@ pandas >= 1.0.1
 #setuptools >= 40.2.0
 
 beautifulsoup4 >= 4.9.0
-bilby >= 0.5.9
+bilby == 0.5.9
 
 
