@@ -212,9 +212,9 @@ Coverage
     :target: https://pygrb.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
     
-.. |pypi| image:: https://badge.fury.io/py/PyGRB.svg
+.. |pypi| image:: https://badge.fury.io/py/PyGRB.png
    :target: https://badge.fury.io/py/PyGRB
 
-.. |version| image:: https://img.shields.io/pypi/pyversions/pygrb.svg
+.. |version| image:: https://img.shields.io/pypi/pyversions/pygrb.png
    :target: https://pypi.org/project/pygrb/
 
