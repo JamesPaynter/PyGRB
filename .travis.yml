@@ -21,8 +21,8 @@ jobs:
   include:
     - name: "Python 3.7.5 on macOS 10.14"
       os: osx
-      osx_image: xcode10.2  # Python 3.7.5 running on macOS 10.14.3
-      language: shell       # 'language: python' is an error on Travis CI macOS
+      osx_image: xcode10.2  # Python 3.7.5, macOS 10.14.3
+      language: shell
       before_install:
         - python3 --version
         - pip3 install --upgrade pip setuptools wheel
@@ -34,12 +34,12 @@ jobs:
 
     - name: "Python 3.7.4 on Windows"
       os: windows     # Windows 10.0.17134 N/A Build 17134
-      language: shell # 'language: python' is an error on Travis CI Windows
+      language: shell
       before_install:
         - choco install python --version 3.7.4
         - python --version
         - python -m pip install --upgrade pip setuptools wheel
-        - pip3 install --upgrade pytest
+        - pip3 install --upgrade pytest pytest-cov
         - pip3 install codecov
       env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
 
