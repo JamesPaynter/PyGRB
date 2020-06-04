@@ -69,8 +69,3 @@ after_success:
 
 # https://github.com/codecov/codecov-bash/issues/94 codecov errors re: bash
 # https://github.com/codecov/example-python
-
-matrix:
-  include:
-    - name: "Python 3.7.5 on macOS 10.14"
-      os: osx
