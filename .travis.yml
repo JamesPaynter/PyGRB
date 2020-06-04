@@ -8,6 +8,14 @@ notifications:
     on_success: change
     on_failure: change
 
+python:
+  - 3.6
+  - 3.7
+  - 3.7-dev
+  - 3.8
+  - 3.8-dev
+  - 3.9-dev
+
 matrix:
 
   include:
@@ -22,12 +30,12 @@ matrix:
         - pip3 install codecov
       env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
     # linux
-    - python: 3.6
-    - python: 3.7
-    - python: 3.7-dev
-    - python: 3.8
-    - python: 3.8-dev
-    - python: 3.9-dev
+    # - python: 3.6
+    # - python: 3.7
+    # - python: 3.7-dev
+    # - python: 3.8
+    # - python: 3.8-dev
+    # - python: 3.9-dev
   allow_failures:
     - python: 3.7-dev
     - python: 3.8-dev
