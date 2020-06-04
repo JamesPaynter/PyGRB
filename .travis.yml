@@ -34,6 +34,7 @@ jobs:
         - pip3 install -r requirements.txt
         - pip3 install --upgrade pytest pytest-cov
         - pip3 install codecov
+        - python setup.py install
       env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
 
   allow_failures:
