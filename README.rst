@@ -17,10 +17,10 @@ A GRB light-curve analysis package.
 Introduction
 ------------
 *PyGRB* is a package to download GRB .FITS files from the relevant data archives (eg. NASA HEARSAC).
-At the moment only `BATSE <https://heasarc.gsfc.nasa.gov/FTP/compton/data/batse/>`_ data can be downloaded and analysed with the software, although with only slight tweaks GRBs from other satellites can be easily analysed.
+At the moment only `BATSE <https://heasarc.gsfc.nasa.gov/FTP/compton/data/batse/>`__ data can be downloaded and analysed with the software, although with only slight tweaks GRBs from other satellites can be easily analysed.
 The code is then able to create light-curves from either pre-binned data or time-tagged photon-event data.
 Light-curves may then be fitted with with pulse models, for further analysis.
-Model fitting is done with nested sampling, powered by `Bilby <https://lscsoft.docs.ligo.org/bilby/index.html>`_, and `Dynesty <https://dynesty.readthedocs.io/>`_ and/or `Nestle <https://github.com/kbarbary/nestle>`_.
+Model fitting is done with nested sampling, powered by `Bilby <https://lscsoft.docs.ligo.org/bilby/index.html>`__, and `Dynesty <https://dynesty.readthedocs.io/>`__ and/or `Nestle <https://github.com/kbarbary/nestle>`__.
 
 
 Installation
@@ -34,7 +34,7 @@ The *PyGRB* repository maybe be installed manually through cloning the repositor
   $ pip install -r requirements.txt
   $ pip install .
 
-or by downloading the compiled version from `PyPI <https://pypi.org/project/PyGRB/>`_
+or by downloading the compiled version from `PyPI <https://pypi.org/project/PyGRB/>`__
 
 .. code-block:: console
 
@@ -54,7 +54,7 @@ Pulse types
 ------------
 Description of GRB pulse phenomenology.
 
-.. figure:: docs/source/images/equations/FRED.gif
+.. figure:: https://github.com/JamesPaynter/PyGRB/blob/master/docs/source/images/equations/FRED.gif
     :width: 100%
     :align: center
     :alt: FRED eqn: $I(t) = A \exp{ - \xi \left( \frac{t - \Delta}{\tau} + \frac{\tau}{t-\Delta} \right)}$
@@ -62,14 +62,14 @@ Description of GRB pulse phenomenology.
 
 .. inclusion-marker-pulse-types-end
 
-`See documentation for more <https://pygrb.readthedocs.io/en/latest/user/pulses.html>`_
+`See documentation for more <https://pygrb.readthedocs.io/en/latest/user/pulses.html>`__
 
 
 
 .. role:: python(code)
    :language: python
 
-.. figure:: docs/source/images/BATSE_trigger_7475_rates_rates.png
+.. figure:: https://github.com/JamesPaynter/PyGRB/blob/master/docs/source/images/BATSE_trigger_7475_rates_rates.png
     :figwidth: 50%
     :width: 80%
     :align: center
@@ -137,7 +137,7 @@ The data products are stored in :code:`products/`.
 
 We should be left with a light-curve that looks like this:
 
-.. figure:: docs/source/images/B_7475__d_NL200__rates_F.png
+.. figure:: https://github.com/JamesPaynter/PyGRB/blob/master/docs/source/images/B_7475__d_NL200__rates_F.png
     :figwidth: 50%
     :width: 80%
     :align: center
@@ -146,14 +146,14 @@ We should be left with a light-curve that looks like this:
     BATSE trigger 7475 with FRED fit
 
 
-`See documentation for more <https://pygrb.readthedocs.io/en/latest/user/usage.html>`_
+`See documentation for more <https://pygrb.readthedocs.io/en/latest/user/usage.html>`__
 
 
 Under the Hood
 ---------------
 
 
-.. image:: docs/source/images/pulse_fit_animation.gif
+.. image:: https://github.com/JamesPaynter/PyGRB/blob/master/docs/source/images/pulse_fit_animation.gif
     :align: center
     :alt: a GRB light-curve fit animation
 
@@ -161,7 +161,7 @@ There is a typo in this animation, the two fractions should take the same sign (
 The -2 is an amplitude normalisation factor.
 
 
-`See documentation for more <https://pygrb.readthedocs.io/en/latest/user/sampling.html>`_
+`See documentation for more <https://pygrb.readthedocs.io/en/latest/user/sampling.html>`__
 
 
 Contribute
@@ -170,11 +170,11 @@ Contribute
 
 - Include compatability with other GRB catalogues that are publicly available.
 
-  - `Swift BAT <https://swift.gsfc.nasa.gov/results/batgrbcat/>`_
+  - `Swift BAT <https://swift.gsfc.nasa.gov/results/batgrbcat/>`__
 
-  - `Fermi GBM <https://heasarc.gsfc.nasa.gov/FTP/fermi/data/gbm/bursts/>`_
+  - `Fermi GBM <https://heasarc.gsfc.nasa.gov/FTP/fermi/data/gbm/bursts/>`__
 
-  - `Konus Wind <https://gcn.gsfc.nasa.gov/konus_grbs.html>`_
+  - `Konus Wind <https://gcn.gsfc.nasa.gov/konus_grbs.html>`__
 
 - Include capabaility to download and plot GRB spectra in addition to light-curves.
 
@@ -211,10 +211,9 @@ Coverage
 .. |Docs| image:: https://readthedocs.org/projects/pygrb/badge/?version=latest
     :target: https://pygrb.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
-    
+
 .. |pypi| image:: https://badge.fury.io/py/PyGRB.svg
    :target: https://badge.fury.io/py/PyGRB
 
 .. |version| image:: https://img.shields.io/pypi/pyversions/pygrb.svg
    :target: https://pypi.org/project/pygrb/
-
