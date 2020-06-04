@@ -38,6 +38,11 @@ jobs:
       env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
 
     - name: "test pip install"
+      before_install:
+        - python --version
+        - python -m pip install --upgrade pip
+        - pip install pytest pytest-cov
+        - pip install codecov
       install:
         - pip install pygrb
 
