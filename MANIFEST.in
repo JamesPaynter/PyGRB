@@ -2,5 +2,6 @@ include LICENSE
 include README.rst
 include MANIFEST.in
 include requirements.txt
+recursive-include data *
 recursive-include tests *.py
 recursive-include examples *.py
