@@ -18,6 +18,19 @@ python:
   - 3.9-dev
 
 jobs:
+  include:
+    - name: "Python 3.7.5 on macOS 10.14"
+      os: osx
+      osx_image: xcode10.2  # Python 3.7.5 running on macOS 10.14.3
+      language: shell       # 'language: python' is an error on Travis CI macOS
+      before_install:
+        - python3 --version
+        - pip3 install -U pip
+        - pip3 install -U pytest
+        - pip3 install codecov
+      script: python3 -m pytest
+      after_success: python 3 -m codecov
+      
   allow_failures:
     - python: 3.7-dev
     - python: 3.8-dev
