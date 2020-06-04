@@ -5,10 +5,10 @@ Sampling
     :figwidth: 80%
     :width: 100%
     :align: center
-    :align: center
     :alt: a GRB light-curve fit animation
 
     Animation of nested sampling converging on channel 3 of BATSE trigger 8099 with a FRED pulse fit.
+
 
 The equation should read
 
