@@ -4,8 +4,7 @@ matplotlib >= 2.2.3
 astropy >= 3.2.3
 xlrd >= 1.1.0
 prettytable >= 0.7.2
-pandas >= 0.25.3
-#pandas >= 1.0.1
+pandas >= 1.0.1
 #setuptools >= 40.2.0
 
 beautifulsoup4 >= 4.9.0

@@ -2,7 +2,6 @@ dist: xenial
 language: python
 
 python:
-  - 3.5
   - 3.6
   - 3.7
   - 3.7-dev
@@ -48,7 +47,6 @@ jobs:
         - pip install pygrb
 
   allow_failures:
-    - python: 3.5
     - python: 3.7-dev
     - python: 3.8-dev
     # - python: 3.9-dev
