@@ -25,8 +25,9 @@ jobs:
       language: shell       # 'language: python' is an error on Travis CI macOS
       before_install:
         - python3 --version
-        - pip3 install -U pip
-        - pip3 install -U pytest
+        - pip3 install --upgrade pip
+        - pip3 install -r requirements.txt
+        - pip3 install --upgrade pytest pytest-cov
         - pip3 install codecov
       script: python3 -m pytest
       after_success: python 3 -m codecov
