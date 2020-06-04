@@ -53,6 +53,7 @@ matrix:
     - python: 3.9-dev
     # - os: windows
     # - os: osx
+    fast_finish: true
 
 
 before_install:

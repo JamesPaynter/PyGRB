@@ -1,7 +1,10 @@
 Sampling
 ========
 
-.. image:: ../images/pulse_fit_animation.gif
+.. figure:: ../images/pulse_fit_animation.gif
+    :figwidth: 80%
+    :width: 100%
+    :align: center
     :align: center
     :alt: a GRB light-curve fit animation
 
