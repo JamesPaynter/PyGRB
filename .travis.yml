@@ -30,11 +30,13 @@ jobs:
         - pip3 install codecov
       script: python3 -m pytest
       after_success: python 3 -m codecov
-      
+
   allow_failures:
     - python: 3.7-dev
     - python: 3.8-dev
     - python: 3.9-dev
+    - os: windows
+    - os: osx
   fast_finish: true
 
 
