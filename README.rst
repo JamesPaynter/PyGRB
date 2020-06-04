@@ -201,8 +201,8 @@ Coverage
     :alt: astropy
 
 .. |Travis| image:: https://travis-ci.com/JamesPaynter/PyGRB.svg?branch=master
-  :alt: Travis Badge
-  :target: https://travis-ci.com/JamesPaynter/PyGRB
+    :alt: Travis Badge
+    :target: https://travis-ci.com/JamesPaynter/PyGRB
 
 .. |Coverage| image:: https://codecov.io/gh/JamesPaynter/PyGRB/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/JamesPaynter/PyGRB
@@ -213,7 +213,7 @@ Coverage
     :alt: Documentation Status
 
 .. |pypi| image:: https://badge.fury.io/py/PyGRB.svg
-   :target: https://badge.fury.io/py/PyGRB
+    :target: https://badge.fury.io/py/PyGRB
 
 .. |version| image:: https://img.shields.io/pypi/pyversions/pygrb.svg
-   :target: https://pypi.org/project/pygrb/
+    :target: https://pypi.org/project/pygrb/

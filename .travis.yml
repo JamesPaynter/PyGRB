@@ -45,6 +45,7 @@ jobs:
         - pip install codecov
       install:
         - pip install pygrb
+        - pip freeze
 
   allow_failures:
     - python: 3.7-dev
