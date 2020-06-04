@@ -3,13 +3,13 @@
 import setuptools
 
 def get_long_description():
-    with open('README.rst', 'r') as fh:
-        text = fh.read()
+    with open('README.rst', 'r') as file:
+        text = file.read()
     return text
 
 def get_requirements():
-    with open('requirements.txt', 'r') as f:
-        text = f.read().splitlines()
+    with open('requirements.txt', 'r') as file:
+        text = file.read().splitlines()
     return text
 
 long_description = get_long_description()
@@ -17,7 +17,7 @@ requirements = get_requirements()
 
 setuptools.setup(
     name='PyGRB',
-    version='0.0.3',
+    version='0.0.4',
     author='James Paynter',
     author_email='jims.astronomy@gmail.com',
     description='A GRB light-curve analysis package.',
@@ -26,8 +26,8 @@ setuptools.setup(
     long_description_content_type='text/x-rst',
     url='https://github.com/JamesPaynter/PyGRB',
     packages=setuptools.find_packages(),
-    package_dir = {'PyGRB' : 'PyGRB'},
-    package_data={'PyGRB': ['data/*']},
+    package_dir = { 'PyGRB' : 'PyGRB'},
+    include_package_data=True,
     install_requires=requirements,
     classifiers=[
         'Programming Language :: Python',
