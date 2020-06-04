@@ -37,12 +37,18 @@ jobs:
         - python setup.py install
       env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
 
+    - name: "test pip install"
+      install:
+        - pip install pygrb
+
   allow_failures:
     - python: 3.7-dev
     - python: 3.8-dev
     - python: 3.9-dev
     - os: windows
     - os: osx
+    - name: "test pip install"
+
   fast_finish: true
 
 
