@@ -2,8 +2,12 @@ include LICENSE
 include README.rst
 include MANIFEST.in
 include requirements.txt
-include PyGRB/data *
 recursive-include tests *.py
 recursive-include examples *.py
 
-exclude data *
+recursive-include PyGRB data/*
+recursive-exclude docs *
+exclude *.yml
+exclude *.coverage
+recursive-exclude * __pycache__
+exclude .gitignore
