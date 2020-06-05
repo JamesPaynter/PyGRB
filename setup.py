@@ -17,7 +17,7 @@ requirements = get_requirements()
 
 setuptools.setup(
     name='PyGRB',
-    version='0.0.4',
+    version='0.0.5',
     author='James Paynter',
     author_email='jims.astronomy@gmail.com',
     description='A GRB light-curve analysis package.',
