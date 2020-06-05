@@ -27,6 +27,7 @@ setuptools.setup(
     url='https://github.com/JamesPaynter/PyGRB',
     packages=setuptools.find_packages(),
     package_dir = { 'PyGRB' : 'PyGRB'},
+    package_data={'PyGRB': ['data/*']},
     include_package_data=True,
     install_requires=requirements,
     classifiers=[

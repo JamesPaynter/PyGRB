@@ -1,5 +1,3 @@
-import sys, os
-import argparse
 import numpy as np
 
 from PyGRB.main.fitpulse import PulseFitter
@@ -11,7 +9,7 @@ def load_973(sampler = 'dynesty', nSamples = 100):
     test = PulseFitter(973, times = (-2, 50),
                 datatype = 'discsc', nSamples = nSamples, sampler = sampler,
                 priors_pulse_start = -5, priors_pulse_end = 50,
-                priors_td_lo = 0,  priors_td_hi = 30)
+                priors_td_lo = 0,  priors_td_hi = 30, p_type ='docs')
     return test
 
 
