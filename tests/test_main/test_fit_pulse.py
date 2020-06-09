@@ -73,7 +73,7 @@ class TestFred7475(unittest.TestCase):
 
         nSamples = 201
         self.discsc_fit = PulseFitter(7475, times = (-2, 60),
-                datatype = 'discsc', nSamples = nSamples, sampler = 'nestle',
+                datatype = 'discsc', nSamples = nSamples, sampler = 'dynesty',
                 priors_pulse_start = self.priors_pulse_start,
                 priors_pulse_end = self.priors_pulse_end)
 
