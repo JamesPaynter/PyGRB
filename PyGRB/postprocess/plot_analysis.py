@@ -75,7 +75,8 @@ class PlotPulseFit(AbstractBasePlot):
         fig_ax1.plot(   x, y, c = y_cols,
                         drawstyle='steps-mid',
                         linewidth = self.plot_dict['linewidth'])
-        fig_ax1.plot(x, y_fit, 'k', linewidth = self.plot_dict['linewidth'])
+        if y_fit is not None:
+            fig_ax1.plot(x, y_fit, 'k', linewidth = self.plot_dict['linewidth'])
         if posterior_draws is not None:
             drawLines = []
             for ii in range(nDraws):
@@ -83,8 +84,8 @@ class PlotPulseFit(AbstractBasePlot):
                 drawLines.append(posterior_draws[:,ii])
             d = {'c': 'k', 'linewidth' : 0.5, 'alpha' : 0.02}
             fig_ax1.plot(*drawLines, **d)
-
-        fig_ax1.fill_between(x, y + y_err, y - y_err, step = 'mid',
+        if y_fit is not None:
+            fig_ax1.fill_between(x, y + y_err, y - y_err, step = 'mid',
                                 color = y_cols, alpha = 0.15)
 
         ticks = fig_ax1.get_yticks()
@@ -108,8 +109,8 @@ class PlotPulseFit(AbstractBasePlot):
                                          alpha = 0.15)
             axes_list[0].axhline(0, c = 'k', linewidth = 0.2)
             axes_list[0].axhline(0, c = 'k', linewidth = 0.5)
-
-        fig_ax1.set_ylim(bottom = min(y - y_err), top = max(y + y_err))
+        if y_fit is not None:
+            fig_ax1.set_ylim(bottom = min(y - y_err), top = max(y + y_err))
 
         if self.plot_dict['residuals']:
             ticks = axes_list[0].get_yticks()

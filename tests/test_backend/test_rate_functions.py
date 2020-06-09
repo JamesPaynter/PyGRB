@@ -57,50 +57,58 @@ class TestGaussianPulse(unittest.TestCase):
         y = FRED_pulse(self.times, self.start, self.scale, self.tau, self.xi)
         assert(np.max(y) <= self.scale)
 
-    # def test_FREDx_pulse(self):
-    #     y = FREDx_pulse(self.times, self.start, self.scale, self.tau,
-    #                     self.xi, self.gamma, self.nu)
-    #     expected = np.array([1.39486696e-301, 1.39486696e-301, 1.39486696e-301,
-    #     1.39486696e-301, 2.65724717e-311, 5.13616800e-004, 5.00000000e+000,
-    #     5.23582177e-001, 1.16533747e-002, 1.75970935e-004])
-    #     assert_allclose(y, expected, rtol=1e-7)
+    def test_FRED_pulse_unnorm(self):
+        y = FRED_pulse_unnorm(self.times, self.start, self.scale, self.tau, self.xi)
+        expected = np.array([2.22507386e-308, 2.22507386e-308, 2.22507386e-308,
+        2.22507386e-308,  1.04289501e-004, 7.58465776e-004, 2.60048174e-005,
+        4.74740866e-007, 7.09199282e-009, 9.69109351e-011])
+        assert_allclose(y, expected, rtol=1e-7)
+
+    def test_FREDx_pulse(self):
+        y = FREDx_pulse(self.times, self.start, self.scale, self.tau,
+                        self.xi, self.gamma, self.nu)
+        expected = np.array([1.11253693e-307, 1.11253693e-307, 1.11253693e-307,
+        1.11253693e-307, 2.64784701e-311, 5.11799835e-004, 4.98231205e+000,
+        5.21729958e-001, 1.16121498e-002, 1.75348422e-004])
+        assert_allclose(y, expected, rtol=1e-7)
 
     def test_height_FREDx_pulse(self):
         y = FREDx_pulse(self.times, self.start, self.scale, self.tau,
                         self.xi, self.gamma, self.nu)
         assert(np.max(y) <= self.scale)
 
-    # def test_convolution_gaussian(self):
-    #     y = convolution_gaussian(self.times, self.start, self.scale,
-    #                              self.sigma, self.tau)
-    #     expected = np.array([0.1408575,  0.53048148, 1.39662887, 2.72520552,
-    #     3.9816915,  4.39531788, 3.71217365, 2.44340352, 1.28690833, 0.56161562])
-    #     assert_allclose(y, expected, rtol=1e-7)
-    #
-    # def test_height_convolution_gaussian(self):
-    #     y = convolution_gaussian(self.times, self.start, self.scale,
-    #                              self.sigma, self.tau)
-    #     assert(np.max(y) <= self.scale)
-    #
-    # def test_sine_gaussian(self):
-    #     y = sine_gaussian(self.times, self.start, self.scale,
-    #                       self.tau, self.omega, self.phi)
-    #     expected = np.array([5.54172920e-07, -1.11312475e-03, -3.85231619e-01,
-    #     -2.16248441e+00, 5.00000000e+00, 7.80768672e-01, 1.38494875e-03,
-    #     -4.60879107e-06, -3.39617635e-10, 9.35622409e-18])
-    #     assert_allclose(y, expected, rtol=1e-7)
-    #
-    # def test_height_sine_gaussian(self):
-    #     y = sine_gaussian(self.times, self.start, self.scale,
-    #                       self.tau, self.omega, self.phi)
-    #     assert(np.max(y) <= self.scale)
+    def test_FREDx_pulse_unnorm(self):
+        y = FREDx_pulse_unnorm(self.times, self.start, self.scale, self.tau,
+                        self.xi, self.gamma, self.nu)
+        expected = np.array([1.11253693e-307, 1.11253693e-307, 1.11253693e-307,
+        1.11253693e-307, 2.11940328e-317, 4.09657463e-010, 3.98796790e-006,
+        4.17605783e-007, 9.29465686e-009, 1.40353288e-010])
+        assert_allclose(y, expected, rtol=1e-7)
+
+    def test_convolution_gaussian(self):
+        y = convolution_gaussian(self.times, self.start, self.scale,
+                                 self.sigma, self.tau)
+        expected = np.array([0.1408575,  0.53048148, 1.39662887, 2.72520552,
+        3.9816915, 4.39531788, 3.71217365, 2.44340352, 1.28690833, 0.56161562])
+        assert_allclose(y, expected, rtol=1e-7)
+
+    def test_height_convolution_gaussian(self):
+        y = convolution_gaussian(self.times, self.start, self.scale,
+                                 self.sigma, self.tau)
+        assert(np.max(y) <= self.scale)
+
+    def test_sine_gaussian(self):
+        y = sine_gaussian(self.times, self.start, self.scale,
+                          self.tau, self.omega, self.phi)
+        expected = np.array([ 3.04015072e-07, -6.10651816e-04, -2.11335152e-01,
+        -1.18632259e+00, 2.74296218e+00,  4.28323787e-01,  7.59772409e-04,
+        -2.52834792e-06, -1.86311665e-10,  5.13275376e-18])
+        assert_allclose(y, expected, rtol=1e-7)
+
+    def test_height_sine_gaussian(self):
+        y = sine_gaussian(self.times, self.start, self.scale,
+                          self.tau, self.omega, self.phi)
+        assert(np.max(y) <= self.scale)
 
 if __name__ == '__main__':
     unittest.main()
-    #
-    # import matplotlib.pyplot as plt
-    # x = np.linspace(0, 10, 1000)
-    # y = modified_bessel(x, 5, 1, 3, 4, 3)
-    # print((y))
-    # plt.plot(x,y)
-    # plt.show()

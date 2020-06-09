@@ -17,39 +17,39 @@ def make_GRB(**kwargs):
     return GRB.return_GRB()
 
 class BATSESignal(SignalFramework):
-    """ Inherits from the SignalFramework abstract class. """
+    """
+    Initialize the :class:`~BATSESignal` class. This class inherits from the
+    SignalFramework abstract class. The parent init should run at the end
+    of the child init.
+
+    Parameters
+    ----------
+    burst : int.
+        The BATSE burst trigger ID for locating the relevant datafile.
+    datatype : str.
+        The datatype should be given as either 'discsc', or 'tte'
+    times : tuple, or str.
+        Input the times for which the GRB object is to be created. A tuple
+        should be given in the form (start, finish), with start and finish
+        both defined as floats (or ints). The array will be truncated based
+        on the start and end times given. 'Full' will result in the full
+        light-curve being generated. Often this light-curve extends several
+        hundred seconds before and after the trigger time. 'T90' will search
+        the BATSE 4B catalogue 'T90' burst table for the times to truncate
+        the light-curve. Some BATSE bursts do not have a 'T90' listed.
+    bgs : bool.
+        If *True* removes the background from each channel of the data by
+        calling the :meth:`~get_background` method. The method is a first
+        order approximation. This parameter should be set to *False* for
+        light-curve fitting with the main :mod:`~DynamicBilby` methods.
+
+    """
 
     def __init__(self,  burst: int = None,
                         datatype: str = None,
                         times = None,
                         bgs: bool = False,
                         light_GRB: bool = True):
-        """
-        Initialize the :class:`~BATSESignal` class. This class inherits from the
-        SignalFramework abstract class. The parent init should run at the end
-        of the child init.
-
-        Parameters
-        ----------
-        burst : int.
-            The BATSE burst trigger ID for locating the relevant datafile.
-        datatype : str.
-            The datatype should be given as either 'discsc', or 'tte'
-        times : tuple, or str.
-            Input the times for which the GRB object is to be created. A tuple
-            should be given in the form (start, finish), with start and finish
-            both defined as floats (or ints). The array will be truncated based
-            on the start and end times given. 'Full' will result in the full
-            light-curve being generated. Often this light-curve extends several
-            hundred seconds before and after the trigger time. 'T90' will search
-            the BATSE 4B catalogue 'T90' burst table for the times to truncate
-            the light-curve. Some BATSE bursts do not have a 'T90' listed.
-        bgs : bool.
-            If *True* removes the background from each channel of the data by
-            calling the :meth:`~get_background` method. The method is a first
-            order approximation. This parameter should be set to *False* for
-            light-curve fitting with the main :mod:`~DynamicBilby` methods.
-        """
 
         self.colours   = ['red', 'orange', 'green', 'blue']
         self.clabels   = ['1', '2', '3', '4']

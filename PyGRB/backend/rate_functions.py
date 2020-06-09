@@ -130,8 +130,8 @@ def FREDx_pulse(times, start, scale, tau, xi, gamma, nu):
             -\xi^\gamma\left(\frac{t-\Delta}{\tau}\right)^\gamma
             -\xi^\nu\left(\frac{\tau}{t-\Delta}\right)^\nu
             +\xi^{\frac{2\gamma\nu}{\gamma + \nu}}\cdot \left(
-    \left( \frac{\gamma}{\nu}\right)^{\frac{-\gamma}{\gamma + \nu}} +
-    \left( \frac{\gamma}{\nu}\right)^{\frac{\nu}{\gamma + \nu}} \right) \right]}
+            \left( \frac{\gamma}{\nu}\right)^{\frac{-\gamma}{\gamma + \nu}} +
+            \left( \frac{\gamma}{\nu}\right)^{\frac{\nu}{\gamma + \nu}} \right) \right]}
 
 
     Parameters
@@ -279,9 +279,37 @@ def exp_decay(times, tau, start):
     return dex
 
 def convolution_gaussian(times, start, scale, sigma, tau):
+    r"""
+    Gaussian convolution function.
+
+    .. math::
+
+        S(t|A,\Delta,\sigma,\tau) = A \int_{-\infty}^{\infty} \exp \left[
+        \frac{\left( z - \Delta \right)^2}{2\sigma^2}
+        \right] \exp \left[ \frac{t - z + \Delta }{\tau} \right] dz
+
+    Parameters
+    ----------
+    times : array_like
+        The input time array.
+    start : float
+        The start time of the pulse.
+    scale : float
+        The amplitude of the pulse.
+    sigma : float
+        The duration of the pulse.
+    tau : float
+        The characteristic expontential decay scale.
+
+    Returns
+    -------
+    rate : ndarray
+         Output array containing the convolution.
+
+    """
     s = np.mean(times)
     conv  = convolve(gaussian_pulse(times, s, 1, sigma),
-                    exp_decay(times,tau,start), 'same')
+                    exp_decay(times, tau, start), 'same')
     return scale * conv
 
 

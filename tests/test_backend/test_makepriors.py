@@ -10,7 +10,6 @@ from PyGRB.backend.makepriors import MakePriors
 class TestMakePriors(unittest.TestCase):
 
     def setUp(self):
-    ## set up is down before the iteration of each class method
         self.priors_pulse_start = 0.0
         self.priors_pulse_end   = 1.0
         self.priors_td_lo       = 0.0
@@ -23,7 +22,6 @@ class TestMakePriors(unittest.TestCase):
         self.channel       = 0
 
     def tearDown(self):
-    ## tear down is done at the end of each iteration of the class methods
         del self.priors_pulse_start
         del self.priors_pulse_end
         del self.FRED_pulses
@@ -63,9 +61,6 @@ class TestMakePriors(unittest.TestCase):
             self.assertIn(key, prior_keys)
 
     def test_3_FRED_constraints(self):
-        ## not sure how to test the constraint function works properly
-        ## but looking at it, it seems to be correct lol
-        ## this tests that it works at least
         FRED_pulses = [1, 2, 3]
         prior_object = MakePriors(  self.priors_pulse_start,
                                     self.priors_pulse_end,
@@ -77,7 +72,7 @@ class TestMakePriors(unittest.TestCase):
                                     channel = self.channel)
         priors  = prior_object.priors
         # need to remove constraint key from priors before sampling
-        # no there is an error in the bilby code methinks
+        # bilby code changes sampling from >= 0.6.0
         sample  = priors.sample(100)
         for i in range(100):
             self.assertTrue(0 <= sample['start_1_a'][i] <= sample['start_2_a'][i])
@@ -103,9 +98,6 @@ class TestMakePriors(unittest.TestCase):
             self.assertIn(key, prior_keys)
 
     def test_3_sg_constraints(self):
-        ## not sure how to test the constraint function works properly
-        ## but looking at it, it seems to be correct lol
-        ## this tests that it works at least
         residuals_sg = [1, 2, 3]
         FRED_pulses  = [1, 2, 3]
         prior_object = MakePriors(  self.priors_pulse_start,

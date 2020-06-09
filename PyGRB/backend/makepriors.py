@@ -8,9 +8,7 @@ from bilby.core.prior import Constraint       as bilbyConstraint
 from PyGRB.backend.makekeys import MakeKeys
 
 class MakePriors(MakeKeys):
-    """
-        Doc string goes here.
-    """
+    """ Doc string goes here. """
 
     def __init__(self,
                         priors_pulse_start, priors_pulse_end,
@@ -81,14 +79,14 @@ class MakePriors(MakeKeys):
         return constraint_function
 
     def populate_priors(self):
-        """ initialise priors
+        """
+        initialise priors
 
-            Pass in **kwargs, then overwrite pulse parameters as
-            applicable. Otherwise take generic parameters defined in init.
+        Pass in kwargs, then overwrite pulse parameters as
+        applicable. Otherwise take generic parameters defined in init.
 
-            just make an overwrite prior function later
+        just make an overwrite prior function later
 
-            add kwargs to list ??
         """
         for key in self.keys:
             # find integer in key and put in label
@@ -208,6 +206,11 @@ class MakePriors(MakeKeys):
             raise Exception(f'Key not found : {key}')
 
     def return_prior_dict(self):
+        """
+
+        returns dict of priors
+
+        """
         return self.priors
 
 if __name__ == '__main__':

@@ -284,6 +284,7 @@ class PulseFitter(Admin, EvidenceTables):
         self.tlabel = self._get_trigger_label()
         self._get_base_directory()
         directory = self.base_folder
+        clabs = [self.clabels[i] for i in channels]
         strings = { 'fstring' : fstring,
                     'clabels' : self.clabels,
                     'outdir'  : directory,
