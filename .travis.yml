@@ -58,6 +58,7 @@ jobs:
     - os: windows
     - os: osx
     - name: "test pip install"
+    - name: "test nested sampling"
 
   fast_finish: true
 
