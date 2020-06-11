@@ -75,7 +75,7 @@ install:
   - python setup.py sdist bdist_wheel
 
 script:
-  - pytest --cov --ignore tests\test_main
+  - pytest --cov --ignore tests/test_main
 
 after_success:
   - codecov
