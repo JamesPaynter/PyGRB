@@ -64,7 +64,7 @@ class EvidenceTables(object):
                 if 'name' not in [*models[k]]:
                     models[k]['name'] = keys[k]
                 self._setup_labels(models[k])
-                result_label = f'{self.fstring}_result_{self.clabels[i]}'
+                result_label = f'{self.fstring}{self.clabels[i]}'
                 open_result  = f'{self.outdir}/{result_label}_result.json'
                 try:
                     result = bilby.result.read_in_result(filename=open_result)
@@ -110,7 +110,7 @@ class EvidenceTables(object):
                 if 'name' not in [*models[k]]:
                     models[k]['name'] = keys[k]
                 self._setup_labels(models[k])
-                result_label = f'{self.fstring}_result_{self.clabels[i]}'
+                result_label = f'{self.fstring}{self.clabels[i]}'
                 open_result  = f'{self.outdir}/{result_label}_result.json'
                 try:
                     result = bilby.result.read_in_result(filename=open_result)

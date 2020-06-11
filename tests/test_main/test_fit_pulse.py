@@ -104,7 +104,7 @@ class TestFred7475(unittest.TestCase):
     # def test_parameter_recovery(self):
     #     model = create_model_from_key(self.key)
     #     self.discsc_fit.main_1_channel(channel = 1, model = model)
-    #     # self.discsc_fit._setup_labels(model) for testing
+    #     # self.discsc_fit._setup_labels(model) #for testing
     #     result_label = f'{self.discsc_fit.fstring}{self.discsc_fit.clabels[1]}'
     #     open_result  = f'{self.discsc_fit.outdir}/{result_label}_result.json'
     #     result = bilby.result.read_in_result(filename=open_result)
@@ -131,11 +131,12 @@ class TestFred973(unittest.TestCase):
 
 
     def setUp(self):
-        nSamples = 1000
+        nSamples = 101
         # CANNOT CREATE VALID CONTOURS
         sampler = 'Nestle'
 
         self.keys = ['FL', 'FF']
+        # self.keys = ['FF']
 
         self.priors_pulse_start = -2
         self.priors_pulse_end   =  50
@@ -157,12 +158,13 @@ class TestFred973(unittest.TestCase):
             model_dict[key] = create_model_from_key(key)
         models = [model for key, model in model_dict.items()]
         for model in models:
-            self.discsc_fit.main_multi_channel(channels = [0, 1, 2, 3], model = model)
+            # self.discsc_fit.main_multi_channel(channels = [0, 1, 2, 3], model = model)
+            self.discsc_fit._setup_labels(model) # for testing
             print(time.time())
 
             # self.discsc_fit._setup_labels(model) for testing
             lens_bounds = [(21.5, 22.2), (0.3, 5)]
-            self.discsc_fit.lens_calc(model = model, lens_bounds = lens_bounds)
+            # self.discsc_fit.lens_calc(model = model, lens_bounds = lens_bounds)
             print(time.time())
         self.discsc_fit.get_evidence_from_models(model_dict = model_dict)
 
@@ -172,4 +174,4 @@ class TestFred973(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-    shutil.rmtree('test_products/')
+    # shutil.rmtree('test_products/')
