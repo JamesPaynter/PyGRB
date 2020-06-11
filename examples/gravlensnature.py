@@ -31,7 +31,7 @@ def analysis_for_3770(indices):
     for samples in num_samples:
         GRB = load_3770(sampler = SAMPLER, nSamples = samples)
         GRB.offsets = [0, 4000, 8000, -3000]
-        
+
         model_dict = main_two_pulse_models()
         models = [model for key, model in model_dict.items()]
         # # uncommenting the following will test ALL
@@ -39,7 +39,9 @@ def analysis_for_3770(indices):
         # model_dict = make_two_pulse_models()
         # models = [model for key, model in model_dict.items()]
         for model in models:
-            GRB.get_residuals(channels = [0, 1, 2, 3], model = model)
+            GRB._split_array_job_to_4_channels( models   = models,
+                                                indices  = indices,
+                                                channels = channels)
 
 
 def evidence_for_3770(**kwargs):
@@ -82,6 +84,7 @@ if __name__ == '__main__':
         rc('text.latex',
         preamble=r'\usepackage{amsmath}\usepackage{amssymb}\usepackage{amsfonts}')
         SAMPLER = 'Nestle'
+        # analysis_for_3770(np.arange(32))
         evidence_for_3770(HPC = HPC)
 
 

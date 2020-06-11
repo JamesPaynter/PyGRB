@@ -5,6 +5,18 @@ from PyGRB.backend.makemodels import create_model_from_key
 from PyGRB.backend.makemodels import make_two_pulse_models
 
 
+def main_two_pulse_models():
+    """ These are the most relevant models to the analysis of GRB 950830. """
+    lens_keys = ['FL', 'FsL', 'XL', 'XsL']
+    null_keys = ['FF', 'FsFs', 'XX', 'XsXs']
+    keys = lens_keys + null_keys
+
+    model_dict = {}
+    for key in keys:
+        model_dict[key] = create_model_from_key(key)
+    return model_dict
+
+
 def load_973(sampler = 'dynesty', nSamples = 100):
     test = PulseFitter(973, times = (-2, 50),
                 datatype = 'discsc', nSamples = nSamples, sampler = sampler,
@@ -16,9 +28,18 @@ def load_973(sampler = 'dynesty', nSamples = 100):
 def analysis_for_973(indices):
     num_samples = [500]
     for samples in num_samples:
-        GRB = load_973(sampler=SAMPLER, nSamples=samples)
+        GRB = load_973(sampler = SAMPLER, nSamples = samples)
         GRB.offsets = [0, 4000, 8000, -3000]
-        GRB.test_two_pulse_models(indices, channels = [0, 1, 2, 3])
+
+        model_dict = main_two_pulse_models()
+        models = [model for key, model in model_dict.items()]
+        # # uncommenting the following will test ALL
+        # # possible permutations of F, X, s:
+        # model_dict = make_two_pulse_models()
+        # models = [model for key, model in model_dict.items()]
+        for model in models:
+            GRB.get_residuals(channels = [0, 1, 2, 3], model = model)
+
 
 
 def evidence_for_973():

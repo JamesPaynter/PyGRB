@@ -1,14 +1,33 @@
-import unittest
+import os
 import bilby
+import shutil
+import unittest
 import numpy as np
 
 from numpy.testing import (assert_almost_equal, assert_equal, assert_allclose,
                            assert_array_almost_equal, assert_)
 
+from PyGRB.backend.admin import mkdir
 from PyGRB.backend.makepriors import MakePriors
 from PyGRB.main.fitpulse import PulseFitter
 from PyGRB.backend.makemodels import create_model_from_key
 
+
+
+class PulseTester(PulseFitter):
+    """docstring for PulseTester."""
+
+    def __init__(self, *args, **kwargs):
+        super(PulseTester, self).__init__(*args, **kwargs)
+
+    def _get_base_directory(self):
+        """
+        Sets the directory that code products are made to be /products/ in
+        the folder the script was ran from.
+        """
+        dir = f'test_products/{self.tlabel}_model_comparison_{str(self.nSamples)}'
+        self.base_folder = dir
+        mkdir(dir)
 
 # class TestFredFit(unittest.TestCase):
 #
@@ -72,7 +91,7 @@ class TestFred7475(unittest.TestCase):
                             'xi_1_b'    : 2.3}
 
         nSamples = 201
-        self.discsc_fit = PulseFitter(7475, times = (-2, 60),
+        self.discsc_fit = PulseTester(7475, times = (-2, 60),
                 datatype = 'discsc', nSamples = nSamples, sampler = 'dynesty',
                 priors_pulse_start = self.priors_pulse_start,
                 priors_pulse_end = self.priors_pulse_end, HPC = True)
@@ -82,28 +101,75 @@ class TestFred7475(unittest.TestCase):
         del self.parameters
         del self.discsc_fit
 
+    # def test_parameter_recovery(self):
+    #     model = create_model_from_key(self.key)
+    #     self.discsc_fit.main_1_channel(channel = 1, model = model)
+    #     # self.discsc_fit._setup_labels(model) for testing
+    #     result_label = f'{self.discsc_fit.fstring}{self.discsc_fit.clabels[1]}'
+    #     open_result  = f'{self.discsc_fit.outdir}/{result_label}_result.json'
+    #     result = bilby.result.read_in_result(filename=open_result)
+    #
+    #     prior_shell = MakePriors(
+    #                         priors_pulse_start = self.priors_pulse_start,
+    #                         priors_pulse_end = self.priors_pulse_end,
+    #                         channel      = 1,
+    #                         **model)
+    #     priors = prior_shell.return_prior_dict()
+    #
+    #     posteriors = dict()
+    #     for parameter in priors:
+    #         posteriors[parameter] = np.median(result.posterior[parameter].values)
+    #     for parameter in priors:
+    #         assert( (abs(posteriors[parameter] - self.parameters[parameter]))
+    #                 / self.parameters[parameter]) < 0.1
+    #     shutil.rmtree('test_products/7475_model_comparison_201')
+
+
+import time
+class TestFred973(unittest.TestCase):
+
+
+
+    def setUp(self):
+        nSamples = 1000
+        # CANNOT CREATE VALID CONTOURS
+        sampler = 'Nestle'
+
+        self.keys = ['FL', 'FF']
+
+        self.priors_pulse_start = -2
+        self.priors_pulse_end   =  50
+
+        self.discsc_fit = PulseTester(973, times = (-2, 50),
+                    datatype = 'discsc', nSamples = nSamples, sampler = sampler,
+                    priors_pulse_start = -5, priors_pulse_end = 50,
+                    priors_td_lo = 0,  priors_td_hi = 30,
+                    p_type ='docs', HPC = True)
+
+    def tearDown(self):
+        del self.keys
+        del self.discsc_fit
+
     def test_parameter_recovery(self):
-        model = create_model_from_key(self.key)
-        self.discsc_fit.main_1_channel(channel = 1, model = model)
-        # self.discsc_fit._setup_labels(model) for testing
-        result_label = f'{self.discsc_fit.fstring}{self.discsc_fit.clabels[1]}'
-        open_result  = f'{self.discsc_fit.outdir}/{result_label}_result.json'
-        result = bilby.result.read_in_result(filename=open_result)
+        model_dict = {}
+        print(time.time())
+        for key in self.keys:
+            model_dict[key] = create_model_from_key(key)
+        models = [model for key, model in model_dict.items()]
+        for model in models:
+            self.discsc_fit.main_multi_channel(channels = [0, 1, 2, 3], model = model)
+            print(time.time())
 
-        prior_shell = MakePriors(
-                            priors_pulse_start = self.priors_pulse_start,
-                            priors_pulse_end = self.priors_pulse_end,
-                            channel      = 1,
-                            **model)
-        priors = prior_shell.return_prior_dict()
+            # self.discsc_fit._setup_labels(model) for testing
+            lens_bounds = [(21.5, 22.2), (0.3, 5)]
+            self.discsc_fit.lens_calc(model = model, lens_bounds = lens_bounds)
+            print(time.time())
+        self.discsc_fit.get_evidence_from_models(model_dict = model_dict)
 
-        posteriors = dict()
-        for parameter in priors:
-            posteriors[parameter] = np.median(result.posterior[parameter].values)
-        for parameter in priors:
-            assert( (abs(posteriors[parameter] - self.parameters[parameter]))
-                    / self.parameters[parameter]) < 0.1
+
+        # shutil.rmtree('test_products/0973_model_comparison_201')
 
 
 if __name__ == '__main__':
     unittest.main()
+    shutil.rmtree('test_products/')
