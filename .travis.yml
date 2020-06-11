@@ -47,6 +47,10 @@ jobs:
         - pip install pygrb
         - pip freeze
 
+    - name: "test nested sampling"
+      script:
+        - pytest --cov
+
   allow_failures:
     - python: 3.7-dev
     - python: 3.8-dev
@@ -70,7 +74,7 @@ install:
   - python setup.py sdist bdist_wheel
 
 script:
-  - pytest --cov
+  - pytest --cov --ignore tests\test_main
 
 after_success:
   - codecov
