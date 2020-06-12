@@ -48,8 +48,7 @@ jobs:
         - pip freeze
 
     - name: "test nested sampling"
-      install:
-        - travis_wait 30 mvn install
+      install: travis_wait 30 mvn install
       script:
         - pytest --cov
 
