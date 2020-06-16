@@ -183,18 +183,6 @@ Contribute
 
 
 
-Coverage
---------
-
-.. figure:: https://codecov.io/gh/JamesPaynter/PyGRB/branch/master/graphs/sunburst.svg
-    :width: 20%
-    :align: center
-    :alt: Codecov Sunburst
-
-
-
-
-
 
 .. |AstroPy| image:: http://img.shields.io/badge/powered%20by-AstroPy-orange.svg?style=flat
     :target: http://www.astropy.org/
