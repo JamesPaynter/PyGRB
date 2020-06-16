@@ -71,7 +71,8 @@ before_install:
   - python -m pip install --upgrade pip setuptools wheel
   - pip install -r requirements.txt
   - python setup.py install
-  - pip install pytest pytest-cov
+  - pip install 'pytest<4.6' --force-reinstall
+  - pip install pytest-cov
   - pip install codecov
 
 install:
