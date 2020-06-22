@@ -56,7 +56,7 @@ class EvidenceTables(object):
         Z_file = f'{directory}/evidence_table_T{self.trigger}_nlive{self.nSamples}.txt'
         open(Z_file, 'w').close()
         for i in channels:
-            x = PrettyTable(['Model', 'ln Z', 'error'])
+            x = PrettyTable(['Model', 'ln Z', 'error'], hrules = 1)
             x.align['Model'] = "l" # Left align models
             # One space between column edges and contents (default)
             x.padding_width = 1
@@ -90,9 +90,9 @@ class EvidenceTables(object):
             x.add_column('ln BF', bayes_facs)
             # indentation should be same as k loop
             with open(Z_file, 'a') as w:
-                w.write(f'Channel {i+1}')
+                w.write(f'Channel {i+1}\n\n')
                 w.write(str(x))
-                w.write('')
+                w.write('\n\n\n')
 
     def _evidence_table_to_latex(self, models, channels, keys):
         """
@@ -154,10 +154,6 @@ class EvidenceTables(object):
         mixx_keys = ['FX', 'XF', 'FsX', 'XsF', 'FXs', 'XFs']
         keys = lens_keys + fred_keys + frex_keys + mixx_keys
 
-        # keys = ['FF', 'FL', 'FsFs', 'FsL', 'XX', 'XL', 'XsXs', 'XsL']
-        # keys+= ['FsF', 'FFs', 'XsX', 'XXs', 'FsX', 'XsF', 'FXs', 'XFs']
-        # keys+= ['FbFb', 'FbL', 'XbXb', 'XbL']
-        # keys+= ['FbF', 'FFb', 'XbX', 'XXb', 'FbX', 'XbF', 'FXb', 'XFb']
         self.models = {}
         for key in keys:
             self.models[key] = create_model_from_key(key)

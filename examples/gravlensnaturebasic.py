@@ -28,7 +28,8 @@ def evidence_for_3770():
         models = [model for key, model in model_dict.items()]
 
         for model in models:
-            GRB.main_multi_channel(channels = [0, 1, 2, 3], model = model)
+            GRB.get_residuals(channels = [0, 1, 2, 3], model = model)
+            # GRB.main_multi_channel(channels = [0, 1, 2, 3], model = model)
             lens_bounds = [(0.37, 0.42), (0.60, 1.8)]
             GRB.lens_calc(model = model, lens_bounds = lens_bounds)
         GRB.get_evidence_from_models(model_dict = model_dict)
