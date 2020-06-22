@@ -1,0 +1,18 @@
+.. _3770:
+
+.. role:: python(code)
+   :language: python
+
+
+GRB 950830
+----------
+
+
+
+----
+
+.. literalinclude:: ../../../examples/gravlensnaturebasic.py
+    :name: gravlensnature.py
+    :caption: gravlensnature.py
+
+----
