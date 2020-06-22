@@ -1,0 +1,25 @@
+.. _3770ext:
+
+.. role:: python(code)
+   :language: python
+
+
+GRB 950830 Nature script
+------------------------
+
+
+.. figure:: ../../images/trigger3770.PNG
+   :figwidth: 80%
+   :width: 100%
+   :align: center
+   :alt: BATSE trigger 3770 with FRED lens fit.
+
+   BATSE trigger 3770 with FRED lens fit.
+
+----
+
+.. literalinclude:: ../../../../examples/gravlensnature.py
+    :name: gravlensnature.py
+    :caption: gravlensnature.py
+
+----

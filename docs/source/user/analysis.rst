@@ -8,7 +8,6 @@ A pair of statistically identical gamma-ray bursts would be indicative of a grav
 .. toctree::
     :caption: Application to candidate lenses
 
-    grb/intro
     grb/973
     grb/3770
     grb/3770walk

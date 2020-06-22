@@ -16,3 +16,4 @@ models = [model for key, model in model_dict.items()]
 
 for model in models:
     GRB.main_multi_channel(channels = [0, 1, 2, 3], model = model)
+GRB.get_evidence_from_models(model_dict = model_dict)

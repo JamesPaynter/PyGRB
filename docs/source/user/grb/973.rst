@@ -3,6 +3,10 @@
 .. role:: python(code)
    :language: python
 
+
+GRB 911031
+----------
+
 .. figure:: ../../images/BATSE_trigger_973_rates_rates.png
    :figwidth: 80%
    :width: 100%

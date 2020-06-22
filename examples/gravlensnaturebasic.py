@@ -11,12 +11,12 @@ def load_3770(sampler = 'dynesty', nSamples = 100, **kwargs):
     test = PulseFitter(3770, times = (-.1, 1),
                 datatype = 'tte', nSamples = nSamples, sampler = sampler,
                 priors_pulse_start = -.1, priors_pulse_end = 0.6,
-                priors_td_lo = 0,  priors_td_hi = 0.5, **kwargs)
+                priors_td_lo = 0,  priors_td_hi = 0.5, p_type ='docs', **kwargs)
     return test
 
 
 def evidence_for_3770():
-    num_samples = [2000]
+    num_samples = [500]
     for samples in num_samples:
         GRB = load_3770(sampler = SAMPLER, nSamples = samples)
         GRB.offsets = [0, 4000, 8000, -3000]

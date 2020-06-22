@@ -163,7 +163,10 @@ class TestFred973(unittest.TestCase):
             print(time.time())
 
             # self.discsc_fit._setup_labels(model) for testing
-            lens_bounds = [(21.5, 22.2), (0.3, 5)]
+            # lens_bounds = [(21.5, 22.2), (0.3, 5)]
+            lens_bounds = [(21, 22.6), (0.25, 0.55)]
+            #  lens calc doesnt work because it is trying to multiply together 4 posteriors
+            #  WHICH DO NOT OVERLAP
             # self.discsc_fit.lens_calc(model = model, lens_bounds = lens_bounds)
             print(time.time())
         self.discsc_fit.get_evidence_from_models(model_dict = model_dict)

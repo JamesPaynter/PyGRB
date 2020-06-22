@@ -4,7 +4,7 @@ Pulse Types
 .. role:: python(code)
    :language: python
 
-A standard gamma-ray burst looks like the following
+A standard gamma-ray burst looks like this
 
 
 .. figure:: ../images/BATSE_trigger_7475_rates_rates.png
@@ -15,6 +15,9 @@ A standard gamma-ray burst looks like the following
 
     BATSE trigger 7475
 
+
+Gaussian pulse
+--------------
 
 A simple pulse parameterisation one might imagine is a Gaussian, like those used to model emission lines in eg. quasar spectra.
 The equation for a Gaussian pulse is:
@@ -34,6 +37,10 @@ The equation for a Gaussian pulse is:
 
 However, we can immediately see that such a pulse parameterisation does not catch the fast rise of the GRB pulse, nor the slow decay.
 The residuals have consistent structure.
+
+FRED pulse
+----------
+
 The standard pulse parameterisation used to model gamma-ray bursts is a fast-rise exponential-decay (FRED) curve.
 
 .. math::
@@ -50,6 +57,10 @@ The standard pulse parameterisation used to model gamma-ray bursts is a fast-ris
 
 
 The fit is better than a Gaussian, but again there is structure un-accounted for in the residuals.
+
+FRED-X pulse
+------------
+
 We try again with an extended fast-rise exponential-decay model, FRED-X.
 
 .. math::
@@ -66,6 +77,10 @@ We try again with an extended fast-rise exponential-decay model, FRED-X.
 
 
 Again, an element of structure in the residual persists.
+
+Sine-Gaussian residual
+----------------------
+
 We use a sine-gaussian residual function to account for these residuals.
 
 .. math::
@@ -80,6 +95,9 @@ We use a sine-gaussian residual function to account for these residuals.
 
     BATSE trigger 7475 with FRED fit and sine-Gaussian residual (not implemented yet)
 
+
+A model selection script
+------------------------
 
 Say, then, that we would like to fit on of each of these models in turn to the light-curve.
 To create a model, we specify a list of keys.
@@ -132,3 +150,57 @@ The complete script for the above tutorial is here:
 .. literalinclude:: ../../../examples/intermediate.py
     :name: intermediate.py
     :caption: intermediate.py
+
+----
+
+The model selection script will output a set of tables that looks something like the following (residual models not included here for computational brevity).
+
+Channel 1
+
++-------+----------+-------+--------+
+| Model |   ln Z   | error | ln BF  |
++-------+----------+-------+--------+
+| G     | -4610.80 |  0.34 |  0.00  |
++-------+----------+-------+--------+
+| F     | -4181.16 |  0.38 | 429.64 |
++-------+----------+-------+--------+
+| X     | -4175.97 |  0.39 | 434.83 |
++-------+----------+-------+--------+
+
+Channel 2
+
++-------+----------+-------+--------+
+| Model |   ln Z   | error | ln BF  |
++-------+----------+-------+--------+
+| G     | -4912.74 |  0.34 |  0.00  |
++-------+----------+-------+--------+
+| F     | -4173.26 |  0.38 | 739.48 |
++-------+----------+-------+--------+
+| X     | -4164.73 |  0.39 | 748.01 |
++-------+----------+-------+--------+
+
+Channel 3
+
++-------+----------+-------+--------+
+| Model |   ln Z   | error | ln BF  |
++-------+----------+-------+--------+
+| G     | -4551.10 |  0.34 |  0.00  |
++-------+----------+-------+--------+
+| F     | -4043.61 |  0.37 | 507.49 |
++-------+----------+-------+--------+
+| X     | -4036.39 |  0.39 | 514.71 |
++-------+----------+-------+--------+
+
+Channel 4
+
++-------+----------+-------+-------+
+| Model |   ln Z   | error | ln BF |
++-------+----------+-------+-------+
+| G     | -3714.97 |  0.28 |  0.00 |
++-------+----------+-------+-------+
+| F     | -3709.29 |  0.31 |  5.68 |
++-------+----------+-------+-------+
+| X     | -3709.44 |  0.31 |  5.53 |
++-------+----------+-------+-------+
+
+Which tells us that a FRED-X model is preferred in this case for all channels.

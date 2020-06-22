@@ -45,7 +45,7 @@ def analysis_for_3770(indices):
 
 
 def evidence_for_3770(**kwargs):
-    num_samples = [2000, 4500]
+    num_samples = [500, 2000, 4500]
     for samples in num_samples:
         GRB = load_3770(sampler = SAMPLER, nSamples = samples, **kwargs)
         GRB.offsets = [0, 4000, 8000, -3000]

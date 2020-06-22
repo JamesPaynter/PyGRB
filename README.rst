@@ -25,7 +25,7 @@ Model fitting is done with nested sampling, powered by `Bilby <https://lscsoft.d
 
 
 Installation
-------------
+^^^^^^^^^^^^
 The *PyGRB* repository maybe be installed manually through cloning the repository
 
 .. code-block:: console

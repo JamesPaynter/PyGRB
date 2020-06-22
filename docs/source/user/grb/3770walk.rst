@@ -4,8 +4,8 @@
    :language: python
 
 
-GRB 950830
-----------
+GRB 950830 code walkthrough
+---------------------------
 
 .. figure:: ../../images/trigger3770.PNG
    :figwidth: 80%
@@ -15,13 +15,14 @@ GRB 950830
 
    BATSE trigger 3770 with FRED lens fit.
 
-BATSE trigger 3770, GRB 950830, is the main subject of this analysis.
+
+Walkthrough
+^^^^^^^^^^^
+
 We first attempt to fit all possible combinations of pulse types.
 We find that in the strong majority of cases, a lensing model is preferred over a model of two individual pulses.
 
 
-Code walkthrough
-^^^^^^^^^^^^^^^^
 
 Imports:
 
@@ -72,6 +73,9 @@ Then run the model fitting code with
       GRB.main_multi_channel(channels = [0, 1, 2, 3], model = model)
 
 
+Parallelisation
+^^^^^^^^^^^^^^^
+
 Parallelisation is done through the use of the indices parameter, which can be used to send one channel of one model to a different CPU in the cluster.
 The difference would be changing the last two lines of code:
 
@@ -94,6 +98,7 @@ The difference would be changing the last two lines of code:
 
 
 .. Example slurm (batch submission) scripts can be found in the dev-james branch of the repository.
+
 After several days on a HPC, hopefully all the jobs will have finished.
 The more parameters, the longer the job will take.
 The :python:`'FsFs'` and :python:`'XsXs'` models having 18 and 20 parameters each, and may take up to a week depending on the chosen :python:`nSamples` (and other sampler kwargs).
@@ -104,10 +109,35 @@ Higher level analysis can be done with the :class:`~PyGRB.postprocess.make_evide
   GRB.get_evidence_from_models(model_dict = model_dict)
 
 
-To create pretty plots of the gravitational lensing parameters, use the :python:`lens_calc` method:
+To create plots of the gravitational lensing parameters, use the :python:`lens_calc` method:
 
 .. code-block:: python
 
   for model in models:
       lens_bounds = [(0.37, 0.42), (0.60, 1.8)]
       GRB.lens_calc(model = model, lens_bounds = lens_bounds)
+
+
+which will create the following two plots
+
+.. figure:: ../../images/B_3770_YL2000__delmu_delt.png
+    :figwidth: 80%
+    :width: 100%
+    :align: center
+    :alt: BATSE trigger 3770 magnification ratio and time delay posterior histogram.
+
+    BATSE trigger 3770 magnification ratio and time delay posterior histogram.
+
+
+The magnification ratios and time delays are concordant, as one would expect from a gravitational lensing event.
+
+
+.. figure:: ../../images/B_3770_YL2000__mass.png
+    :figwidth: 80%
+    :width: 100%
+    :align: center
+    :alt: BATSE trigger 3770 lens mass posterior histogram.
+
+    BATSE trigger 3770 lens mass posterior histogram.
+
+The inferred lens mass suggests an intermediate mass black hole as the gravitational deflector.

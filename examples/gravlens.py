@@ -15,7 +15,7 @@ def load_973(sampler = 'dynesty', nSamples = 100):
 
 
 def evidence_for_973():
-    num_samples = [500]
+    num_samples = [2000]
     for samples in num_samples:
         GRB = load_973(sampler=SAMPLER, nSamples=samples)
         keys = ['FL', 'FF']
@@ -26,7 +26,7 @@ def evidence_for_973():
         for model in models:
             GRB.main_multi_channel(channels = [0, 1, 2, 3], model = model)
 
-            lens_bounds = [(0.37, 0.42), (0.60, 1.8)]
+            lens_bounds = [(21, 22.6), (0.25, 0.55)]
             GRB.lens_calc(model = model, lens_bounds = lens_bounds)
         GRB.get_evidence_from_models(model_dict = model_dict)
 
