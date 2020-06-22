@@ -42,7 +42,7 @@ jobs:
         - python --version
         - python -m pip install --upgrade pip
         - pip install 'pytest<4.6' --force-reinstall
-        - pip installpytest-cov
+        - pip install pytest-cov
         - pip install codecov
       install:
         - pip install pygrb
