@@ -41,14 +41,15 @@ jobs:
       before_install:
         - python --version
         - python -m pip install --upgrade pip
-        - pip install pytest pytest-cov
+        - pip install 'pytest<4.6' --force-reinstall
+        - pip installpytest-cov
         - pip install codecov
       install:
         - pip install pygrb
         - pip freeze
 
     - name: "test nested sampling"
-      install: 
+      install:
         - travis_wait 30 mvn install
         - python setup.py sdist bdist_wheel
       script:
