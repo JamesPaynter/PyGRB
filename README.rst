@@ -1,8 +1,9 @@
 |Travis| |Coverage| |Docs| |pypi| |version| |AstroPy|
 
-=====
-PyGRB
-=====
+.. figure:: https://github.com/JamesPaynter/PyGRB/blob/master/docs/source/images/logo.png
+    :width: 100%
+    :align: center
+    :alt: PyGRB logo
 
 .. inclusion-marker-one-liner-start
 

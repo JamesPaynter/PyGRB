@@ -1,5 +1,9 @@
-PyGRB
-=====
+.. figure:: ../images/logo.png
+    :figwidth: 100%
+    :width: 100%
+    :align: center
+    :alt: PyGRB logo
+
 
 .. include::
   ../../../README.rst
