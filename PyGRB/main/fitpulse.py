@@ -10,8 +10,6 @@ from PyGRB.backend.admin import Admin
 from PyGRB.backend.makepriors import MakePriors
 from PyGRB.backend.multipriors import MultiPriors
 from PyGRB.backend.rateclass import PoissonRate
-from PyGRB.backend.makemodels import make_one_pulse_models
-from PyGRB.backend.makemodels import make_two_pulse_models
 from PyGRB.postprocess.plot_analysis import PlotPulseFit
 from PyGRB.postprocess.plot_gl_posteriors import GravLens
 from PyGRB.postprocess.make_evidence_tables import EvidenceTables
@@ -88,16 +86,6 @@ class PulseFitter(Admin, EvidenceTables):
             m_index    = idx // n_channels
             channel    = channels[idx % n_channels]
             self.main_1_channel(channel, models[m_index])
-
-    def test_pulse_type(self, indices, channels):
-        self.models = make_one_pulse_models()
-        models = [model for key, model in self.models.items()]
-        self._split_array_job_to_4_channels(models, indices, channels)
-
-    def test_two_pulse_models(self, indices, channels):
-        self.models = make_two_pulse_models()
-        models = [model for key, model in self.models.items()]
-        self._split_array_job_to_4_channels(models, indices, channels)
 
     def main_multi_channel(self, channels, model):
         self._setup_labels(model)

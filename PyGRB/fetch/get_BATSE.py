@@ -12,19 +12,19 @@ def mkdir(directory):
         pass
 
 class GetBATSEBurst():
-    """ A class to download BATSE bursts. """
+    """
+    A class to download BATSE bursts.
+
+    Parameters
+    ----------
+    trigger : integer
+        The BATSE trigger number.
+    datatype : string
+        The datatype desired. ('tte', or 'discsc')
+
+    """
 
     def __init__(self, trigger, datatype):
-        """
-        Parameters
-        ----------
-        trigger : integer
-            The BATSE trigger number.
-        datatype : string
-            The datatype desired. ('tte', or 'discsc')
-
-        """
-
         datatypes = {   'tte'    : 'tte',
                         'discsc' : 'discsc',
                     }

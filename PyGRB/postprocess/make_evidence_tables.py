@@ -7,7 +7,6 @@ from prettytable import PrettyTable
 
 
 from PyGRB.backend.makemodels import create_model_from_key
-from PyGRB.backend.makemodels import make_one_pulse_models
 
 class EvidenceTables(object):
     """

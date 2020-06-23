@@ -57,7 +57,7 @@ This will create three sets of files.
 
     BATSE trigger 7475 with FRED pulse fit on a single channel (channel 3).
     The green shaded regions are the 1-sigma statistical (Poisson) uncertainty.
-    The correlogram is a visualisation of the autocorrelation of t5he residuals in the second panel.
+    The correlogram is a visualisation of the autocorrelation of the residuals in the second panel.
     For a "good" fit, one expects 95% (99%) of the points to lie within the 95% (99%) confidence intervals.
     It is interesting to note in this case there is a sinusoidal structure all the way to the end of the pulse, even though the deviations from the fit are not large.
     The probability plot tests the divergence of the residuals from zero for normality.
@@ -76,3 +76,25 @@ This will create three sets of files.
 
 
 In answer to our initial question, pulse parameters may be read straight of the posterior distribution (or accessed through the posterior chain JSON file).
+
+The following code block could be appended to the end of *basic.py*
+
+.. code-block:: python
+
+  # pick a channel to analyse
+  channel = 0
+
+  # create the right filename to open
+  result_label = f'{GRB.fstring}{GRB.clabels[channel]}'
+  open_result  = f'{GRB.outdir}/{result_label}_result.json'
+  result = bilby.result.read_in_result(filename=open_result)
+
+  # channel 0 parameters are subscripted with _a
+  parameter = 'background_a'
+
+  # the posterior samples are accessed through the result object
+  posterior_samples = result.posterior[parameter].values
+
+  # to find the median
+  import numpy as np
+  posterior_samples_median = np.median(posterior_samples)

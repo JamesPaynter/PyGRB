@@ -7,28 +7,6 @@ def create_model_dict(lens = False, **kwargs):
         model[kwarg] = kwargs[kwarg]
     return model
 
-def make_one_pulse_models():
-    keys = ['G',  'F',  'X',  'C' ]
-    keys+= ['Gs', 'Fs', 'Xs', 'Cs']
-    keys+= ['Gb', 'Fb', 'Xb', 'Cb']
-    model_dict = {}
-    for key in keys:
-        model_dict[key] = create_model_from_key(key)
-    return model_dict
-
-def make_two_pulse_models():
-    # 18 X 4 = 72 arrays to the job
-    lens_keys = ['FL', 'FsL', 'XL', 'XsL']
-    fred_keys = ['FF', 'FsF', 'FFs', 'FsFs']
-    frex_keys = ['XX', 'XsX', 'XXs', 'XsXs']
-    mixx_keys = ['FX', 'XF', 'FsX', 'XsF', 'FXs', 'XFs']
-    keys = lens_keys + fred_keys + frex_keys + mixx_keys
-
-    model_dict = {}
-    for key in keys:
-        model_dict[key] = create_model_from_key(key)
-    return model_dict
-
 def _get_pos_from_key(key, char):
     """ Returns a list of the indices where char appears in the string.
         Pass in a list of only the pulses no residuals (ie capital letters)

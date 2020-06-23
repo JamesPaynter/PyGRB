@@ -8,13 +8,22 @@ from PyGRB.backend.rate_functions import *
 
 
 class PoissonRate(MakeKeys, bilbyLikelihood):
-    def __init__(self, x, y, channel, lens, **kwargs):
+    """
+    Custom Poisson rate class inheriting from bilby.Likelihood.
 
-        '''
-            Doc string goes here.
-            kwargs is there because sometime model dict
-            comes with a name.
-        '''
+    Parameters
+    ----------
+    x : array_like
+        The array of times to be evaluated at.
+    y : array of int
+        The array of counts at each time step.
+    channel : list of int
+        The channels to be evaluated. Needed for the parameter keywords.
+    lens : bool
+        Should the rate be duplicated simulating a gravitational lensing event?
+
+    """
+    def __init__(self, x, y, channel, lens, **kwargs):
         super(PoissonRate, self).__init__(  lens = lens, channel = channel,
                                             **kwargs)
         self.x = x
@@ -25,22 +34,31 @@ class PoissonRate(MakeKeys, bilbyLikelihood):
 
     @staticmethod
     def calculate_rate(x, parameters, pulse_arr, key_list, rate_function, k):
-        ''' finished by putting in lens func below
+        """
+        Calculates the rate given pulse shape parameters and input times.
 
-            x : series of points for function to be evaluated at.
+        Parameters
+        ----------
+        x : array_like
+            The array of times to be evaluated at.
+        parameters : dict
+            dictionary of parameters from the sampler to be passed into the rate
+            function.
+        pulse_arr : list of int
+            the array (list) of pulse keys (eg. [1, 3, 5]). These are then
+            appended to the keys in key_list.
+        key_list : list of str
+            the list of generic keys appropriate for the rate function.
+        rate_function : func
+            the pulse / residual function through which all the parameters are
+            passed.
 
-            parameters : dictionary of parameters from the sampler to be passed
-                         into the rate function.
+        Returns
+        -------
+        array
+            The rate calculated for each x.
 
-            pulse_arr : the array (list) of pulse keys (eg. [1, 3, 5]). These
-                        are then appened to the keys in key_list.
-
-            key_list  : the list of generic keys appropriate for the rate
-                        function.
-
-            rate_function : the pulse / residual function through which all the
-                            parameters are passed.
-        '''
+        """
         rates = np.zeros(len(x))
         for j in pulse_arr:
             kwargs = { 'times' : x}
