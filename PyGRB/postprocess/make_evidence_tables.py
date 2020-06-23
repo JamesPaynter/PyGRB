@@ -11,56 +11,45 @@ from PyGRB.backend.makemodels import make_one_pulse_models
 
 class EvidenceTables(object):
     """
-    Defines the :class:`~Admin` class of the *PyGRB* package.
+    Defines the :class:`~EvidenceTables` class of the *PyGRB* package.
     This is an abstract class that contains the private methods of the
-    :class:`~BilbyObject` class. These methods predominantly translate fitting
+    :class:`~.PulseFitter` class. These methods predominantly translate fitting
     parameters into labels for file or folder names and vice versa.
     """
 
     def __init__(self):
         super(EvidenceTables, self).__init__()
 
-    def get_evidence_from_models(self, model_dict):
+    def get_evidence_from_models(self, model_dict, channels = None):
         """
-        A method to generate the single pulse models and evaluate the evidence
-        for each model.
-        """
-        keys = model_dict.keys()
-        models = [model for key, model in model_dict.items()]
-        self.get_evidence_table(models = models, return_tex = False,
-                                channels = [0, 1, 2, 3], keys = keys)
-        self.get_evidence_table(models = models, return_tex = True,
-                                channels = [0, 1, 2, 3], keys = keys)
+        A method to generate the evidence tables for the given channels
+        for the specified models. Returns one table per channel. Creates both
+        .txt tables and .tex tables.
 
-    def get_evidence_table(self,    models, channels,
-                                    keys = None, return_tex = True):
-        """
-        A function to return the evidence tables for the given channels
-        for the specified models. Returns one table per channel.
         Parameters
         ----------
-        models : list.
-            A list of models to be evaluated, and model evidence tabulated.
+        model_dict : Dict.
+            A dictionary of models to be evaluated, and model evidence tabulated.
             Each model will be a dict {}.
         channels : list.
-            A list of integers
-        keys : list.
-            A list of model names in the form of shorthand model keys. To be
-            included if the model dicts in :param:`~models` are unnamed.
-        return_tex : bool.
-            If *True* returns the evidence tables as separate .tex tables for
-            each channel. If *False* returns the evidence tables as a single
-            .txt file. All files are saved in the relevant base directory.
+            A list of integers. The channels to be evaluated.
         """
-        if return_tex:
-            self._evidence_table_to_latex(models, channels, keys)
-        else:
-            self._evidence_table_to_txt(models, channels, keys)
+
+        if type(channels) is not np.ndarray or not isinstance(channels, list):
+            channels = [0, 1, 2, 3]
+
+        keys = model_dict.keys()
+        models = [model for key, model in model_dict.items()]
+
+        self._evidence_table_to_latex(
+                models = models, channels = channels, keys = keys)
+        self._evidence_table_to_txt(
+                models = models, channels = channels, keys = keys)
 
     def _evidence_table_to_txt(self, models, channels, keys):
         """
         Returns the evidence tables as a single .txt file.
-        See :meth:`~get_evidence_table`.
+        See :meth:`~get_evidence_from_models`.
         """
         self.tlabel = self._get_trigger_label()
         self._get_base_directory()
@@ -112,7 +101,7 @@ class EvidenceTables(object):
     def _evidence_table_to_latex(self, models, channels, keys):
         """
         Returns the evidence tables as a separate .tex files for each channel.
-        See :meth:`~get_evidence_table`.
+        See :meth:`~get_evidence_from_models`.
         """
         self.tlabel = self._get_trigger_label()
         self._get_base_directory()
