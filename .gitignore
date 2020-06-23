@@ -1,5 +1,7 @@
 /products
 /data
+*.docx
+launchatom.bat
 
 .idea
 
