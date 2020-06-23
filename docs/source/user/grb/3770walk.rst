@@ -101,8 +101,8 @@ The difference would be changing the last two lines of code:
 
 After several days on a HPC, hopefully all the jobs will have finished.
 The more parameters, the longer the job will take.
-The :python:`'FsFs'` and :python:`'XsXs'` models having 18 and 20 parameters each, and may take up to a week depending on the chosen :python:`nSamples` (and other sampler kwargs).
-Higher level analysis can be done with the :class:`~PyGRB.postprocess.make_evidence_tables.get_evidence_from_models` method:
+The :python:`'FsFs'` and :python:`'XsXs'` models have 18 and 20 parameters each, and may take up to a week depending on the chosen :python:`nSamples` (and other sampler keyword arguments).
+Higher level analysis can be done with the :py:class:`~PyGRB.postprocess.make_evidence_tables.get_evidence_from_models` method:
 
 .. code-block:: python
 

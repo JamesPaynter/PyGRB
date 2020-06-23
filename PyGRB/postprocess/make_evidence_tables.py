@@ -20,6 +20,18 @@ class EvidenceTables(object):
     def __init__(self):
         super(EvidenceTables, self).__init__()
 
+    def get_evidence_from_models(self, model_dict):
+        """
+        A method to generate the single pulse models and evaluate the evidence
+        for each model.
+        """
+        keys = model_dict.keys()
+        models = [model for key, model in model_dict.items()]
+        self.get_evidence_table(models = models, return_tex = False,
+                                channels = [0, 1, 2, 3], keys = keys)
+        self.get_evidence_table(models = models, return_tex = True,
+                                channels = [0, 1, 2, 3], keys = keys)
+
     def get_evidence_table(self,    models, channels,
                                     keys = None, return_tex = True):
         """
@@ -56,6 +68,8 @@ class EvidenceTables(object):
         Z_file = f'{directory}/evidence_table_T{self.trigger}_nlive{self.nSamples}.txt'
         open(Z_file, 'w').close()
         for i in channels:
+            # hrules = 1 puts a horizontal line between each table entry
+            # which makes the table .rst interpretable
             x = PrettyTable(['Model', 'ln Z', 'error'], hrules = 1)
             x.align['Model'] = "l" # Left align models
             # One space between column edges and contents (default)
@@ -88,7 +102,8 @@ class EvidenceTables(object):
                 e = float(row.get_string(fields=['ln Z']).strip())
                 bayes_facs.append(f'{e - min_e:.2f}')
             x.add_column('ln BF', bayes_facs)
-            # indentation should be same as k loop
+            # indentation should be the same as k loop
+            # \n padding makes that table .rst interpretable
             with open(Z_file, 'a') as w:
                 w.write(f'Channel {i+1}\n\n')
                 w.write(str(x))
@@ -130,47 +145,3 @@ class EvidenceTables(object):
             print(channel_df.to_latex(  index=False, float_format="{:0.2f}".format))
             channel_df.to_latex(f'{directory}/BF_table_ch_{i+1}.tex',
                                 index=False, float_format="{:0.2f}".format)
-
-
-    def get_evidence_singular(self):
-        """
-        A method to generate the single pulse models and evaluate the evidence
-        for each model.
-        """
-        self.models = make_one_pulse_models()
-        keys = self.models.keys()
-        models = [model for key, model in self.models.items()]
-        self.get_evidence_table(models = models, return_tex = True,
-                                channels = [0, 1, 2, 3], keys = keys)
-
-    def get_evidence_singular_lens(self):
-        """
-        A method to evaluate the possible two pulse models, including one-pulse
-        lens models.
-        """
-        lens_keys = ['FL', 'FsL', 'XL', 'XsL']
-        fred_keys = ['FF', 'FsF', 'FFs', 'FsFs']
-        frex_keys = ['XX', 'XsX', 'XXs', 'XsXs']
-        mixx_keys = ['FX', 'XF', 'FsX', 'XsF', 'FXs', 'XFs']
-        keys = lens_keys + fred_keys + frex_keys + mixx_keys
-
-        self.models = {}
-        for key in keys:
-            self.models[key] = create_model_from_key(key)
-        models = [model for key, model in self.models.items()]
-        self.get_evidence_table(models = models, return_tex = False,
-                                channels = [0, 1, 2, 3], keys = keys)
-        self.get_evidence_table(models = models, return_tex = True,
-                                channels = [0, 1, 2, 3], keys = keys)
-
-    def get_evidence_from_models(self, model_dict):
-        """
-        A method to generate the single pulse models and evaluate the evidence
-        for each model.
-        """
-        keys = model_dict.keys()
-        models = [model for key, model in model_dict.items()]
-        self.get_evidence_table(models = models, return_tex = False,
-                                channels = [0, 1, 2, 3], keys = keys)
-        self.get_evidence_table(models = models, return_tex = True,
-                                channels = [0, 1, 2, 3], keys = keys)
