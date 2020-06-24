@@ -43,11 +43,6 @@ class TestABP(unittest.TestCase):
         del self.channels
         del self.nSamples
         del self._path
-        os.remove(self.path)
-        try:
-            del self.path
-        except:
-            pass
 
     def test_presentation_plot(self):
         GRB = PulseTester(7475, times = (-2, 60),
@@ -59,6 +54,7 @@ class TestABP(unittest.TestCase):
         GRB.plot_lc(channels = self.channels, return_axes = False)
         self.path = f'{self._path}.png'
         assert(os.path.exists(self.path))
+        os.remove(self.path)
 
     def test_docs_plot(self):
         GRB = PulseTester(7475, times = (-2, 60),
@@ -70,6 +66,7 @@ class TestABP(unittest.TestCase):
         GRB.plot_lc(channels = self.channels, return_axes = False)
         self.path = f'{self._path}.png'
         assert(os.path.exists(self.path))
+        os.remove(self.path)
 
     def test_paper_one_col_plot(self):
         GRB = PulseTester(7475, times = (-2, 60),
@@ -81,6 +78,7 @@ class TestABP(unittest.TestCase):
         GRB.plot_lc(channels = self.channels, return_axes = False)
         self.path = f'{self._path}.pdf'
         assert(os.path.exists(self.path))
+        os.remove(self.path)
 
     def test_paper_two_col_plot(self):
         GRB = PulseTester(7475, times = (-2, 60),
@@ -92,6 +90,7 @@ class TestABP(unittest.TestCase):
         GRB.plot_lc(channels = self.channels, return_axes = False)
         self.path = f'{self._path}.pdf'
         assert(os.path.exists(self.path))
+        os.remove(self.path)
 
     # def test_thesis_plot(self):
     #     GRB = PulseTester(7475, times = (-2, 60),
