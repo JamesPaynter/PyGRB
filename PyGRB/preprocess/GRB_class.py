@@ -131,13 +131,11 @@ class BATSETTEList(object):
             string        = f'channel_{channel}'
 
         direc = 'data/BATSE/TTE_list_data/'
-        # path  = Path(__file__).parent / direc
         d_list    = [f'{d}' for d in self.live_detectors]
         dets      = ''.join(d_list)
         file_path = f'{string}_d{dets}'
 
         path = os.path.join(direc, file_path)
-        print(path)
 
         count_str = f'{path}_counts.npy'
         bin_str   = f'{path}_bins.npy'
@@ -180,39 +178,6 @@ class BATSETTEList(object):
             np.save(bin_str,   new_bins,   allow_pickle = False)
             print('Done !')
         return new_bins, new_counts
-
-        # if self.verbose:
-        #     sort_diff = np.sort(difference)
-        #     bins      = np.linspace(sort_diff[0], sort_diff[-1], num_bins)
-        #     plt.hist(sort_diff, bins = bins)
-        #     plt.xlabel('Difference in arrival time (us)', fontsize = 12)
-        #     plt.ylabel('Histogram counts', fontsize = 12)
-        #     plt.show()
-
-    def tte_bayesian_blocks(self, channel = 'sum'):
-        ''' from astropy import scargle.BB '''
-        if self.verbose:
-            print('Initiating Bayesian Blocks')
-        if channel == 'sum':
-            counts = np.sum(self.counts, axis = 1)
-        else:
-            counts = self.counts[:,int(channel - 1)]
-        string    = f'tte_bayesian_blocks_{channel}.pdf'
-        edges_str = f'tte_bayesian_blocks_{channel}'
-        edges = bayesian_blocks(t = self.bin_left,
-                                ## heaviside flattens array to binary
-                                ## (some bins have 2 photons)
-                                ## shouldn't matter too much
-                                x = np.heaviside( counts , 0),
-                                sigma = self.sampling_rate,
-                                fitness = 'regular_events',
-                                dt = self.sampling_rate)
-        if self.verbose:
-            print('Plotting Bayesian Blocks.')
-        np.save(edges_str, edges, allow_pickle = False)
-        plt.hist(self.interpolated_counts, bins = edges)
-        plt.save(string)
-
 
     def _plot_arrival_histogram(self, channel = 'sum', numbins = 100):
         if channel == 'sum':
@@ -261,10 +226,6 @@ class BATSEGRB(BATSETTEList):
                 'Input variable `datatype` is {} when it '
                 'should be `discsc` or `tte`.'.format(datatype))
         self.verbose   = verbose
-        # self.directory = './data/'
-        # path = Path(__file__).parent / self.directory
-        # mkdir(path)
-
 
         super(BATSEGRB, self).__init__(**kwargs)
 

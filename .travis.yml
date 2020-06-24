@@ -21,8 +21,9 @@ jobs:
         - pip3 install -r requirements.txt
         - pip3 install --upgrade pytest pytest-cov
         - pip3 install codecov
-      script: python3 -m pytest
+      script: python3 -m pytest --ignore tests/test_main --ignore tests/test_preprocess/test_tte_list.py
       after_success: python 3 -m codecov
+
 
     - name: "Python 3.7.4 on Windows"
       os: windows     # Windows 10.0.17134 N/A Build 17134
@@ -37,6 +38,7 @@ jobs:
         - python setup.py install
       env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
 
+
     - name: "test pip install"
       before_install:
         - python --version
@@ -48,11 +50,19 @@ jobs:
         - pip install pygrb
         - pip freeze
 
+
     - name: "test nested sampling"
       install:
         - python setup.py sdist bdist_wheel
       script:
-        - pytest -s --cov
+        - pytest -s --cov --ignore tests/test_preprocess/test_tte_list.py
+
+    - name: "test tte list"
+      install:
+        - python setup.py sdist bdist_wheel
+      script:
+        - pytest -s --cov --ignore tests/test_main
+
 
   allow_failures:
     - python: 3.7-dev
@@ -79,7 +89,7 @@ install:
   - python setup.py sdist bdist_wheel
 
 script:
-  - pytest --cov --ignore tests/test_main
+  - pytest --cov --ignore tests/test_main --ignore tests/test_preprocess/test_tte_list.py
 
 after_success:
   - codecov
