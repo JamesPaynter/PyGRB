@@ -15,7 +15,7 @@ from PyGRB.backend.makemodels import create_model_from_key
 
 
 class PulseTester(PulseFitter):
-    """docstring for PulseTester."""
+    """ Test class for PulseFitter. """
 
     def __init__(self, *args, **kwargs):
         super(PulseTester, self).__init__(*args, **kwargs)
@@ -115,11 +115,11 @@ class TestFred3770(unittest.TestCase):
             lens_bounds = [(0.37, 0.42), (0.60, 1.8)]
             #  lens calc doesnt work because it is trying to multiply together 4 posteriors
             #  WHICH DO NOT OVERLAP
+            # they do now 3770 is being tested
             self.discsc_fit.lens_calc(model = model, lens_bounds = lens_bounds)
         self.discsc_fit.get_evidence_from_models(model_dict = model_dict)
-        # shutil.rmtree('test_products/3770_model_comparison_201')
 
 
 if __name__ == '__main__':
     unittest.main()
-    # shutil.rmtree('test_products/')
+    shutil.rmtree('test_products/3770_model_comparison_201')

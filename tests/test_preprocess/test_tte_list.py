@@ -32,7 +32,7 @@ class TestBATSEGRB(unittest.TestCase):
         assert(os.path.exists(path))
 
         if delete:
-            for c in range(4):
+            for c in range(1,5):
                 for q in ["bins", "diff", "counts"]:
                     path = f'{_path}channel_{c}_d01234567_{q}.npy'
                     os.remove(path)

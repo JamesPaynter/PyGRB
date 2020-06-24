@@ -60,4 +60,10 @@ class TestFred7475(unittest.TestCase):
         for parameter in priors:
             assert( (abs(posteriors[parameter] - self.parameters[parameter]))
                     / self.parameters[parameter]) < 0.1
-        shutil.rmtree('test_products/7475_model_comparison_201')
+
+
+
+
+if __name__ == '__main__':
+    unittest.main()
+    shutil.rmtree('test_products/7475_model_comparison_201')
