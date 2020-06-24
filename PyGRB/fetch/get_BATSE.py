@@ -25,20 +25,21 @@ class GetBATSEBurst():
     """
 
     def __init__(self, trigger, datatype):
-        datatypes = {   'tte'    : 'tte',
-                        'discsc' : 'discsc',
+        datatypes = {   'tte'       : 'tte_bfits',
+                        'tte_list'  : 'tte_list',
+                        'discsc'    : 'discsc_bfits',
                     }
         try:
             self._datatype = datatypes[datatype]
         except:
             raise AssertionError(
                 'Input variable `datatype` is {} when it '
-                'should be `discsc` or `tte`.'.format(datatype))
+                'should be `discsc`, `tte`, or `tte_list`.'.format(datatype))
 
         self._base_string = 'https://heasarc.gsfc.nasa.gov/FTP/compton/data/batse/trigger/'
         self._trigger     = trigger
         self._root        = f'data/BATSE/{datatype}/'
-        self._file_name   = f'{datatypes[datatype]}_bfits_{trigger}.fits.gz'
+        self._file_name   = f'{datatypes[datatype]}_{trigger}.fits.gz'
         self._url         = self._make_url()
 
         mkdir(self._root)

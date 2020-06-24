@@ -56,24 +56,6 @@ class Admin(metaclass=ABCMeta):
         self.base_folder = dir
         mkdir(dir)
 
-    def _get_pulse_list(self):
-        """ Generates the pulse list from a model to name the out directory. """
-        string = ''
-        for i in range(1, self.num_pulses + 1):
-            if i in self.model['count_gauss']:
-                string += 'G'
-            elif i in self.model['count_FRED']:
-                string += 'F'
-            elif i in self.model['count_FREDx']:
-                string += 'X'
-            elif i in self.model['count_conv']:
-                string += 'C'
-            if i in self.model['count_sg']:
-                string += 's'
-            elif i in self.model['count_bes']:
-                string += 'b'
-        return string
-
     def _get_directory_name(self):
         """
         Code changes the root directory to the directory above this file.

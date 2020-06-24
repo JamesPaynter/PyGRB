@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 from astropy.io import fits
 from astropy.stats import bayesian_blocks
 
-# from PyGRB.preprocess.abstract import make_GRB
 from PyGRB.backend.admin import mkdir
 from PyGRB.preprocess.grb import EmptyGRB
+from PyGRB.fetch.get_BATSE import GetBATSEBurst
 
 
 def make_GRB(**kwargs):
@@ -23,13 +23,12 @@ class BATSETTEList(object):
         super(BATSETTEList, self).__init__()
         if self.verbose:
             print('Analysing BATSE TTE list data')
-        # open a FITS file
-        data_path = f'../data/tte_list_{self.trigger}.fits'
-        path = Path(__file__).parent / data_path
-        hdul = fits.open(path)
-        self._get_energy_bin_edges(hdul[1].data)
 
-        count_data  = hdul[2].data
+        fetch = GetBATSEBurst(trigger = self.trigger, datatype = self.datatype)
+        with fits.open(fetch.path) as hdu_list:
+            self._get_energy_bin_edges(hdu_list[1].data)
+            count_data  = hdu_list[2].data
+
         self.detectors    = np.arange(8)
         self.det_count    = np.zeros( 8)
         self.photon_list  = []
@@ -45,6 +44,7 @@ class BATSETTEList(object):
         else:
             self.live_detectors = np.arange(8)
             print('Analysis running over all 8 detectors.')
+            print('Would you rather analyse only the triggered detectors?')
 
         self.channel_1_times = self._sum_detectors(1)
         self.channel_2_times = self._sum_detectors(2)
@@ -130,18 +130,18 @@ class BATSETTEList(object):
             arrival_times = self.channels[int(channel - 1)]
             string        = f'channel_{channel}'
 
-        direc = '../data/TTE_list_data/'
-        path  = Path(__file__).parent / direc
+        direc = 'data/BATSE/TTE_list_data/'
+        # path  = Path(__file__).parent / direc
         d_list    = [f'{d}' for d in self.live_detectors]
         dets      = ''.join(d_list)
-        file_path = f'{path}/{string}_d{dets}'
+        file_path = f'{string}_d{dets}'
 
-        data_path = f'../data/tte_list_{self.trigger}.fits'
-        path11111 = Path(__file__).parent / data_path
+        path = os.path.join(direc, file_path)
+        print(path)
 
-        count_str = f'{file_path}_counts.npy'
-        bin_str   = f'{file_path}_bins.npy'
-        diff_str  = f'{file_path}_diff.npy'
+        count_str = f'{path}_counts.npy'
+        bin_str   = f'{path}_bins.npy'
+        diff_str  = f'{path}_diff.npy'
 
         unique, counts = np.unique(arrival_times, return_counts = True)
         sttt,endd = self.channel_x_times[0], self.channel_x_times[-1]
@@ -244,7 +244,7 @@ class BATSETTEList(object):
 class BATSEGRB(BATSETTEList):
     """docstring for BATSEGRB."""
 
-    def __init__(self, trigger, datatype, verbose = True, **kwargs):
+    def __init__(self, trigger, datatype, verbose = False, **kwargs):
         self.colours   = ['red', 'orange', 'green', 'blue']
         self.clabels   = ['1', '2', '3', '4']
         self.datatypes = {'discsc':'discsc', 'tte':'tte', 'tte_list' : 'tte_list'}
@@ -261,10 +261,11 @@ class BATSEGRB(BATSETTEList):
                 'Input variable `datatype` is {} when it '
                 'should be `discsc` or `tte`.'.format(datatype))
         self.verbose   = verbose
-        self.directory = './data/'
-        path = Path(__file__).parent / self.directory
-        mkdir(path)
-        print('The trigger number is %i' % self.trigger)
+        # self.directory = './data/'
+        # path = Path(__file__).parent / self.directory
+        # mkdir(path)
+
+
         super(BATSEGRB, self).__init__(**kwargs)
 
         self.kwargs    = {  'colours'   : self.colours,

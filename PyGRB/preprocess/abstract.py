@@ -7,35 +7,29 @@ class SignalFramework(metaclass=ABCMeta):
     """
     Defines the :class:`~SignalFramework` class of the *PyGRB* package.
     This is an abstract method that contains the common code to each satellite
-    to take the processed fits files and prepare them for analysis.
+    to take the processed fits files and prepare them for analysis. This class
+    should be inherited by each Satellite's child class and the init ran
+    after the init of the child classes.
+
+    Parameters
+    ----------
+    times : tuple, or str.
+        Input the times for which the GRB object is to be created. A tuple
+        should be given in the form (start, finish), with start and finish
+        both defined as floats (or ints). The array will be truncated based
+        on the start and end times given. 'Full' will result in the full
+        light-curve being generated. Often this light-curve extends several
+        hundred seconds before and after the trigger time. 'T90' will search
+        the BATSE 4B catalogue 'T90' burst table for the times to truncate
+        the light-curve. Some BATSE bursts do not have a 'T90' listed.
+    bgs : bool.
+        If *True* removes the background from each channel of the data by
+        calling the :meth:`~get_background` method. The method is a first
+        order approximation. This parameter should be set to *False* for
+        light-curve fitting with the main :mod:`~DynamicBilby` methods.
     """
 
     def __init__(self, times, bgs):
-        """
-        Initialize the :class:`~SignalFramework` abstract class. This class
-        should be inherited by each Satellite's child class and the init ran
-        after the init of the child classes.
-
-        Parameters
-        ----------
-        times : tuple, or str.
-            Input the times for which the GRB object is to be created. A tuple
-            should be given in the form (start, finish), with start and finish
-            both defined as floats (or ints). The array will be truncated based
-            on the start and end times given. 'Full' will result in the full
-            light-curve being generated. Often this light-curve extends several
-            hundred seconds before and after the trigger time. 'T90' will search
-            the BATSE 4B catalogue 'T90' burst table for the times to truncate
-            the light-curve. Some BATSE bursts do not have a 'T90' listed.
-        bgs : bool.
-            If *True* removes the background from each channel of the data by
-            calling the :meth:`~get_background` method. The method is a first
-            order approximation. This parameter should be set to *False* for
-            light-curve fitting with the main :mod:`~DynamicBilby` methods.
-        """
-
-        print('The analysis time interval is', times)
-
         ## this will be common to all code and hence go in the super
         self.bin_centres = (self.bin_left + self.bin_right) / 2
         self.bin_widths = np.round(self.bin_right - self.bin_left, 3)
@@ -47,7 +41,6 @@ class SignalFramework(metaclass=ABCMeta):
         self.bg_counts = np.array([self.background[i] * (
                 self.bin_right - self.bin_left) for i in
                                    range(4)]).T
-        print('The background rates are', self.background)
         self.rates_bs = self.rates - self.background
         self.count_bs = self.counts - self.bg_counts
 
@@ -66,7 +59,6 @@ class SignalFramework(metaclass=ABCMeta):
             self.cut_times = True
 
         elif self.times == 'full':
-            print('full steam ahead')
             self.start = self.bin_left[0]
             self.end = self.bin_right[-1]
             self.cut_times = False
@@ -82,7 +74,6 @@ class SignalFramework(metaclass=ABCMeta):
             raise ValueError("%s is not valid.\nChoose either 'T90', "
                      "or enter the start and end times as a tuple" % self.times)
 
-        print('''I'm up to cutting times ''')
         if self.cut_times:
             ### finds index of array that best matches the time given in table
             self.start  = (np.abs(self.bin_left - self.t90_st)).argmin()

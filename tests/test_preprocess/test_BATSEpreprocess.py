@@ -6,32 +6,33 @@ from PyGRB.preprocess.BATSEpreprocess import BATSESignal
 class TestBATSESignal(unittest.TestCase):
 
     def setUp(self):
-    # set up is down before the iteration of each class method
         self.burst    = 973
         self.datatype = 'discsc'
         self.times    = 'full'
         self.bgs      = True
 
     def tearDown(self):
-    # tear down is done at the end of each iteration of a class method
         del self.burst
         del self.datatype
         del self.times
         del self.bgs
 
     def test_burst_assignment(self):
-        # update these tests to ignore FileNotFoundError
         test = BATSESignal(self.burst,  datatype = self.datatype,
                                         times = self.times, bgs = self.bgs)
 
+    def test_burst_assignment_tte(self):
+        burst = 3770
+        datatype = 'tte'
+        test = BATSESignal(burst,   datatype = datatype,
+                                    times = self.times, bgs = self.bgs)
+
     def test_datatype_assignment(self):
-        # update these tests to ignore FileNotFoundError
         test = BATSESignal(self.burst,  datatype = self.datatype,
                                         times = self.times, bgs = self.bgs)
         self.assertEqual(self.datatype, test.datatype)
 
     def test_times_assignment(self):
-        # update these tests to ignore FileNotFoundError
         test = BATSESignal(self.burst,  datatype = self.datatype,
                                         times = self.times, bgs = self.bgs)
         self.assertEqual(self.times, test.times)
