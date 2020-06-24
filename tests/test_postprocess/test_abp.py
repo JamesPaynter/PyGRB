@@ -44,7 +44,10 @@ class TestABP(unittest.TestCase):
         del self.nSamples
         del self._path
         os.remove(self.path)
-        del self.path
+        try:
+            del self.path
+        except:
+            pass
 
     def test_presentation_plot(self):
         GRB = PulseTester(7475, times = (-2, 60),
