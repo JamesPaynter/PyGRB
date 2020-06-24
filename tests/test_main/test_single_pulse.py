@@ -9,8 +9,30 @@ from numpy.testing import (assert_almost_equal, assert_equal, assert_allclose,
 
 from PyGRB.backend.admin import mkdir
 from PyGRB.backend.makepriors import MakePriors
-from tests.test_main.test_fit_pulse import PulseTester
 from PyGRB.backend.makemodels import create_model_from_key
+
+
+
+from PyGRB.main.fitpulse import PulseFitter
+
+class PulseTester(PulseFitter):
+    """ Test class for PulseFitter. """
+
+    def __init__(self, *args, **kwargs):
+        super(PulseTester, self).__init__(*args, **kwargs)
+
+    def _get_base_directory(self):
+        """
+        Sets the directory that code products are made to be /products/ in
+        the folder the script was ran from.
+        """
+        dir = f'test_products/{self.tlabel}_model_comparison_{str(self.nSamples)}'
+        self.base_folder = dir
+        mkdir(dir)
+
+
+
+
 
 
 
