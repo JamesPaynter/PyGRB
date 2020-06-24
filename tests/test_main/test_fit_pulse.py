@@ -32,7 +32,7 @@ class PulseTester(PulseFitter):
 # class TestFredFit(unittest.TestCase):
 #
     # def setUp(self):
-    #     self.model = 'F'
+    #     self.model = 'X'
     #     self.times = np.arange(100) * 0.064
     #
     #     self.st = 1.0
@@ -99,6 +99,8 @@ class TestFred7475(unittest.TestCase):
     def tearDown(self):
         del self.key
         del self.parameters
+        del self.priors_pulse_start
+        del self.priors_pulse_end
         del self.discsc_fit
 
     # def test_parameter_recovery(self):
