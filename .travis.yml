@@ -72,6 +72,7 @@ jobs:
     - os: osx
     - name: "test pip install"
     - name: "test nested sampling"
+    - name: "test tte list"
 
   fast_finish: true
 

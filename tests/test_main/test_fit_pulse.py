@@ -158,9 +158,9 @@ class TestFred973(unittest.TestCase):
             model_dict[key] = create_model_from_key(key)
         models = [model for key, model in model_dict.items()]
         for model in models:
-            # self.discsc_fit.main_multi_channel(channels = [0, 1, 2, 3], model = model)
-            self.discsc_fit._setup_labels(model) # for testing
-            print(time.time())
+            self.discsc_fit.main_multi_channel(channels = [0, 1, 2, 3], model = model)
+            # self.discsc_fit._setup_labels(model) # for testing
+            # print(time.time())
 
             # self.discsc_fit._setup_labels(model) for testing
             # lens_bounds = [(21.5, 22.2), (0.3, 5)]
@@ -168,7 +168,7 @@ class TestFred973(unittest.TestCase):
             #  lens calc doesnt work because it is trying to multiply together 4 posteriors
             #  WHICH DO NOT OVERLAP
             # self.discsc_fit.lens_calc(model = model, lens_bounds = lens_bounds)
-            print(time.time())
+            # print(time.time())
         self.discsc_fit.get_evidence_from_models(model_dict = model_dict)
 
 
