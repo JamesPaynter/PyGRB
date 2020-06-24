@@ -11,16 +11,13 @@ class TestABP(unittest.TestCase):
 
         self.priors_pulse_start = -10
         self.priors_pulse_end   =  20
-
         self.parameters = {'background_b' : 183,
                             'start_1_b' : -5.47,
                             'scale_1_b' : 263.3,
                             'tau_1_b'   : 14.4,
                             'xi_1_b'    : 2.3}
-
         self.nSamples = 167
         self.channels = [0, 1, 2, 3]
-
         self._path = 'test_products/7475_model_comparison_167/BATSE_trigger_7475_rates_rates'
 
     def tearDown(self):
@@ -32,9 +29,6 @@ class TestABP(unittest.TestCase):
         del self._path
         os.remove(self.path)
         del self.path
-        #     shutil.rmtree('test_products/0973_model_comparison_167/')
-        # except OSError:
-        #     pass
 
     def test_presentation_plot(self):
         GRB = PulseTester(7475, times = (-2, 60),
@@ -88,7 +82,7 @@ class TestABP(unittest.TestCase):
     #             priors_pulse_end = self.priors_pulse_end,
     #             HPC = True, p_type = 'thesis')
     #     GRB.plot_lc(channels = self.channels, return_axes = False)
-    #     self.path = f'{self._path}.png'
+    #     self.path = f'{self._path}.pdf'
     #     # not implemented yet
     #     # assert(os.path.exists(self.path))
     #

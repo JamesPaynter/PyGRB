@@ -77,77 +77,29 @@ class PulseTester(PulseFitter):
     #
     #     pass
 
-class TestFred7475(unittest.TestCase):
-    def setUp(self):
-        self.key = 'F'
 
-        self.priors_pulse_start = -10
-        self.priors_pulse_end   =  20
-
-        self.parameters = {'background_b' : 183,
-                            'start_1_b' : -5.47,
-                            'scale_1_b' : 263.3,
-                            'tau_1_b'   : 14.4,
-                            'xi_1_b'    : 2.3}
-
-        nSamples = 201
-        self.discsc_fit = PulseTester(7475, times = (-2, 60),
-                datatype = 'discsc', nSamples = nSamples, sampler = 'dynesty',
-                priors_pulse_start = self.priors_pulse_start,
-                priors_pulse_end = self.priors_pulse_end, HPC = True)
-
-    def tearDown(self):
-        del self.key
-        del self.parameters
-        del self.priors_pulse_start
-        del self.priors_pulse_end
-        del self.discsc_fit
-
-    # def test_parameter_recovery(self):
-    #     model = create_model_from_key(self.key)
-    #     self.discsc_fit.main_1_channel(channel = 1, model = model)
-    #     # self.discsc_fit._setup_labels(model) #for testing
-    #     result_label = f'{self.discsc_fit.fstring}{self.discsc_fit.clabels[1]}'
-    #     open_result  = f'{self.discsc_fit.outdir}/{result_label}_result.json'
-    #     result = bilby.result.read_in_result(filename=open_result)
-    #
-    #     prior_shell = MakePriors(
-    #                         priors_pulse_start = self.priors_pulse_start,
-    #                         priors_pulse_end = self.priors_pulse_end,
-    #                         channel      = 1,
-    #                         **model)
-    #     priors = prior_shell.return_prior_dict()
-    #
-    #     posteriors = dict()
-    #     for parameter in priors:
-    #         posteriors[parameter] = np.median(result.posterior[parameter].values)
-    #     for parameter in priors:
-    #         assert( (abs(posteriors[parameter] - self.parameters[parameter]))
-    #                 / self.parameters[parameter]) < 0.1
-    #     shutil.rmtree('test_products/7475_model_comparison_201')
 
 
 import time
-class TestFred973(unittest.TestCase):
+class TestFred3770(unittest.TestCase):
 
 
 
     def setUp(self):
-        nSamples = 101
-        # CANNOT CREATE VALID CONTOURS
+        nSamples = 201
         sampler = 'Nestle'
 
         self.keys = ['FL', 'FF']
-        # self.keys = ['FF']
 
         self.priors_pulse_start = -2
         self.priors_pulse_end   =  50
 
-        self.discsc_fit = PulseTester(973, times = (-2, 50),
-                    datatype = 'discsc', nSamples = nSamples, sampler = sampler,
-                    priors_pulse_start = -5, priors_pulse_end = 50,
-                    priors_td_lo = 0,  priors_td_hi = 30,
+        self.discsc_fit =  PulseTester(3770, times = (-.1, 1),
+                    datatype = 'tte', nSamples = nSamples, sampler = sampler,
+                    priors_pulse_start = -.1, priors_pulse_end = 0.6,
+                    priors_td_lo = 0,  priors_td_hi = 0.5,
                     p_type ='docs', HPC = True)
+        self.discsc_fit.offsets = [0, 4000, 8000, -3000]
 
     def tearDown(self):
         del self.keys
@@ -155,26 +107,17 @@ class TestFred973(unittest.TestCase):
 
     def test_parameter_recovery(self):
         model_dict = {}
-        print(time.time())
         for key in self.keys:
             model_dict[key] = create_model_from_key(key)
         models = [model for key, model in model_dict.items()]
         for model in models:
             self.discsc_fit.main_multi_channel(channels = [0, 1, 2, 3], model = model)
-            # self.discsc_fit._setup_labels(model) # for testing
-            # print(time.time())
-
-            # self.discsc_fit._setup_labels(model) for testing
-            # lens_bounds = [(21.5, 22.2), (0.3, 5)]
-            lens_bounds = [(21, 22.6), (0.25, 0.55)]
+            lens_bounds = [(0.37, 0.42), (0.60, 1.8)]
             #  lens calc doesnt work because it is trying to multiply together 4 posteriors
             #  WHICH DO NOT OVERLAP
-            # self.discsc_fit.lens_calc(model = model, lens_bounds = lens_bounds)
-            # print(time.time())
+            self.discsc_fit.lens_calc(model = model, lens_bounds = lens_bounds)
         self.discsc_fit.get_evidence_from_models(model_dict = model_dict)
-
-
-        # shutil.rmtree('test_products/0973_model_comparison_201')
+        # shutil.rmtree('test_products/3770_model_comparison_201')
 
 
 if __name__ == '__main__':

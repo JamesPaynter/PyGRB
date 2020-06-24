@@ -27,6 +27,7 @@ def load_3770(sampler = 'dynesty', nSamples = 100, **kwargs):
 
 
 def analysis_for_3770(indices):
+    """ Use this function to send each job permutation to a different CPU. """
     num_samples = [500, 2000, 4500]
     for samples in num_samples:
         GRB = load_3770(sampler = SAMPLER, nSamples = samples)
@@ -34,15 +35,11 @@ def analysis_for_3770(indices):
 
         model_dict = main_two_pulse_models()
         models = [model for key, model in model_dict.items()]
-        # # uncommenting the following will test ALL
-        # # possible permutations of F, X, s:
-        # model_dict = make_two_pulse_models()
-        # models = [model for key, model in model_dict.items()]
+
         for model in models:
             GRB._split_array_job_to_4_channels( models   = models,
                                                 indices  = indices,
                                                 channels = channels)
-
 
 def evidence_for_3770(**kwargs):
     num_samples = [500, 2000, 4500]
@@ -52,10 +49,6 @@ def evidence_for_3770(**kwargs):
 
         model_dict = main_two_pulse_models()
         models = [model for key, model in model_dict.items()]
-        # # uncommenting the following will test ALL
-        # # possible permutations of F, X, s:
-        # model_dict = make_two_pulse_models()
-        # models = [model for key, model in model_dict.items()]
 
         for model in models:
             GRB.get_residuals(channels = [0, 1, 2, 3], model = model)

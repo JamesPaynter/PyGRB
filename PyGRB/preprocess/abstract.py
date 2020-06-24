@@ -93,8 +93,8 @@ class SignalFramework(metaclass=ABCMeta):
             self.max_bin        = np.max(self.bin_widths)
 
     def get_background(self):
-        """ Creates background from bins of width greater than nominated
-            resolution. ie for 64ms uses the larger 1024ms+ bins.
+        """ Creates background from bins of width greater than nominal
+            resolution of 64ms. i.e. uses the larger 1024ms+ bins.
         """
         return np.mean(self.rates[self.bin_widths > 0.065], axis=0)
 

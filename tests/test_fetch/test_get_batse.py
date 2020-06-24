@@ -25,11 +25,13 @@ class TestFetchBATSE(unittest.TestCase):
             GetBATSEBurst(trigger = trigger, datatype = self.datatype)
 
     def test_trigger_found(self):
+        path = 'data/BATSE/discsc/discsc_bfits_105.fits.gz'
         try:
-            os.remove('data/BATSE/discsc/discsc_bfits_105.fits.gz')
+            os.remove(path)
             delete = False
         except:
             delete = True
         GetBATSEBurst(trigger = self.trigger, datatype = self.datatype)
+        assert(os.path.exists(path))
         if delete:
-            os.remove('data/BATSE/discsc/discsc_bfits_105.fits.gz')
+            os.remove(path)
