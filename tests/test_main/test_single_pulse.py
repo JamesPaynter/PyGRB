@@ -1,6 +1,5 @@
 import os
 import bilby
-import shutil
 import unittest
 import numpy as np
 
@@ -87,4 +86,3 @@ class TestFred7475(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-    shutil.rmtree('test_products/7475_model_comparison_201')

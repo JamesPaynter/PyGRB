@@ -1,6 +1,5 @@
 import os
 import unittest
-import shutil
 
 from PyGRB.backend.admin import mkdir
 from PyGRB.main.fitpulse import PulseFitter
@@ -118,4 +117,3 @@ class TestABP(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-    shutil.rmtree('test_products/0973_model_comparison_167/')

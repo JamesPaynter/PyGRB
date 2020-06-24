@@ -118,8 +118,7 @@ class TestFred3770(unittest.TestCase):
             # they do now 3770 is being tested
             self.discsc_fit.lens_calc(model = model, lens_bounds = lens_bounds)
         self.discsc_fit.get_evidence_from_models(model_dict = model_dict)
-
+        shutil.rmtree('test_products/3770_model_comparison_201')
 
 if __name__ == '__main__':
     unittest.main()
-    shutil.rmtree('test_products/3770_model_comparison_201')
