@@ -7,11 +7,11 @@ import numpy as np
 from numpy.testing import (assert_almost_equal, assert_equal, assert_allclose,
                            assert_array_almost_equal, assert_)
 
-from PyGRB.backend.admin import mkdir
 from PyGRB.backend.makepriors import MakePriors
-from PyGRB.main.fitpulse import PulseFitter
 from PyGRB.backend.makemodels import create_model_from_key
 
+from PyGRB.backend.admin import mkdir
+from PyGRB.main.fitpulse import PulseFitter
 
 
 class PulseTester(PulseFitter):
