@@ -9,7 +9,7 @@ from numpy.testing import (assert_almost_equal, assert_equal, assert_allclose,
 
 from PyGRB.backend.admin import mkdir
 from PyGRB.backend.makepriors import MakePriors
-from PyGRB.main.fitpulse import PulseFitter
+from tests.test_main.test_fit_pulse import PulseTester
 from PyGRB.backend.makemodels import create_model_from_key
 
 
@@ -40,25 +40,24 @@ class TestFred7475(unittest.TestCase):
         del self.priors_pulse_end
         del self.discsc_fit
 
-    # def test_parameter_recovery(self):
-    #     model = create_model_from_key(self.key)
-    #     self.discsc_fit.main_1_channel(channel = 1, model = model)
-    #     # self.discsc_fit._setup_labels(model) #for testing
-    #     result_label = f'{self.discsc_fit.fstring}{self.discsc_fit.clabels[1]}'
-    #     open_result  = f'{self.discsc_fit.outdir}/{result_label}_result.json'
-    #     result = bilby.result.read_in_result(filename=open_result)
-    #
-    #     prior_shell = MakePriors(
-    #                         priors_pulse_start = self.priors_pulse_start,
-    #                         priors_pulse_end = self.priors_pulse_end,
-    #                         channel      = 1,
-    #                         **model)
-    #     priors = prior_shell.return_prior_dict()
-    #
-    #     posteriors = dict()
-    #     for parameter in priors:
-    #         posteriors[parameter] = np.median(result.posterior[parameter].values)
-    #     for parameter in priors:
-    #         assert( (abs(posteriors[parameter] - self.parameters[parameter]))
-    #                 / self.parameters[parameter]) < 0.1
-    #     shutil.rmtree('test_products/7475_model_comparison_201')
+    def test_parameter_recovery(self):
+        model = create_model_from_key(self.key)
+        self.discsc_fit.main_1_channel(channel = 1, model = model)
+        result_label = f'{self.discsc_fit.fstring}{self.discsc_fit.clabels[1]}'
+        open_result  = f'{self.discsc_fit.outdir}/{result_label}_result.json'
+        result = bilby.result.read_in_result(filename=open_result)
+
+        prior_shell = MakePriors(
+                            priors_pulse_start = self.priors_pulse_start,
+                            priors_pulse_end = self.priors_pulse_end,
+                            channel      = 1,
+                            **model)
+        priors = prior_shell.return_prior_dict()
+
+        posteriors = dict()
+        for parameter in priors:
+            posteriors[parameter] = np.median(result.posterior[parameter].values)
+        for parameter in priors:
+            assert( (abs(posteriors[parameter] - self.parameters[parameter]))
+                    / self.parameters[parameter]) < 0.1
+        shutil.rmtree('test_products/7475_model_comparison_201')
