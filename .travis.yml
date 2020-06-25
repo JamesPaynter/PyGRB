@@ -55,7 +55,7 @@ jobs:
       install:
         - python setup.py sdist bdist_wheel
       script:
-        - pytest -s --cov --ignore tests/test_preprocess/test_tte_list.py
+        - pytest -s --cov tests/test_main/
 
     - name: "test tte list"
       install:
