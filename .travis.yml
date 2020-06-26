@@ -55,6 +55,7 @@ jobs:
       language: generic
       install:
         - source ./texlive/texlive_install.sh
+      language: python
         - python setup.py sdist bdist_wheel
       script:
         - pytest -s tests/test_main/ --cov
