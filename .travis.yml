@@ -52,10 +52,12 @@ jobs:
 
 
     - name: "test nested sampling"
+      language: generic
       install:
+        - source ./texlive/texlive_install.sh
         - python setup.py sdist bdist_wheel
       script:
-        - pytest -s tests/test_main/ --cov 
+        - pytest -s tests/test_main/ --cov
 
     - name: "test tte list"
       install:
