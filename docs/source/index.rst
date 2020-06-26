@@ -12,7 +12,7 @@ Higher level API information can be find in API Reference.
 
 .. toctree::
    :maxdepth: 3
-   :caption: User Documentation:
+   :caption: User Documentation
 
    user/readme
    user/usage
