@@ -52,7 +52,7 @@ jobs:
 
 
     - name: "test nested sampling"
-      language: generic
+      # language: generic
       install:
         - source ./texlive/texlive_install.sh
         - python setup.py sdist bdist_wheel

@@ -13,8 +13,6 @@ from PyGRB.backend.makemodels import create_model_from_key
 from PyGRB.backend.admin import mkdir
 from PyGRB.main.fitpulse import PulseFitter
 
-from matplotlib import rc
-rc('text', usetex=False)
 
 class PulseTester(PulseFitter):
     """ Test class for PulseFitter. """
