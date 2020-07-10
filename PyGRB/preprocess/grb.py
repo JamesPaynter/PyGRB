@@ -15,7 +15,7 @@ class EmptyGRB(object):
         bin_left : np.array.
             The parameter specifies the left bins of the GRB.
 
-        bin_left : np.array.
+        bin_right : np.array.
             The parameter specifies the right bins of the GRB.
 
         counts : np.array.
