@@ -24,11 +24,11 @@ class BATSESignal(SignalFramework):
 
     Parameters
     ----------
-    burst : int.
+    burst : int
         The BATSE burst trigger ID for locating the relevant datafile.
-    datatype : str.
+    datatype : str
         The datatype should be given as either 'discsc', or 'tte'
-    times : tuple, or str.
+    times : tuple, str
         Input the times for which the GRB object is to be created. A tuple
         should be given in the form (start, finish), with start and finish
         both defined as floats (or ints). The array will be truncated based
@@ -37,7 +37,7 @@ class BATSESignal(SignalFramework):
         hundred seconds before and after the trigger time. 'T90' will search
         the BATSE 4B catalogue 'T90' burst table for the times to truncate
         the light-curve. Some BATSE bursts do not have a 'T90' listed.
-    bgs : bool.
+    bgs : bool
         If *True* removes the background from each channel of the data by
         calling the :meth:`~get_background` method. The method is a first
         order approximation. This parameter should be set to *False* for
@@ -99,6 +99,11 @@ class BATSESignal(SignalFramework):
             except:
                 if times == 'T90':
                     self._read_T90_table()
+                elif times == 'T100':
+                    self._read_T90_table()
+                    self.t90_st = min(-2, self.t90_st)
+                    self.end += max(5, 0.25 * self.t90)
+
             super().__init__(times, bgs)
 
     def _open_T90_excel(self):

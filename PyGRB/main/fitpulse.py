@@ -74,7 +74,7 @@ class PulseFitter(Admin, EvidenceTables):
                     self.GRB = BATSEpreprocess.make_GRB(
                         burst = self.trigger, times = times,
                         datatype = self.datatype, bgs = False)
-                    self.start = self.GRB.bin_left[60]
+                    self.start = self.GRB.bin_left[0]
                     self.end   = self.GRB.bin_right[-1]
         else:
             self.GRB = kwargs.get('GRB')
@@ -267,8 +267,9 @@ class PulseFitter(Admin, EvidenceTables):
                             residuals = True,
                             **strings)
 
-    def plot_lc(self, channels, return_axes = True):
-        fstring = f'{self.satellite}_trigger_{self.trigger}_rates'
+    def plot_lc(self, channels, return_axes = True, fstring = None):
+        if not fstring:
+            fstring = f'{self.satellite}_trigger_{self.trigger}'
         self.tlabel = self._get_trigger_label()
         self._get_base_directory()
         directory = self.base_folder

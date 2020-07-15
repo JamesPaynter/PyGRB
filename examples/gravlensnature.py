@@ -3,7 +3,6 @@ import argparse
 
 from PyGRB.main.fitpulse import PulseFitter
 from PyGRB.backend.makemodels import create_model_from_key
-from PyGRB.backend.makemodels import make_two_pulse_models
 
 
 def main_two_pulse_models():
@@ -36,10 +35,9 @@ def analysis_for_3770(indices):
         model_dict = main_two_pulse_models()
         models = [model for key, model in model_dict.items()]
 
-        for model in models:
-            GRB._split_array_job_to_4_channels( models   = models,
-                                                indices  = indices,
-                                                channels = channels)
+        GRB._split_array_job_to_4_channels( models   = models,
+                                            indices  = indices,
+                                            channels = channels)
 
 def evidence_for_3770(**kwargs):
     num_samples = [500, 2000, 4500]

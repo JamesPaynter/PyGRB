@@ -69,6 +69,12 @@ class SignalFramework(metaclass=ABCMeta):
             print('Ending at T95  = %.3f seconds.' % self.end)
             self.cut_times = True
 
+        elif self.times == 'T100':
+            print('Using the T100')
+            print('Starting at T0 = %.3f seconds.' % self.t90_st)
+            print('Ending at T100 = %.3f seconds.' % self.end)
+            self.cut_times = True
+
 
         else:
             raise ValueError("%s is not valid.\nChoose either 'T90', "
