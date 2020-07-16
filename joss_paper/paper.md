@@ -45,10 +45,15 @@ Residual fitting is additionally possible, for which we implement a sine-Gaussia
 ![A GRB light-curve.](../docs/source/images/B_7475__d_NL200__rates_X.png)
 
 
-Ultimately, the model selection of `PyGRB` is used to determine if two light-curves are statistically identical, which would be indicative of a gravitational lensing event [@].
+Ultimately, the model selection of `PyGRB` is used to determine if two light-curves are statistically identical, which would be indicative of a gravitational lensing event [@paczynski; @blaes; @mao].
 It is quite difficult to compare GRB light-curves occurring at different times due to the variability of the gamma-ray background.
 Comparing GRBs observed by different satellites is another matter altogether, owing to the different fields of view, energy sensitivities, time resolution, and detector geometry.
 `PyGRB` creates a unified, abstracted framework allowing for the comparison of gamma-ray bursts based on their fitted pulse parameters, rather than visual or bin-wise statistical comparisons of their light-curves, which is inherently fraught with opportunities for mishap.
+
+In the present release only BATSE functionality is available.
+However, due to the abstracted nature of the code, adding additional GRB catalogues is as simple as creating a `fetch`, and `preprocess` module.
+Future releases will allow for the easy comparison of gamma-ray bursts observed by different satellites.
+As `PyGRB` is open source, the community is actively encouraged to contribute functionality for the many available GRB catalogues.
 
 
 
