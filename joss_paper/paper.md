@@ -34,7 +34,7 @@ $$
 
 `PyGRB` is a pure Python, open source pulse-fitting package which aims bring gamma-ray burst light-curve fitting and analysis into the 21st century.
 `PyGRB` is able to download the pre-binned BATSE [@batse] light curves (``bfits`` files), in addition to ``tte_list`` time-tagged photon arrival times.
-FITS I/O functionality is provided by `Astropy` [@astropy]. `PyGRB` is built on top of the `Bilby` Bayesian inference library [@bilby], through which `PyGRB` utilises the `Dynesty` [@dynesty] and `Nestle` [@nestle] nested sampling packages.
+FITS I/O functionality is provided by `Astropy` [@astropy]. `PyGRB` is built on top of the `Bilby` Bayesian inference library [@bilby], through which `PyGRB` utilises the `Dynesty` [@dynesty] and `Nestle` [@nestle] nested sampling packages [@skilling; @feroz; @multinest].
 
 `PyGRB` makes visually appealing and scientifically instructive light-curves from the 4 broadband energy channel BATSE data.
 The main feature of `PyGRB` is its ability to fit analytic light-curve models to data.
