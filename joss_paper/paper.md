@@ -51,7 +51,7 @@ Comparing GRBs observed by different satellites is another matter altogether, ow
 `PyGRB` creates a unified, abstracted framework allowing for the comparison of gamma-ray bursts based on their fitted pulse parameters, rather than visual or bin-wise statistical comparisons of their light-curves, which is inherently fraught with opportunities for mishap.
 
 In the present release only BATSE functionality is available.
-However, due to the abstracted nature of the code, including additional GRB catalogues is as simple as creating a `fetch`, and `preprocess` module.
+However, due to the modular nature of the code, including additional GRB catalogues is as simple as creating the relevant `fetch`, and `preprocess` modules.
 Future releases will allow for the easy comparison of gamma-ray bursts observed by different satellites.
 As `PyGRB` is open source, the community is actively encouraged to contribute functionality for the many available GRB catalogues.
 
@@ -61,7 +61,7 @@ The online documentation, tutorials and examples are hosted at https://pygrb.rea
 
 # Acknowledgements
 
-I would like to thank Rachel Webster for introducing me to gravitational lensing and gamma-ray bursts, which spawned this project.
+I would like to thank Rachel Webster for introducing me to the problem of gravitationally lensed gamma-ray bursts, which spawned this project.
 I would like to thank Eric Thrane for introducing me to modern computational statistics, particularly through `Bilby`, on whose shoulders this package stands.
 Additionally I would like to thank Julian Carlin, Aman Chokshi for supporting me on my journey from novice programmer to published developer.
 
