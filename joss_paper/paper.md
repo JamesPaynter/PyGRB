@@ -24,7 +24,7 @@ bibliography: paper.bib
 Gamma-ray bursts are short and intense bursts of low energy (keV -- MeV) gamma radiation.
 Their cosmological origin and transient nature makes them important probes of the universe and its structure.
 Since their discovery astronomers have sought to model the high energy emission.
-A popular and enduring model, although purely phenomenological, is the fast-rise exponential-decay (FRED) pulse [@norris2005; @norris1996],
+A popular and enduring model, although phenomenological, is the fast-rise exponential-decay (FRED) pulse [@norris2005; @norris1996],
 
 $$
 S(t|A,\Delta,\tau,\xi) = A \exp \left[ - \xi \left(  \frac{t - \Delta}{\tau} + \frac{\tau}{t-\Delta}  \right)   \right].
