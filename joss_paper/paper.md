@@ -1,4 +1,4 @@
-(---
+---
 title: "PyGRB: A pure python gamma-ray burst analysis package."
 tags:
   - python
