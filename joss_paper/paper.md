@@ -1,5 +1,5 @@
 ---
-title: "PyGRB"
+title: "PyGRB: A pure python gamma-ray burst analysis package."
 tags:
   - python
   - astrophysics
@@ -28,9 +28,13 @@ But the software themselves are arcane and outdated, and their algorithms opaque
 Gamma-ray bursts are short and intense bursts of low energy (keV -- MeV) gamma radiation. Their cosmological origin and transient nature makes them important probes of the universe and its structure. Since their discovery astronomers have sought to model the high energy emission. A popular and enduring model, although purely phenomenological, is the fast-rise exponential-decay (FRED) pulse.
 
 
+$$
+S(t|A,\Delta,\tau,\xi) = A \exp \left[ - \xi \left(  \frac{t - \Delta}{\tau} + \frac{\tau}{t-\Delta}  \right)   \right]
+$$
+
 # PyGRB
 
-`PyGRB` is a pure Python, open source pulse-fitting package which aims bring gamma-ray burst light-curve fitting and analysis into the 21st century. `PyGRB` is able to download the pre-binned light curves (``bfits`` files), in addition to ``tte_list`` time-tagged photon arrival times. FITS I/O functionality is provided by `Astropy` [@astropy]. `PyGRB` is built on top of the `Bilby` Bayesian inference library, which itself utilises the `Dynesty` and `Nestle` nested sampling packages.
+`PyGRB` is a pure Python, open source pulse-fitting package which aims bring gamma-ray burst light-curve fitting and analysis into the 21st century. `PyGRB` is able to download the pre-binned BATSE light curves (``bfits`` files), in addition to ``tte_list`` time-tagged photon arrival times [@batse]. FITS I/O functionality is provided by `Astropy` [@astropy]. `PyGRB` is built on top of the `Bilby` Bayesian inference library, which itself utilises the `Dynesty` and `Nestle` nested sampling packages.
 `PyGRB` makes visually appealing light-curves from the 4 broadband energy channel BATSE data.
 The main feature of `PyGRB` is its ability to fit analytic light-curve models to data.
 In particular, Bayesian model selection allows the user to determine the most appropriate pulse parameterisation for a particular burst.
