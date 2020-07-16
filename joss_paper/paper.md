@@ -55,13 +55,14 @@ However, due to the abstracted nature of the code, including additional GRB cata
 Future releases will allow for the easy comparison of gamma-ray bursts observed by different satellites.
 As `PyGRB` is open source, the community is actively encouraged to contribute functionality for the many available GRB catalogues.
 
-
-
-
-
-
 `PyGRB` is released under the BSD 3-Clause license.
 The source code may be found at https://github.com/JamesPaynter/PyGRB, or alternatively the package may be installed from PyPi via ``pip install PyGRB``.
 The online documentation, tutorials and examples are hosted at https://pygrb.readthedocs.io.
+
+# Acknowledgements
+
+I would like to thank Rachel Webster for introducing me to gravitational lensing and gamma-ray bursts, which spawned this project. 
+I would like to thank Eric Thrane for introducing me to modern computational statistics, particularly through `Bilby`, on whose shoulders this package stands.
+Additionally I would like to thank Julian Carlin, Aman Chokshi for supporting me on my journey from novice programmer to published developer.
 
 # References
