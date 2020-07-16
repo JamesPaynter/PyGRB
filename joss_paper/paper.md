@@ -24,7 +24,7 @@ bibliography: paper.bib
 Gamma-ray bursts are short and intense bursts of low energy (keV -- MeV) gamma radiation.
 Their cosmological origin and transient nature makes them important probes of the universe and its structure.
 Since their discovery astronomers have sought to model the high energy emission.
-A popular and enduring model, although purely phenomenological, is the fast-rise exponential-decay (FRED) pulse,
+A popular and enduring model, although purely phenomenological, is the fast-rise exponential-decay (FRED) pulse [@norris1996; @norris2005],
 
 $$
 S(t|A,\Delta,\tau,\xi) = A \exp \left[ - \xi \left(  \frac{t - \Delta}{\tau} + \frac{\tau}{t-\Delta}  \right)   \right].
@@ -61,7 +61,7 @@ The online documentation, tutorials and examples are hosted at https://pygrb.rea
 
 # Acknowledgements
 
-I would like to thank Rachel Webster for introducing me to gravitational lensing and gamma-ray bursts, which spawned this project. 
+I would like to thank Rachel Webster for introducing me to gravitational lensing and gamma-ray bursts, which spawned this project.
 I would like to thank Eric Thrane for introducing me to modern computational statistics, particularly through `Bilby`, on whose shoulders this package stands.
 Additionally I would like to thank Julian Carlin, Aman Chokshi for supporting me on my journey from novice programmer to published developer.
 
