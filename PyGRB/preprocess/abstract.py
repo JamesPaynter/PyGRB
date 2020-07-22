@@ -37,21 +37,24 @@ class SignalFramework(metaclass=ABCMeta):
         self.sum_rates = np.sum(self.rates, axis=1)
         self.sum_counts = np.sum(self.counts, axis=1)
 
-        self.background = self.get_background()
-        self.bg_counts = np.array([self.background[i] * (
-                self.bin_right - self.bin_left) for i in
-                                   range(4)]).T
-        self.rates_bs = self.rates - self.background
-        self.count_bs = self.counts - self.bg_counts
+        try:
+            self.background = self.get_background()
+            self.bg_counts = np.array([self.background[i] * (
+            self.bin_right - self.bin_left) for i in
+            range(4)]).T
+            self.rates_bs = self.rates - self.background
+            self.count_bs = self.counts - self.bg_counts
 
-        self.sum_bs = np.sum(self.rates_bs, axis=1)
-        self.sum_cnt_bs = np.sum(self.count_bs, axis=1)
+            self.sum_bs = np.sum(self.rates_bs, axis=1)
+            self.sum_cnt_bs = np.sum(self.count_bs, axis=1)
 
-        if bgs:
-            self.rates = self.rates_bs
-            self.counts = self.count_bs
-            self.sum_rates = self.sum_bs
-            self.sum_counts = self.sum_cnt_bs
+            if bgs:
+                self.rates = self.rates_bs
+                self.counts = self.count_bs
+                self.sum_rates = self.sum_bs
+                self.sum_counts = self.sum_cnt_bs
+        except:
+            print('Could not get background.')
 
         ### generic / common
         if type(self.times) is tuple:

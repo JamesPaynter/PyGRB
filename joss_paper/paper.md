@@ -30,6 +30,17 @@ $$
 S(t|A,\Delta,\tau,\xi) = A \exp \left[ - \xi \left(  \frac{t - \Delta}{\tau} + \frac{\tau}{t-\Delta}  \right)   \right].
 $$
 
+# Statement of Need
+
+The analysis of large amounts of light-curves requires downloading FITS files from the relevant server.
+To do this by hand is a tiring prospect for the 2,704 BATSE GRBs.
+Having downloaded a FITS file, a scientist would then need to unpack the data from the file, and extract the relevant tables to construct a light-curve.
+They may then want to plot the light-curve for publication, requiring them to write more software to appropriately represent the data.
+Ultimately, they may want to look at population statistics, or compare different GRB pulses.
+There is a gap in the market for software to get researchers off the ground quickly.
+This is where `PyGRB` comes in.
+
+
 # PyGRB
 
 `PyGRB` is a pure Python, open source pulse-fitting package which aims bring gamma-ray burst light-curve fitting and analysis into the 21st century.

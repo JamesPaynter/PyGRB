@@ -269,7 +269,7 @@ class PulseFitter(Admin, EvidenceTables):
 
     def plot_lc(self, channels, return_axes = True, fstring = None):
         if not fstring:
-            fstring = f'{self.satellite}_trigger_{self.trigger}'
+            fstring = f'{self.satellite}_trigger_{self.trigger}_{self.datatype}'
         self.tlabel = self._get_trigger_label()
         self._get_base_directory()
         directory = self.base_folder

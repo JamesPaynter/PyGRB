@@ -94,7 +94,7 @@ class Admin(metaclass=ABCMeta):
         file_string += self.tlabel
         if   self.datatype == 'discsc':
             file_string += '__d'
-        elif self.datatype == 'TTE':
+        elif self.datatype == 'tte':
             file_string += '__t'
         elif self.datatype == 'TTElist':
             file_string += '_tl'
