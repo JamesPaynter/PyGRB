@@ -57,6 +57,8 @@ class BATSETTEList(object):
         self.sampling_rate = self._get_sampling_rate()
         if self.verbose:
             self._plot_arrival_histogram()
+
+    def interpolate_data(self):
         times, ch1_rts = self._interpolate_bins(1)
         times, ch2_rts = self._interpolate_bins(2)
         times, ch3_rts = self._interpolate_bins(3)
@@ -194,16 +196,21 @@ class BATSETTEList(object):
         plt.ylabel('Histogram counts', fontsize = 12)
         plt.show()
 
-    def bin_and_plot(self, binsize = 0.0050000027):
+    def bin_and_plot(self, channels = [0,1,2,3], binsize = 0.0050000027):
+        fig, ax = plt.subplots()
         start = self.channel_x_times[ 0]
         finis = self.channel_x_times[-1]
         Nbins = int( (finis - start) / binsize )
         bins  = np.linspace(start, start + binsize*Nbins, Nbins)
         colours = ['r', 'orange', 'g', 'b']
-        for i in range(4):
+        for i in channels:
+            # times = np.hstack((self.channels[0], self.channels[1]))
             ch, binss = np.histogram(self.channels[i], bins=bins)
-            plt.plot(bins[0:-1], ch, color = colours[i], drawstyle = 'steps')
-        plt.show()
+            # ch, binss = np.histogram(self.channels[i], bins=bins)
+            ax.plot(bins[0:-1], ch, color = colours[i], drawstyle = 'steps')
+            ax.fill_between(bins[0:-1], ch + np.sqrt(ch), ch - np.sqrt(ch),
+                            step = 'pre', color = colours[i], alpha = 0.15)
+        # plt.show()
 
 
 class BATSEGRB(BATSETTEList):

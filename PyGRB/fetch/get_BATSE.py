@@ -27,14 +27,15 @@ class GetBATSEBurst():
     def __init__(self, trigger, datatype):
         datatypes = {   'tte'       : 'tte_bfits',
                         'tte_list'  : 'tte_list',
+                        'stte_list' : 'stte_list',
                         'discsc'    : 'discsc_bfits',
                     }
         try:
             self._datatype = datatypes[datatype]
         except:
             raise AssertionError(
-                'Input variable `datatype` is {} when it '
-                'should be `discsc`, `tte`, or `tte_list`.'.format(datatype))
+                f'Input variable `datatype` is {datatype} when it '
+                f'should be `discsc`, `tte`, `tte_list`, or `stte_list`.')
 
         self._base_string = 'https://heasarc.gsfc.nasa.gov/FTP/compton/data/batse/trigger/'
         self._trigger     = trigger
