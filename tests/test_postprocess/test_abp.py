@@ -33,7 +33,7 @@ class TestABP(unittest.TestCase):
                             'xi_1_b'    : 2.3}
         self.nSamples = 167
         self.channels = [0, 1, 2, 3]
-        self._path = 'test_products/7475_model_comparison_167/BATSE_trigger_7475_rates'
+        self._path = 'test_products/7475_model_comparison_167/BATSE_trigger_7475_discsc_rates'
 
     def tearDown(self):
         del self.priors_pulse_start

@@ -30,7 +30,7 @@ The complete script for the above tutorial is here:
 ----
 
 
-This will create three sets of files.
+This will create three sets of files in the products directory. These are put into subdirectories based on the trigger number and the number of live points. Files for this example can be found under `/products/7475_model_comparison_200/`
 
 1.  Nested sampling posterior chains, which are stored as JSON files.
 
