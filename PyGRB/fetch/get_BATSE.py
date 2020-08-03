@@ -24,11 +24,13 @@ class GetBATSEBurst():
 
     """
 
-    def __init__(self, trigger, datatype):
+    def __init__(self, trigger, datatype, detector = None):
         datatypes = {   'tte'       : 'tte_bfits',
                         'tte_list'  : 'tte_list',
                         'stte_list' : 'stte_list',
                         'discsc'    : 'discsc_bfits',
+                        'herb'      : f'herb_bfits_{detector}',
+                        'sherb'     : f'sherb_bfits_{detector}'
                     }
         try:
             self._datatype = datatypes[datatype]
@@ -50,7 +52,6 @@ class GetBATSEBurst():
         """
         Takes the trigger number and find the correct subfolder on the NASA
         server. Triggers are separated into folders of 200.
-
 
         Returns
         -------
