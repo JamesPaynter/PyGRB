@@ -30,7 +30,7 @@ The complete script for the above tutorial is here:
 ----
 
 
-This will create three sets of files in the products directory. These are put into subdirectories based on the trigger number and the number of live points. Files for this example can be found under `/products/7475_model_comparison_200/`
+This will create three sets of files in the products directory.
 
 1.  Nested sampling posterior chains, which are stored as JSON files.
 
@@ -38,6 +38,9 @@ This will create three sets of files in the products directory. These are put in
 
 3.  Higher data products, the light-curves of each of the individual channels.
     These include by default analysis of the light-curve fit residuals to test for goodness-of-fit.
+    
+
+These are put into subdirectories based on the trigger number and the number of live points. Files for this example can be found under `/products/7475_model_comparison_200/`.
 
 
 .. figure:: ../images/B_7475__d_NL200__rates_F.png
