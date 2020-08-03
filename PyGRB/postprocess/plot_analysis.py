@@ -1,9 +1,10 @@
 import numpy as np
+import scipy.stats as stats
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
-import scipy.stats as stats
 
 from PyGRB.postprocess.abp import AbstractBasePlot
+
 
 def autocorrelations(x):
     """ Do a test to see if they are Gaussian distributed? """
@@ -11,6 +12,7 @@ def autocorrelations(x):
     acf2 = np.correlate(x**2, x**2, mode='full')[len(x)-1:]
     acf, acf2 = acf / np.max(acf), acf2 / np.max(acf2)
     return acf, acf2
+
 
 class PlotPulseFit(AbstractBasePlot):
     """docstring for PlotPulseFit."""
@@ -123,6 +125,7 @@ class PlotPulseFit(AbstractBasePlot):
                         bottom=False, left=False, right=False)
         ax.set_ylabel('Counts / sec')
         if self.plot_dict['n_axes'] > 3:
+            difference = y - y_fit
             PlotPulseFit._make_correlogram(axes_list[1], x, difference)
             PlotPulseFit._make_PP_plot(axes_list[2], difference)
             axes_list[1].set_xlim(x[0], x[-1])
@@ -131,7 +134,7 @@ class PlotPulseFit(AbstractBasePlot):
             ax3.tick_params(labelcolor='none', top=False,
                             bottom=False, left=False, right=False)
             ax2.set_ylabel('Correlogram')
-            ax3.set_ylabel('Probability Plot')
+            ax3.set_ylabel('Probability\nPlot')
         plt.subplots_adjust(left=0.16)
         plt.subplots_adjust(right=0.98)
         plt.subplots_adjust(top=0.98)
@@ -405,6 +408,81 @@ class PlotPulseFit(AbstractBasePlot):
         plot_name = f'{outdir}/{fstring}_rates.{self.plot_dict["ext"]}'
         fig.savefig(plot_name)
         plt.close(fig)
+
+    @staticmethod
+    def _make_PP_plot(axes, difference):
+        (osm, osr), (slope, intercept, r) = stats.probplot(difference, dist='norm')
+        axes.scatter(osm, osr, s=0.3, c='k', marker='+')
+        x_vals = np.array([osm[0], osm[-1]])
+        y_vals = intercept + slope * x_vals
+        axes.plot(x_vals, y_vals, 'k--', linewidth=0.3)
+        # adapted from r source code shown in:
+        # https://stats.stackexchange.com/questions/111288/confidence-bands-for-qq-line
+        xx = difference
+        # x<-b0$resid
+        # no nans
+        # good<-!is.na(x)
+        ord = np.sort(xx)
+        # ord<-order(x[good])
+        # masked array
+        # ord.x<-x[good][ord]
+        n = len(xx)
+        # n<-length(ord.x)
+        # ppoints(m, a) = (1:m - a)/(m + (1-a)-a)
+        # 1:m = np.arange(1, m+1), a = 0
+        P = np.arange(1, n + 1) / n
+        # P<-ppoints(n)
+        z = stats.norm.ppf(P)
+        # z<-qnorm(P)
+        # axes_list[2].scatter(z,x)
+        # plot(z,ord.x,type="n")
+        # coeffs =
+        # extracts coefficients after fitting a robust linear model
+        # coef<-coef(rlm(ord.x~z))
+        # a<-coef[1]
+        # b<-coef[2]
+        # abline(a,b,col="red",lwd=2)
+        # confidence interval desired
+        conf = 0.95
+        # conf<-0.95
+        zz = stats.norm.ppf(1 - (1 - conf) / 2)
+        # zz<-qnorm(1-(1-conf)/2)
+        SE = (slope / stats.norm(0, 1).pdf(z)) * np.sqrt(P * (1 - P) / n)
+        # SE<-(b/dnorm(z))*sqrt(P*(1-P)/n)     #[WHY?]
+        fit = intercept + slope * z
+        # fit.value<-a+b*z
+        upper = fit + zz * SE
+        # upper<-fit.value+zz*SE
+        lower = fit - zz * SE
+        # lower<-fit.value-zz*SE
+        axes.plot(z, upper, 'k:', linewidth=0.3)
+        axes.plot(z, lower, 'k:', linewidth=0.3, label='$95\%$ CI')
+        axes.legend(fontsize = 9)
+
+    @staticmethod
+    def _make_correlogram(axes, x, difference):
+        c, c2 = autocorrelations(difference)
+        # https://online.stat.psu.edu/stat510/lesson/2/2.2
+        # partial acf does not seem to add much more information
+        # from statsmodels.tsa.stattools import acf, pacf
+        # lag_acf = acf(difference)
+        # lag_pacf = pacf(difference)
+        axes.scatter(x[1:], c[1:], s=0.3, c='k', marker='+')
+        # axes.scatter(x[1:len(lag_pacf)], lag_pacf[1:],  s = 0.1, c = 'r', marker = 'x')
+        # axes.scatter(x, c2, s = 0.1, c = 'r', marker = 'x')
+        n = len(x)
+        z95 = 1.959963984540054
+        z99 = 2.5758293035489004
+        axes.axhline(y=z99 / np.sqrt(n), c='k', linestyle=':',
+                             linewidth=0.3, label='$99\%$ CI')
+        axes.axhline(y=z95 / np.sqrt(n), c='k', linestyle='--',
+                             linewidth=0.3, label='$95\%$ CI')
+        axes.axhline(y=-z95 / np.sqrt(n), c='k', linestyle='--',
+                             linewidth=0.3)
+        axes.axhline(y=-z99 / np.sqrt(n), c='k', linestyle=':',
+                             linewidth=0.3)
+        axes.set_xlabel('time since trigger (s)')
+        axes.legend(fontsize = 9)
 
 if __name__ == '__main__':
     pass

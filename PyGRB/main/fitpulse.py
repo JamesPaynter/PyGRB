@@ -121,7 +121,7 @@ class PulseFitter(Admin, EvidenceTables):
         likelihood = PoissonRate(x, y, i, **self.model)
 
         result_label = f'{self.fstring}{self.clabels[i]}'
-        plot_label   = f'{self.outdir}/{result_label}_corner.pdf'
+        plot_label   = f'{self.outdir}/{result_label}_corner.png'
         self._run_bilby( likelihood, priors, model, [channel],
                         result_label, plot_label)
 
@@ -141,7 +141,7 @@ class PulseFitter(Admin, EvidenceTables):
             likelihoods.append(PoissonRate(x, y, i, **self.model))
         joint_likelihood = bilbyJointLikelihood(*likelihoods)
         result_label = f'{self.fstring}_all'
-        plot_label   = f'{self.outdir}/{result_label}_corner.pdf'
+        plot_label   = f'{self.outdir}/{result_label}_corner.png'
         self._run_bilby( joint_likelihood, priors, model, channels,
                         result_label, plot_label)
 
@@ -251,6 +251,8 @@ class PulseFitter(Admin, EvidenceTables):
                             datatype = self.datatype,
                             posterior_draws = posterior_lines[:,:,i],
                             nDraws = nDraws,
+                            residuals = True,
+                            diagnostics = True,
                             **strings)
         widths = self.GRB.bin_right - self.GRB.bin_left
         rates  = self.GRB.counts / widths[:,None]
