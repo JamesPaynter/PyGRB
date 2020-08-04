@@ -14,7 +14,7 @@ Note
 ^^^^
 
 Running `PyGRB` will implicitly import `Bilby`, which is used for Bayesian inference.
-Since `Bilby` is primarily used for gravitational wave inference, importing `Bilby` will check for installations of `gwpy` and `lalsuite`, resulting in the following error messages if they are not installed.
+Since `Bilby` is primarily used for gravitational wave inference, importing `Bilby` will check for installations of `gwpy` and `lalsuite`, resulting in the following warnings if they are not installed.
 
 
 .. code-block:: console

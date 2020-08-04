@@ -29,6 +29,39 @@ The complete script for the above tutorial is here:
 
 ----
 
+Something like the following will be printed to the console:
+
+.. code-block:: console
+
+18:55 bilby INFO    : Single likelihood evaluation took 4.089e-04 s
+18:55 bilby INFO    : Using sampler Nestle with kwargs {'method': 'multi', 'npoints': 200, 'update_interval': None, 'npdim': None, 'maxiter': None, 'maxcall': None, 'dlogz': None, 'decline_factor': None, 'rstate': None, 'callback': <function print_progress at 0x00000185F8598AE8>, 'steps': 20, 'enlarge': 1.2}
+it=  6048 logz=-4174.731348
+18:55 bilby INFO    : Sampling time: 0:00:15.464772
+18:55 bilby INFO    : Summary of results:
+nsamples: 6249
+log_noise_evidence:    nan
+log_evidence: -4174.477 +/-  0.368
+log_bayes_factor:    nan +/-  0.368
+
+The total number of posterior samples, `nsamples`, in this instance is 6249.
+This is the length of posterior chains accessed through the code block at the bottom of this page.
+The `log_noise_evidence` is used for `Bilby`'s gravitational wave inference.
+It is irrelevant for `PyGRB`, as `PyGRB`'s Poisson likelihood does not specify an additional noise model.
+The `log_evidence` is the Bayesian evidence in support of this data given the specified model.
+The Bayes factor is the comparison of evidence between two models.
+Here, `log_bayes_factor` is `NaN` as there is only one model specified, and the comparison cannot be made.
+`PyGRB` does it's model comparison external to the inbuilt `Bilby` functionality.
+
+Errors like the following can be ignored.
+
+.. code-block:: console
+
+  RuntimeWarning: overflow encountered in multiply ...
+
+They are bad evaluations of the likelihood and have no real effect on the results.
+In the unlikely event that they happen consistently, it may mean that the sampler is stuck in a bad region of parameter space.
+Restarting the sampler for that particular evaluation should fix the problem.
+
 
 This will create three sets of files in the products directory.
 
@@ -38,7 +71,7 @@ This will create three sets of files in the products directory.
 
 3.  Higher data products, the light-curves of each of the individual channels.
     These include by default analysis of the light-curve fit residuals to test for goodness-of-fit.
-    
+
 
 These are put into subdirectories based on the trigger number and the number of live points. Files for this example can be found under `/products/7475_model_comparison_200/`.
 
