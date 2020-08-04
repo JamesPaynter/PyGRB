@@ -33,15 +33,15 @@ Something like the following will be printed to the console:
 
 .. code-block:: console
 
-18:55 bilby INFO    : Single likelihood evaluation took 4.089e-04 s
-18:55 bilby INFO    : Using sampler Nestle with kwargs {'method': 'multi', 'npoints': 200, 'update_interval': None, 'npdim': None, 'maxiter': None, 'maxcall': None, 'dlogz': None, 'decline_factor': None, 'rstate': None, 'callback': <function print_progress at 0x00000185F8598AE8>, 'steps': 20, 'enlarge': 1.2}
-it=  6048 logz=-4174.731348
-18:55 bilby INFO    : Sampling time: 0:00:15.464772
-18:55 bilby INFO    : Summary of results:
-nsamples: 6249
-log_noise_evidence:    nan
-log_evidence: -4174.477 +/-  0.368
-log_bayes_factor:    nan +/-  0.368
+  18:55 bilby INFO    : Single likelihood evaluation took 4.089e-04 s
+  18:55 bilby INFO    : Using sampler Nestle with kwargs {'method': 'multi', 'npoints': 200, 'update_interval': None, 'npdim': None, 'maxiter': None, 'maxcall': None, 'dlogz': None, 'decline_factor': None, 'rstate': None, 'callback': <function print_progress at 0x00000185F8598AE8>, 'steps': 20, 'enlarge': 1.2}
+  it=  6048 logz=-4174.731348
+  18:55 bilby INFO    : Sampling time: 0:00:15.464772
+  18:55 bilby INFO    : Summary of results:
+  nsamples: 6249
+  log_noise_evidence:    nan
+  log_evidence: -4174.477 +/-  0.368
+  log_bayes_factor:    nan +/-  0.368
 
 The total number of posterior samples, `nsamples`, in this instance is 6249.
 This is the length of posterior chains accessed through the code block at the bottom of this page.
