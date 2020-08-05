@@ -1,4 +1,4 @@
-|Travis| |Coverage| |Docs| |pypi| |version| |AstroPy|
+|JOSS| |Travis| |Coverage| |Docs| |pypi| |version| |AstroPy|
 
 .. figure:: https://github.com/JamesPaynter/PyGRB/blob/master/docs/source/images/logo.png
     :width: 100%
@@ -167,9 +167,17 @@ The -2 is an amplitude normalisation factor.
 
 Contribute
 ----------
+
+'PyGRB' is an open-source software package freely available under the BSD 3-Clause License.
+Users may request new features by opening a `GitHub Issue`_, or may contribute their own additions and improvements via a pull request.
+Similarly, if you run into problems while using `PyGRB` do not hesitate to request support through a `GitHub Issue`_.
+If you use `PyGRB` in your work and would like to further collaborate on GRBs or gravitational lensing, I would be more than willing to discuss it over email or `GitHub Issue`_.
+
+An incomplete list of possible improvements:
+
 - Include support for uneven bin sizes and data gaps.
 
-- Include compatability with other GRB catalogues that are publicly available.
+- Include compatibility with other GRB catalogues that are publicly available.
 
   - `Swift BAT <https://swift.gsfc.nasa.gov/results/batgrbcat/>`__
 
@@ -177,13 +185,13 @@ Contribute
 
   - `Konus Wind <https://gcn.gsfc.nasa.gov/konus_grbs.html>`__
 
-- Include capabaility to download and plot GRB spectra in addition to light-curves.
+- Include capability to download and plot GRB spectra in addition to light-curves.
 
 - Increase coverage to 100%
 
 
 
-
+.. _GitHub Issue: https://github.com/JamesPaynter/PyGRB/issues
 
 .. |AstroPy| image:: http://img.shields.io/badge/powered%20by-AstroPy-orange.svg?style=flat
     :target: http://www.astropy.org/
@@ -206,3 +214,6 @@ Contribute
 
 .. |version| image:: https://img.shields.io/pypi/pyversions/pygrb.svg
     :target: https://pypi.org/project/pygrb/
+
+.. |JOSS| image:: https://joss.theoj.org/papers/8aff0347e6993ec23b060052a80aaaa0/status.svg
+    :target: https://joss.theoj.org/papers/8aff0347e6993ec23b060052a80aaaa0
