@@ -1,3 +1,4 @@
+.. _pulses:
 Pulse Types
 ===========
 
