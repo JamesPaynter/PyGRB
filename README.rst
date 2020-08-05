@@ -170,7 +170,7 @@ Contribute
 
 'PyGRB' is an open-source software package freely available under the BSD 3-Clause License.
 Users may request new features by opening a `GitHub Issue`_, or may contribute their own additions and improvements via a pull request.
-Similarly, if you run into problems while using `PyGRB` do not hesitate to request support through a `GitHub Issue`_.
+Similarly, if you run into problems while using `PyGRB`, or require technical support, do not hesitate to request support through a `GitHub Issue`_.
 If you use `PyGRB` in your work and would like to further collaborate on GRBs or gravitational lensing, I would be more than willing to discuss it over email or `GitHub Issue`_.
 
 An incomplete list of possible improvements:
