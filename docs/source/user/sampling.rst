@@ -39,7 +39,7 @@ Background
 ^^^^^^^^^^
 
 The background is by default modelled as a constant.
-This is sufficient for all but the longest gamma-ray bursts, excepting periods of exceptional background variation.
+This is sufficient for all but the longest gamma-ray bursts, excepting periods of unusually high background variability.
 More complex background models, such as a polynomial, can be included by specifying them as a rate function and including relevant priors.
 
 The complete rate is then:
