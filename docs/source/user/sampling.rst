@@ -21,16 +21,19 @@ The equation should read
 Poisson rate
 ------------
 
-The rate passed to the likelihood function is the sum of the individual pulses, specified in :ref:`_pulses`.
+The rate passed to the likelihood function is the sum of the individual pulses, specified in :ref:`pulses`.
 An example rate for two FRED pulses would be:
 
 .. math::
 
+    \begin{split}
     S(t|A_1,\Delta_1,\tau_1,\xi_1,A_2,\Delta_2,\tau_2,\xi_2) =
-                      A_1 \exp \left[ - \xi_1 \left(  \frac{t - \Delta_1}{\tau_1}
+                      &A_1 \exp \left[ - \xi_1 \left(  \frac{t - \Delta_1}{\tau_1}
                               + \frac{\tau_1}{t-\Delta_1}  \right)  -2 \right]
-                    + A_2 \exp \left[ - \xi_2 \left(  \frac{t - \Delta_2}{\tau_2}
+                    + &A_2 \exp \left[ - \xi_2 \left(  \frac{t - \Delta_2}{\tau_2}
                               + \frac{\tau_2}{t-\Delta_2}  \right)  -2 \right]
+    \end{split}
+
 
 Background
 ^^^^^^^^^^
@@ -43,11 +46,13 @@ The complete rate is then:
 
 .. math::
 
-    S(t|B,A_1,\Delta_1,\tau_1,\xi_1,A_2,\Delta_2,\tau_2,\xi_2) = B +
-                      A_1 \exp \left[ - \xi_1 \left(  \frac{t - \Delta_1}{\tau_1}
-                              + \frac{\tau_1}{t-\Delta_1}  \right)  -2 \right]
-                    + A_2 \exp \left[ - \xi_2 \left(  \frac{t - \Delta_2}{\tau_2}
-                              + \frac{\tau_2}{t-\Delta_2}  \right)  -2 \right]
+  \begin{split}
+  S(t|A_1,\Delta_1,\tau_1,\xi_1,A_2,\Delta_2,\tau_2,\xi_2) = B + 
+                    &A_1 \exp \left[ - \xi_1 \left(  \frac{t - \Delta_1}{\tau_1}
+                            + \frac{\tau_1}{t-\Delta_1}  \right)  -2 \right]
+                  + &A_2 \exp \left[ - \xi_2 \left(  \frac{t - \Delta_2}{\tau_2}
+                            + \frac{\tau_2}{t-\Delta_2}  \right)  -2 \right]
+  \end{split}
 
 Likelihood
 ----------
