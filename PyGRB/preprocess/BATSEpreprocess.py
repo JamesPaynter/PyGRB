@@ -82,7 +82,7 @@ class BATSESignal(SignalFramework):
         fetch = GetBATSEBurst(trigger = self.burst, datatype = self.datatype)
         # with closes the file automatically after finished.
         with fits.open(fetch.path) as hdu_list:
-            self.data = hdu_list[-1].data
+            self.data = hdu_list[2].data
             ### initialise data arrays from fits file, over entire data set
             self.bin_left  = np.array(self.data['TIMES'][:, 0])
             self.bin_right = np.array(self.data['TIMES'][:, 1])

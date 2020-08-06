@@ -29,6 +29,7 @@ class GetBATSEBurst():
                         'tte_list'  : 'tte_list',
                         'stte_list' : 'stte_list',
                         'discsc'    : 'discsc_bfits',
+                        'mer'       : 'mer_bfits',
                         'herb'      : f'herb_bfits_{detector}',
                         'sherb'     : f'sherb_bfits_{detector}'
                     }
@@ -37,7 +38,7 @@ class GetBATSEBurst():
         except:
             raise AssertionError(
                 f'Input variable `datatype` is {datatype} when it '
-                f'should be `discsc`, `tte`, `tte_list`, or `stte_list`.')
+                f'should be one of {datatypes.keys()}.')
 
         self._base_string = 'https://heasarc.gsfc.nasa.gov/FTP/compton/data/batse/trigger/'
         self._trigger     = trigger
