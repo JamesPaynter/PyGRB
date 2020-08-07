@@ -1,62 +1,15 @@
 """
-A preprocessing module to unpack the BATSE tte and discsc bfits FITS files.
+A preprocessing module to unpack the BATSE data files.
 Written by James Paynter, 2020.
 """
 
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from astropy.io import fits
 from pathlib import Path
 
 
-from PyGRB.fetch.get_BATSE import GetBATSEBurst
-
-class BaseBATSE(object):
-    """ A base class for BATSE rate / count data and detector response matrices.
-    """
-
-    def __init__(self, trigger, datatype, **kwargs):
-        super(BaseBATSE, self).__init__()
-        self.trigger = trigger
-        self.datatype = datatype
-        self.times = kwargs.pop('times', 'full')
-
-        fetch = GetBATSEBurst(trigger = self.trigger, datatype = self.datatype, **kwargs)
-        with fits.open(fetch.path) as hdu_list:
-            self.header           = hdu_list[0].header
-            self.calibration_data = hdu_list[1].data
-            try:
-                # try to set count data
-                self.count_data       = hdu_list[2].data
-            except:
-                # drms only have one data HDU.
-                pass
-
-    def _get_energy_bin_edges(self):
-        """ Get the energy bin edges from the FITS file.
-            Will have dimensions of (nEnergy_bins + 1, nDetectors).
-        """
-        self.energy_bin_edges = self.calibration_data['E_EDGES']
-
-    def print_headers(self):
-        """ Print the header info from the FITS file. """
-        print('Header Data Unit Info')
-        print('---------------')
-        print(self.header)
-        print('---------------')
-        print('Header Data Unit Calibration Info')
-        print('---------------')
-        print(self.calibration_data.columns)
-        print('---------------')
-        try:
-            print('Header Data Unit Calibration Info')
-            print('---------------')
-            print(self.count_data.columns)
-            print('---------------')
-        except:
-            # drms only have one data HDU.
-            pass
+from PyGRB.preprocess.BATSE.detectors.base import BaseBATSE
 
 class BaseBurstBATSE(BaseBATSE):
     """ A base class for BATSE burst data. """

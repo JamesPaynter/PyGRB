@@ -17,10 +17,15 @@ class MediumEnergyResolution(BaseBurstBATSE):
     def _get_mean_energy_bin_edges(self):
         """
         """
-        self.mean_energy_bin_edges = np.sum(
-                        self.calibration_data['E_EDGES'], axis = 0) / 3
+        self._get_energy_bin_edges()
+        self._get_triggered_detectors()
+        self.mean_energy_bin_edges = np.sum(self.energy_bin_edges, axis = 0
+                                            ) / self.nTriggeredDetectors
 
 
 if __name__ == '__main__':
-    a = MediumEnergyResolution(6404, times = 'T100')
+    a = MediumEnergyResolution(3770, times = 'T90')
     a.plot_stacked_bar()
+
+# make an argparse thing to plot ifmain -b 8099 -save True -t T90
+# abstract it in another file so it can be used for all ddatatypes.

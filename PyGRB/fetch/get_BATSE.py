@@ -25,13 +25,15 @@ class GetBATSEBurst():
     """
 
     def __init__(self, trigger, datatype, detector = None):
-        datatypes = {   'tte'       : 'tte_bfits',
-                        'tte_list'  : 'tte_list',
-                        'stte_list' : 'stte_list',
-                        'discsc'    : 'discsc_bfits',
-                        'mer'       : 'mer_bfits',
-                        'herb'      : f'herb_bfits_{detector}',
-                        'sherb'     : f'sherb_bfits_{detector}'
+        datatypes = {   'tte'           : 'tte_bfits',
+                        'tte_list'      : 'tte_list',
+                        'tte_list_drm'  : 'tte_list_drm',
+                        'stte_list'     : 'stte_list',
+                        'stte_list_drm' : 'stte_list_drm',
+                        'discsc'        : 'discsc_bfits',
+                        'mer'           : 'mer_bfits',
+                        'herb'          : f'herb_bfits_{detector}',
+                        'sherb'         : f'sherb_bfits_{detector}'
                     }
         try:
             self._datatype = datatypes[datatype]
