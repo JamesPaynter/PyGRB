@@ -55,7 +55,7 @@ Pulse types
 ------------
 Description of GRB pulse phenomenology.
 
-.. figure:: https://github.com/JamesPaynter/PyGRB/blob/master/docs/source/images/equations/FRED.gif
+.. image:: https://github.com/JamesPaynter/PyGRB/blob/master/docs/source/images/equations/FRED.gif
     :width: 100%
     :align: center
     :alt: FRED eqn: $I(t) = A \exp{ - \xi \left( \frac{t - \Delta}{\tau} + \frac{\tau}{t-\Delta} \right)}$
@@ -70,8 +70,7 @@ Description of GRB pulse phenomenology.
 .. role:: python(code)
    :language: python
 
-.. figure:: https://github.com/JamesPaynter/PyGRB/blob/master/docs/source/images/BATSE_trigger_7475_rates_rates.png
-    :figwidth: 50%
+.. image:: https://github.com/JamesPaynter/PyGRB/blob/master/docs/source/images/BATSE_trigger_7475_rates_rates.png
     :width: 80%
     :align: center
     :alt: BATSE trigger 7475
@@ -138,8 +137,7 @@ The data products are stored in :code:`products/`.
 
 We should be left with a light-curve that looks like this:
 
-.. figure:: https://github.com/JamesPaynter/PyGRB/blob/master/docs/source/images/B_7475__d_NL200__rates_F.png
-    :figwidth: 50%
+.. image:: https://github.com/JamesPaynter/PyGRB/blob/master/docs/source/images/B_7475__d_NL200__rates_F.png
     :width: 80%
     :align: center
     :alt: BATSE trigger 7475
