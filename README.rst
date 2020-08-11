@@ -72,8 +72,6 @@ Description of GRB pulse phenomenology.
     :align: center
     :alt: BATSE trigger 7475
 
-    BATSE trigger 7475
-
 
 Usage
 ------
@@ -137,8 +135,6 @@ We should be left with a light-curve that looks like this:
 .. image:: https://github.com/JamesPaynter/PyGRB/blob/master/docs/source/images/B_7475__d_NL200__rates_F.png
     :align: center
     :alt: BATSE trigger 7475
-
-    BATSE trigger 7475 with FRED fit
 
 
 `See documentation for more <https://pygrb.readthedocs.io/en/latest/user/usage.html>`__
