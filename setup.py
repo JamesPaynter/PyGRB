@@ -23,7 +23,6 @@ setuptools.setup(
     description='A GRB light-curve analysis package.',
     license='BSD-3',
     long_description=long_description,
-    long_description_content_type='text/x-rst',
     url='https://github.com/JamesPaynter/PyGRB',
     packages=setuptools.find_packages(),
     package_dir = { 'PyGRB' : 'PyGRB'},
