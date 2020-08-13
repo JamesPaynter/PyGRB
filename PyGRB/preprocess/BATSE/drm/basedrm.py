@@ -19,9 +19,11 @@ class SpectralDRM(BaseBATSE):
         self.detectors = np.array(self.calibration_data['DET_NUM'])
 
         self.drm = dict()
+        self.energy_bins = dict()
+        self.energy_channels = dict()
 
         for i in self.detectors:
-            self.get_channel_drm(i)
+            self.get_detector_drm(i)
         # for i in range(5,8):
         #     self.plot_drm(i)
         # plt.show()
@@ -35,16 +37,17 @@ class SpectralDRM(BaseBATSE):
                 f'{self.trigger}')
 
 
-    def get_channel_drm(self, channel):
-        num_energy_bins     = self.calibration_data['NUMEBINS'][channel]
-        num_energy_channels = self.calibration_data['NUMCHAN'][channel]
-        num_zeroes          = self.calibration_data['NUMZERO'][channel]
-        energy_bins         = self.calibration_data['E_EDGES'][channel]
-        energy_channels     = self.calibration_data['PHT_EDGE'][channel]
-        sum_drm             = self.calibration_data['SUMDRM'][channel]
-        drm_sum             = self.calibration_data['DRM_SUM'][channel]
+    def get_detector_drm(self, detector):
+        num_energy_bins     = self.calibration_data['NUMEBINS'][detector]
+        num_energy_channels = self.calibration_data['NUMCHAN'][detector]
+        num_zeroes          = self.calibration_data['NUMZERO'][detector]
+        energy_bins         = self.calibration_data['E_EDGES'][detector]
+        energy_channels     = self.calibration_data['PHT_EDGE'][detector]
+        sum_drm             = self.calibration_data['SUMDRM'][detector]
+        drm_sum             = self.calibration_data['DRM_SUM'][detector]
         # first non-zero element of array (1-indexed)
-        drm_zeroes          = self.calibration_data['N_ZEROS'][channel]
+        # i.e. if it is 1 then there are no leading zeroes
+        drm_zeroes          = self.calibration_data['N_ZEROS'][detector]
 
         drm = np.zeros((num_energy_channels - 1, num_energy_bins - 1)) - 1e-15
         n_tot = 0
@@ -53,7 +56,9 @@ class SpectralDRM(BaseBATSE):
             drm[i,n:] = drm_sum[n_tot:n_tot+258-n] + 2e-15
             n_tot += 258-n
 
-        self.drm[f'Detector {channel}'] = drm
+        self.drm[f'Detector {detector}'] = drm
+        self.energy_bins[f'Detector {detector}'] = energy_bins
+        self.energy_channels[f'Detector {detector}'] = energy_channels
 
     def plot_drm(self, detector):
 

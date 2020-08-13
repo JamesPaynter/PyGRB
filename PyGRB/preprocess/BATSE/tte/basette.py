@@ -3,35 +3,10 @@ from scipy.stats import gamma
 import matplotlib.pyplot as plt
 from astropy.io import fits
 
+from PyGRB.utils.stats import get_Poisson_CI
 from PyGRB.preprocess.BATSE.detectors.base import BaseBATSE
 from PyGRB.preprocess.BATSE.detectors.base import SpectralDetectorBATSE
 
-def get_Poisson_CI(delta, N):
-    """ Get Poisson confidence interval (frequentist) for counts, N and
-        significance threshold, delta.
-
-    Parameters
-    ----------
-
-    delta: float
-        The significance threshold. The probability tails are equally
-        distributed between the upper and lower side, such that the total
-        probability contained within them is equal to delta. Each tail contains
-        delta / 2 probability.
-    N: int
-        The number of observed counts to calculate confidence intervals for.
-
-    Returns
-    -------
-
-    lower, upper: float
-        The lower and upper limits of the confidence interval given having
-        observed N counts for the specified significance threshold.
-
-    """
-    lower = gamma.ppf(    delta / 2, a = N,     scale = 1)
-    upper = gamma.ppf(1 - delta / 2, a = N + 1, scale = 1)
-    return lower, upper
 
 class SpectralPrivate(BaseBATSE, SpectralDetectorBATSE):
     """ Private methods for SpectralTTE. """
@@ -479,33 +454,6 @@ class SpectralTTE(SpectralPrivate):
             for i in channels:
                 counts[i] += 1
         return u, counts
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -87,14 +87,16 @@ class SpectralDetectorBATSE(object):
                                 'unknown-3'         : 620,
                                 'unknown-4'         : 700,
                                 }
-
         self.detector_area = 127.0 # cm^2
+        self.energy_range = (20, 1.9e3) #keV
 
 class LargeAreaDetectorBATSE(object):
     """docstring for LargeAreaDetectorBATSE."""
 
     def __init__(self):
         super(LargeAreaDetectorBATSE, self).__init__()
+        self.detector_area = 2025.0 # cm^2
+        self.energy_range = (10, 1e5) #keV
 
 
 if __name__ == '__main__':

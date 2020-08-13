@@ -41,7 +41,7 @@ class SpecFitter(object):
         stte = SpectralTTE(3770)
         stte._get_energy_bin_edges()
 
-        det = 5
+        det = 7
         stte.live_detectors = [det]
         drm = drms.drm[f'Detector {det}']
 
@@ -50,18 +50,95 @@ class SpecFitter(object):
 
 
         pm = PhotonMask(detector = det,
-                        # channel_low = 4, channel_high = 255,
+                        channel_low = 4, channel_high = 255,
                         time_start = 1, time_stop = 15,
                         # energy_low = 10,
                         )
 
         photons = pm.get_masked_photons(stte.photons)
 
-        u, counts = stte.get_counts_per_channel(photons)
+        u, counts   = stte.get_counts_per_channel(photons)
         energy_bins = np.sort(np.unique(photons[:,5]))
+        channels    = np.sort(np.unique(photons[:,2].astype('int'))) - 4
+        # print(channels)
 
+
+        channnnels = np.sort(np.unique(stte.photons[:,2]))
+        print(len(channnnels))
+
+
+
+
+        # e_low  = np.sort(np.unique(photons[:,3]))
+        # e_high = np.sort(np.unique(photons[:,4]))
+
+        # PHA channels from drm
+        e_low  = drms.energy_channels[f'Detector {det}'][:-1] # len 258
+        e_high = drms.energy_channels[f'Detector {det}'][1:]  # len 258
+        e_mid = (e_high + e_low) / 2
+        # integrate PHA channels
+        true_fluxes = integral(e_low, e_high) # len 258
+
+        # fig, ax = plt.subplots()
+        # ax2 = ax.twinx()
+        # ax.bar(e_low, height = true_fluxes, width = e_high - e_low,
+        #         align = 'edge', label = 'model', alpha = 0.5, fill = 'False',
+        #         facecolor = 'None', edgecolor = 'k')
+        # ax2.scatter(e_mid, e_high - e_low, marker = '.', label = 'ebins')
+        # ax.set_xscale('log')
+        # ax.set_yscale('log')
+        # ax.set_ylabel(r'Differential Photon Flux $\frac{d N_p}{dt dA}$')
+        # ax2.set_yscale('log')
+        # ax2.set_ylabel('Energy Bin Width')
+        # plt.legend()
+        # # plt.show()
+        print(np.shape(drm)) # (252, 258), 252 real channels, 258 PHA channels
+
+        # convolve true_fluxes with drm to get dN/dt
+        folded_counts = np.dot(true_fluxes, drm.T) # len 252 normalises by area
+
+        dE = np.diff(drms.energy_bins[f'Detector {det}']) # len 252
+        norm_folded_counts = folded_counts / dE # len 252
+        # norm_counts = counts / dE
+
+
+        def folded_power_law(energy_bins, norm, index):
+
+            def _power_law(energy, norm, index):
+                return norm * np.power(energy/100.,index)
+
+            def _differential_flux(e):
+                return power_law(e, .01, -2)
+
+            # integral of the differential flux
+            def _integral(e1, e2):
+                return (e2 - e1) / 6.0 * (_differential_flux(e1)
+                + 4 * _differential_flux((e1 + e2) / 2.0)+ _differential_flux(e2))
+
+            e_high = energy_bins[1:]
+            e_low  = energy_bins[:-1]
+            true_fluxes = _integral(e_low, e_high)
+            # print(len(true_fluxes))
+            dot = np.dot(true_fluxes, drm[:,channels].T) / dE
+            # print('drm', np.shape(drm[:,channels]))
+            # print('dot', len(dot))
+            # print('dot', dot[channels])
+            return dot[7:]
+
+        # PHA energy bins (keV) for photons
+        energy_low  = np.sort(np.unique(photons[:,3]))
+        energy_high = np.sort(np.unique(photons[:,4]))
+        energy_bins = np.hstack((energy_low, energy_high[-1]))
+
+        print('energy_low', len(energy_low))
+        print('energy_high', len(energy_high))
+        print('energy_bins', len(energy_bins))
+        print('counts', np.shape(counts))
         likelihood  = bilby.likelihood.PoissonLikelihood(
-                                        energy_bins, counts, power_law)
+                                        energy_bins, # with len 247
+                                        counts, # counts with len 246
+                                        folded_power_law # a function
+                                        )
 
         priors = bilbyPriorDict()
         priors['norm'] = bilbyLogUniform(1e-4, 1e2, 'normalisation')
@@ -82,20 +159,22 @@ class SpecFitter(object):
         result = bilby.result.read_in_result(filename='outdir/spec_result.json')
         result.plot_corner()
 
-        e_low  = np.sort(np.unique(photons[:,3]))
-        e_high = np.sort(np.unique(photons[:,4]))
-        true_fluxes = integral(e_low, e_high)
-        fig, ax = plt.subplots()
-        ax.step(e_low, e_high - e_low, where = 'pre', label = 'ebins')
-        ax.step(e_low, true_fluxes, where = 'pre', label = 'model')
-        ax.set_xscale('log')
-        ax.set_yscale('log')
-        plt.legend()
-        # plt.show()
 
-        folded_counts = np.dot(true_fluxes, drm.T)
-        norm_folded_counts = folded_counts /  (e_high - e_low)
-        norm_counts = counts / (e_high - e_low)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         map = dict()
         for parameter, i in priors.items():
@@ -103,22 +182,26 @@ class SpecFitter(object):
             posterior_samples_median = np.median(posterior_samples)
             map[parameter] = posterior_samples_median
 
-
-        fit = power_law(energy_bins, **map) / (e_high - e_low)
+        energy_lo  = drms.energy_bins[f'Detector {det}'][:-1]
+        energy_hi  = drms.energy_bins[f'Detector {det}'][1:]
+        energy_mid = (energy_hi + energy_lo) / 2
+        fit = power_law(energy_mid, **map) / dE
+        # fit = power_law(energy_bins, **map) / (e_high - e_low)
         fig, ax = plt.subplots()
-        ax.plot(energy_bins, norm_counts, '.', label='data')
-        ax.plot(energy_bins, norm_folded_counts, '.', label='folded')
-        ax.plot(energy_bins, fit, '.r', label='fit')
+        # ax.plot(e_mid, norm_counts, '.', label='data')
+        ax.scatter(energy_mid, norm_folded_counts, label='folded') # , marker = '.'
+        ax.scatter(energy_mid, fit, label='fit', color = 'r') # , marker = '.'
         ax.set_xlabel('energy')
         ax.set_ylabel('counts / keV')
         ax.set_xscale('log')
         ax.set_yscale('log')
         for key, i in stte.spectral_lines.items():
-            ax.axvline(i, c = 'k', linewidth = 0.1)
+            ax.axvline(i, c = 'k', linewidth = 0.3)
         for key, i in stte.spectral_lines_unknown.items():
-            ax.axvline(i, c = 'k', linestyle = ':', linewidth = 0.1)
+            ax.axvline(i, c = 'k', linestyle = ':', linewidth = 0.3)
         ax.legend()
-        fig.savefig('outdir/data.png')
+        plt.show()
+        # fig.savefig('outdir/data.png')
 
 
 
@@ -167,5 +250,6 @@ class SpecFitter(object):
 
 
 if __name__ == '__main__':
-    S = SpecFitter()
-    S.main()
+    pass
+    # S = SpecFitter()
+    # S.main()
