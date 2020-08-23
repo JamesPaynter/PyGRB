@@ -1,9 +1,9 @@
 import numpy as np
 
 class MakeKeys(object):
-    '''
+    """
         Doc string goes here.
-    '''
+    """
 # def __init__(self,  count_FRED, count_FREDx, count_sg, count_bes,
 #                     lens, channel):
     def __init__(self, lens, channel, **kwargs):
@@ -13,6 +13,9 @@ class MakeKeys(object):
         self.lens_list    = ['time_delay', 'magnification_ratio']
         self.c = self.get_channel_key(channel)
 
+        # its bad to have a mutable default
+        # but it doesnt matter since they are never muted at runtime
+        # but should change this
         self.count_gauss  = kwargs.get('count_gauss',   [])
         self.count_FRED   = kwargs.get('count_FRED',    [])
         self.count_FREDx  = kwargs.get('count_FREDx',   [])

@@ -19,8 +19,8 @@ class SpectralDRM(BaseBATSE):
         self.detectors = np.array(self.calibration_data['DET_NUM'])
 
         self.drm = dict()
-        self.energy_bins = dict()
-        self.energy_channels = dict()
+        self.PHA_channel_edges = dict()
+        self.incident_photon_bins = dict()
 
         for i in self.detectors:
             self.get_detector_drm(i)
@@ -41,8 +41,8 @@ class SpectralDRM(BaseBATSE):
         num_energy_bins     = self.calibration_data['NUMEBINS'][detector]
         num_energy_channels = self.calibration_data['NUMCHAN'][detector]
         num_zeroes          = self.calibration_data['NUMZERO'][detector]
-        energy_bins         = self.calibration_data['E_EDGES'][detector]
-        energy_channels     = self.calibration_data['PHT_EDGE'][detector]
+        PHA_channel_edges   = self.calibration_data['E_EDGES'][detector]
+        incident_photon_bins= self.calibration_data['PHT_EDGE'][detector]
         sum_drm             = self.calibration_data['SUMDRM'][detector]
         drm_sum             = self.calibration_data['DRM_SUM'][detector]
         # first non-zero element of array (1-indexed)
@@ -57,8 +57,8 @@ class SpectralDRM(BaseBATSE):
             n_tot += 258-n
 
         self.drm[f'Detector {detector}'] = drm
-        self.energy_bins[f'Detector {detector}'] = energy_bins
-        self.energy_channels[f'Detector {detector}'] = energy_channels
+        self.PHA_channel_edges[f'Detector {detector}'] = PHA_channel_edges
+        self.incident_photon_bins[f'Detector {detector}'] = incident_photon_bins
 
     def plot_drm(self, detector):
 

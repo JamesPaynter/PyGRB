@@ -28,7 +28,8 @@ def integral(e1, e2):
     return (e2 - e1) / 6.0 * (differential_flux(e1)
     + 4 * differential_flux((e1 + e2) / 2.0)+ differential_flux(e2))
 
-
+def log_mid(low, high):
+    return (low + high) / 2
 
 class SpecFitter(object):
     """docstring for SpecFitter."""
@@ -41,7 +42,7 @@ class SpecFitter(object):
         stte = SpectralTTE(3770)
         stte._get_energy_bin_edges()
 
-        det = 7
+        det = 5
         stte.live_detectors = [det]
         drm = drms.drm[f'Detector {det}']
 
@@ -50,55 +51,47 @@ class SpecFitter(object):
 
 
         pm = PhotonMask(detector = det,
-                        channel_low = 4, channel_high = 255,
+                        channel_low = 13, channel_high = 255,
                         time_start = 1, time_stop = 15,
                         # energy_low = 10,
                         )
 
         photons = pm.get_masked_photons(stte.photons)
-
-        u, counts   = stte.get_counts_per_channel(photons)
-        energy_bins = np.sort(np.unique(photons[:,5]))
-        channels    = np.sort(np.unique(photons[:,2].astype('int'))) - 4
-        # print(channels)
-
-
-        channnnels = np.sort(np.unique(stte.photons[:,2]))
-        print(len(channnnels))
-
-
-
-
-        # e_low  = np.sort(np.unique(photons[:,3]))
-        # e_high = np.sort(np.unique(photons[:,4]))
-
+        # PHA channels from stte file
+        photon_channels, photon_counts = stte.get_counts_per_channel(photons) # len = 246
+        photon_energy_bins = np.sort(np.unique(photons[:,5]))
         # PHA channels from drm
-        e_low  = drms.energy_channels[f'Detector {det}'][:-1] # len 258
-        e_high = drms.energy_channels[f'Detector {det}'][1:]  # len 258
-        e_mid = (e_high + e_low) / 2
+        drm_pha_channel_lo = drms.PHA_channel_edges[f'Detector {det}'][:-1] # len 252
+        drm_pha_channel_hi = drms.PHA_channel_edges[f'Detector {det}'][1:]  # len 252
+        drm_pha_channel_mid= log_mid(drm_pha_channel_lo, drm_pha_channel_hi)
         # integrate PHA channels
-        true_fluxes = integral(e_low, e_high) # len 258
+        true_fluxes = integral(drm_pha_channel_lo, drm_pha_channel_hi) # len 252
 
-        # fig, ax = plt.subplots()
-        # ax2 = ax.twinx()
-        # ax.bar(e_low, height = true_fluxes, width = e_high - e_low,
-        #         align = 'edge', label = 'model', alpha = 0.5, fill = 'False',
-        #         facecolor = 'None', edgecolor = 'k')
-        # ax2.scatter(e_mid, e_high - e_low, marker = '.', label = 'ebins')
-        # ax.set_xscale('log')
-        # ax.set_yscale('log')
-        # ax.set_ylabel(r'Differential Photon Flux $\frac{d N_p}{dt dA}$')
-        # ax2.set_yscale('log')
-        # ax2.set_ylabel('Energy Bin Width')
-        # plt.legend()
-        # # plt.show()
-        print(np.shape(drm)) # (252, 258), 252 real channels, 258 PHA channels
+        drm_energy_bins_lo = drms.incident_photon_bins[f'Detector {det}'][:-1] # len 258
+        drm_energy_bins_hi = drms.incident_photon_bins[f'Detector {det}'][1:]  # len 258
+        drm_energy_bins_mid= log_mid(drm_energy_bins_lo, drm_energy_bins_hi)
+
+            # fig, ax = plt.subplots()
+            # ax2 = ax.twinx()
+            # ax.bar(drm_pha_channel_lo, height = true_fluxes,
+            #         width = drm_pha_channel_hi - drm_pha_channel_lo,
+            #         align = 'edge', label = 'model', alpha = 0.5, fill = 'False',
+            #         facecolor = 'None', edgecolor = 'k')
+            # ax2.scatter(drm_pha_channel_mid, drm_pha_channel_hi - drm_pha_channel_lo, marker = '.', label = 'PHA Channels')
+            # ax2.scatter(drm_energy_bins_mid, drm_energy_bins_hi - drm_energy_bins_lo, marker = '.', label = 'Incident Photon bins')
+            # ax.set_xscale('log')
+            # ax.set_yscale('log')
+            # ax.set_ylabel(r'Differential Photon Flux $\frac{d N_p}{dt dA}$')
+            # ax2.set_yscale('log')
+            # ax2.set_ylabel('Energy Bin Width')
+            # plt.legend()
+            # plt.show()
+        # print(np.shape(drm)) # (252, 258), 258 real channels, 252 PHA channels
 
         # convolve true_fluxes with drm to get dN/dt
-        folded_counts = np.dot(true_fluxes, drm.T) # len 252 normalises by area
-
-        dE = np.diff(drms.energy_bins[f'Detector {det}']) # len 252
-        norm_folded_counts = folded_counts / dE # len 252
+        folded_counts = np.dot(true_fluxes, drm) # len 252 normalises by area
+        incident_photon_dE = np.diff(drms.incident_photon_bins[f'Detector {det}']) # len 252
+        norm_folded_counts = folded_counts / incident_photon_dE # len 252
         # norm_counts = counts / dE
 
 
@@ -107,23 +100,24 @@ class SpecFitter(object):
             def _power_law(energy, norm, index):
                 return norm * np.power(energy/100.,index)
 
-            def _differential_flux(e):
-                return power_law(e, .01, -2)
+            def _differential_flux(e, norm, index):
+                return power_law(e, norm, index)
 
             # integral of the differential flux
-            def _integral(e1, e2):
-                return (e2 - e1) / 6.0 * (_differential_flux(e1)
-                + 4 * _differential_flux((e1 + e2) / 2.0)+ _differential_flux(e2))
+            def _integral(e1, e2, norm, index):
+                return (e2 - e1) / 6.0 * (_differential_flux(e1, norm, index)
+                + 4 * _differential_flux((e1 + e2) / 2.0, norm, index) +
+                _differential_flux(e2, norm, index))
 
             e_high = energy_bins[1:]
             e_low  = energy_bins[:-1]
-            true_fluxes = _integral(e_low, e_high)
+            true_fluxes = _integral(e_low, e_high, norm, index)
             # print(len(true_fluxes))
-            dot = np.dot(true_fluxes, drm[:,channels].T) / dE
+            dot = np.dot(true_fluxes, drm[photon_channels-4,:]) / incident_photon_dE
             # print('drm', np.shape(drm[:,channels]))
             # print('dot', len(dot))
             # print('dot', dot[channels])
-            return dot[7:]
+            return dot
 
         # PHA energy bins (keV) for photons
         energy_low  = np.sort(np.unique(photons[:,3]))
@@ -133,10 +127,10 @@ class SpecFitter(object):
         print('energy_low', len(energy_low))
         print('energy_high', len(energy_high))
         print('energy_bins', len(energy_bins))
-        print('counts', np.shape(counts))
+        print('photon_counts', np.shape(photon_counts))
         likelihood  = bilby.likelihood.PoissonLikelihood(
                                         energy_bins, # with len 247
-                                        counts, # counts with len 246
+                                        photon_counts, # counts with len 246
                                         folded_power_law # a function
                                         )
 
@@ -189,8 +183,10 @@ class SpecFitter(object):
         # fit = power_law(energy_bins, **map) / (e_high - e_low)
         fig, ax = plt.subplots()
         # ax.plot(e_mid, norm_counts, '.', label='data')
-        ax.scatter(energy_mid, norm_folded_counts, label='folded') # , marker = '.'
-        ax.scatter(energy_mid, fit, label='fit', color = 'r') # , marker = '.'
+        plt_energy = norm_folded_counts * np.square(energy_mid / 100)
+        plt_energy_fit = fit * np.square(energy_mid / 100)
+        ax.scatter(energy_mid, plt_energy, label='folded') # , marker = '.'
+        ax.scatter(energy_mid, plt_energy_fit, label='fit', color = 'r') # , marker = '.'
         ax.set_xlabel('energy')
         ax.set_ylabel('counts / keV')
         ax.set_xscale('log')

@@ -42,7 +42,7 @@ class PlotPulseFit(AbstractBasePlot):
             else:
                 self.plot_single_channel_tte(*args, **kwargs)
 
-    def plot_single_channel(self, x, y, y_err, y_cols, y_fit, channels,**kwargs):
+    def _return_plot_kwargs(self, **kwargs):
         posterior_draws  = kwargs.get('posterior_draws')
         nDraws  = kwargs.get('nDraws')
         fstring = kwargs.get('fstring')
@@ -50,6 +50,18 @@ class PlotPulseFit(AbstractBasePlot):
         outdir  = kwargs.get('outdir')
         widths  = kwargs.get('widths')
         p_type  = kwargs.get('p_type')
+        return posterior_draws, nDraws, fstring, clabels, outdir, widths, p_type
+        
+    def plot_single_channel(self, x, y, y_err, y_cols, y_fit, channels,**plot_kwargs):
+        # posterior_draws  = kwargs.get('posterior_draws')
+        # nDraws  = kwargs.get('nDraws')
+        # fstring = kwargs.get('fstring')
+        # clabels = kwargs.get('clabels')
+        # outdir  = kwargs.get('outdir')
+        # widths  = kwargs.get('widths')
+        # p_type  = kwargs.get('p_type')
+        posterior_draws, nDraws, fstring, clabels, outdir, widths, p_type = \
+            self._return_plot_kwargs(**plot_kwargs)
 
         # arbitrary scaled height
         height  = (self.plot_dict['width'] / 1.8) * 2

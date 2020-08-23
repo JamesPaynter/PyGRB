@@ -5,16 +5,18 @@ Written by James Paynter, 2020.
 
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+
 from pathlib import Path
 
-
+from PyGRB.preprocess.plot import GammaRayBurstPlots
 from PyGRB.preprocess.BATSE.detectors.base import BaseBATSE
 
-class BaseBurstBATSE(BaseBATSE):
+class BaseBurstBATSE(BaseBATSE, GammaRayBurstPlots):
     """ A base class for BATSE burst data. """
 
     def __init__(self, *args, **kwargs):
+        
+        self.offsets = kwargs.pop('offsets', [0, 0, 0, 0])
         super(BaseBurstBATSE, self).__init__(*args, **kwargs)
 
         self.rates      = self.count_data['RATES']
@@ -24,6 +26,7 @@ class BaseBurstBATSE(BaseBATSE):
 
         (self.nBins, self.nChannels) = np.shape(self.rates)
         self.channels = np.arange(self.nChannels)
+
 
         self._get_time_edges()
 
@@ -77,29 +80,11 @@ class BaseBurstBATSE(BaseBATSE):
                              'catalogue. Try `full` or enter custom times as a'
                              'tuple, i.e. (start, end).')
 
-    def plot_stacked_bar(self, **kwargs):
-        """ """
-        start = kwargs.get('start', self.t_start)
-        stop  = kwargs.get('stop',  self.t_stop)
-        channels = kwargs.get('channels', self.channels)
+    def _get_rough_backgrounds(self):
+        """ Estimate the background based on bin means from outside burst. """
+        return np.mean(self.rates[self.bin_widths > 0.065], axis=0)
 
-
-        fig, ax = plt.subplots(figsize = (16,8))
-        bottom = 0
-        t = self.bin_left
-        times = t[(t > start) & (t < stop)]
-        for i in channels:
-            a = self.rates[:,i][(t > start) & (t < stop)]
-            b = self.bin_widths[(t > start) & (t < stop)]
-            bin_lo = int(self.mean_energy_bin_edges[i])
-            bin_hi = int(self.mean_energy_bin_edges[i+1])
-            label  = f'{bin_lo} -- {bin_hi} keV'
-            ax.bar(times, a, b, label = f'channel {i}, {label}',
-                         bottom=bottom, color = self.colours[i],
-                         align = 'edge')
-            bottom += a
-        ax.set_title(f'BATSE trigger {self.trigger} {self.datatype} count data ({self.detector})')
-        ax.set_xlabel('Time (s)')
-        ax.set_ylabel('Counts / second')
-        ax.legend(ncol = 1)
-        plt.show()
+    def _subtract_rough_backgrounds(self):
+        """ Do a background subtraction for autocorrelation. """
+        rough_backgrounds = self._get_rough_backgrounds()
+        self.rates -= rough_backgrounds

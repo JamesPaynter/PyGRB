@@ -221,6 +221,8 @@ class PulseFitter(Admin, EvidenceTables):
                     posterior_draws[:,jj] = likelihood._sum_rates(x, p_draw,
                                                 likelihood.calculate_rate_lens)
                 posterior_draws_median = np.median(posterior_draws, axis = 1)
+                self.plot_lines(x, posteriors,
+                                    likelihood.calculate_rate_lens, likelihood)
 
             else:
                 for jj in range(p_chain_len):
@@ -230,6 +232,8 @@ class PulseFitter(Admin, EvidenceTables):
                     posterior_draws[:,jj] = likelihood._sum_rates(x, p_draw,
                                                 likelihood.calculate_rate)
                 posterior_draws_median = np.median(posterior_draws, axis = 1)
+                self.plot_lines(x, posteriors,
+                                    likelihood.calculate_rate, likelihood)
 
             count_fits[:,i] = posterior_draws_median
             residuals[:,i] = self.GRB.counts[:,i] - posterior_draws_median
@@ -268,6 +272,32 @@ class PulseFitter(Admin, EvidenceTables):
                             nDraws = nDraws,
                             residuals = True,
                             **strings)
+
+    def plot_lines(self, x, parameters, return_rate, likelihood):
+        import matplotlib
+        matplotlib.use('TKAgg', force=True)
+        import matplotlib.pyplot as plt
+
+        n_lines = 0
+        for i, count_list in enumerate(likelihood.rate_counts):
+            n_lines += len(count_list)
+
+        j = 0
+        fig, ax = plt.subplots(nrows = n_lines, ncols = 1)
+        for i, (count_list, p_list, rate) in enumerate(zip(
+        likelihood.rate_counts, likelihood.param_lists, likelihood.rate_lists)):
+            if len(count_list) > 0:
+                MAP = dict()
+                for key, item in parameters.items():
+                    MAP[key] = np.median(item)
+                rates = return_rate(x, MAP, count_list, p_list, rate, likelihood.c)
+                if n_lines > 1:
+                    ax[j].plot(x, rates)
+                else:
+                    ax.plot(x, rates)
+                j += 1
+        plt.savefig()
+
 
     def plot_lc(self, channels, return_axes = True, fstring = None):
         if not fstring:

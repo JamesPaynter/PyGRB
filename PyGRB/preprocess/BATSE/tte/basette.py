@@ -439,21 +439,16 @@ class SpectralTTE(SpectralPrivate):
     @staticmethod
     def get_counts_per_channel(photons):
         """ Pass in the full photon array. """
-
-
         channels = photons[:,2].astype('int')
-        e_bins   = photons[:,5]
-
-
-        nChannels = len(np.unique(e_bins))
-        u = np.unique(channels)
+        nChannels = len(np.unique(channels))
+        u = np.sort(np.unique(channels))
         if nChannels == len(u):
             u, counts = np.unique(photons[:,2], return_counts = True)
         else:
             counts = np.zeros(nChannels)
             for i in channels:
                 counts[i] += 1
-        return u, counts
+        return u.astype('int'), counts
 
 
 
