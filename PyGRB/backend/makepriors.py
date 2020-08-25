@@ -24,10 +24,10 @@ class MakePriors(MakeKeys):
                         priors_tau_hi       = 1e3,   # going to be !!!!!!!!!!!!
                         priors_xi_lo        = 1e-3,
                         priors_xi_hi        = 1e3,
-                        priors_gamma_min    = 1e-1,
-                        priors_gamma_max    = 1e1,
-                        priors_nu_min       = 1e-1,
-                        priors_nu_max       = 1e1,
+                        priors_gamma_min    = 1e-3,
+                        priors_gamma_max    = 1e3,
+                        priors_nu_min       = 1e-3,
+                        priors_nu_max       = 1e3,
                         priors_sigma_lo     = 1e-3,
                         priors_sigma_hi     = 1e3,
                         priors_scale_min    = 1e0,  ## SCALING IS COUNTS / BIN
