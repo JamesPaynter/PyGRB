@@ -20,8 +20,8 @@ def main_two_pulse_models():
 def load_3770(sampler = 'dynesty', nSamples = 100, **kwargs):
     test = PulseFitter(3770, times = (-.1, 1),
                 datatype = 'tte', nSamples = nSamples, sampler = sampler,
-                priors_pulse_start = -.1, priors_pulse_end = 0.6,
-                priors_td_lo = 0,  priors_td_hi = 0.5, **kwargs)
+                priors_pulse_start = -.1, priors_pulse_end = 0.5,
+                priors_td_lo = 0.2,  priors_td_hi = 0.5, **kwargs)
     return test
 
 
