@@ -10,6 +10,7 @@ def main_two_pulse_models():
     lens_keys = ['FL', 'FsL', 'XL', 'XsL']
     null_keys = ['FF', 'FsFs', 'XX', 'XsXs']
     keys = lens_keys + null_keys
+    # keys = ['FsFs']
 
     model_dict = {}
     for key in keys:
@@ -41,6 +42,7 @@ def analysis_for_3770(indices):
 
 def evidence_for_3770(**kwargs):
     num_samples = [500, 2000, 4500]
+    num_samples = [5000]
     for samples in num_samples:
         GRB = load_3770(sampler = SAMPLER, nSamples = samples, **kwargs)
         GRB.offsets = [0, 4000, 8000, -3000]
@@ -49,9 +51,12 @@ def evidence_for_3770(**kwargs):
         models = [model for key, model in model_dict.items()]
 
         for model in models:
-            GRB.get_residuals(channels = [0, 1, 2, 3], model = model)
-            lens_bounds = [(0.37, 0.42), (0.60, 1.8)]
-            GRB.lens_calc(model = model, lens_bounds = lens_bounds)
+            try:
+                GRB.get_residuals(channels = [0, 1, 2, 3], model = model)
+                lens_bounds = [(0.37, 0.42), (0.60, 1.8)]
+                GRB.lens_calc(model = model, lens_bounds = lens_bounds)
+            except:
+                pass
         GRB.get_evidence_from_models(model_dict = model_dict)
 
 

@@ -2,7 +2,6 @@ import numpy as np
 
 from PyGRB.main.fitpulse import PulseFitter
 from PyGRB.backend.makemodels import create_model_from_key
-from PyGRB.backend.makemodels import make_two_pulse_models
 
 
 

@@ -204,6 +204,7 @@ class GammaRayBurstPlots(AbstractClass):
         spec_acf_axes.set_ylabel('$C(\\delta t)$', fontsize=8)
         spec_acf_axes.legend(fontsize = 8, frameon = False)
         spec_acf_axes.set_xlabel('Time since trigger (s)', fontsize=8)
+        fig.savefig('auto.pdf')
         plt.show()
 
     def get_light_curve(self, start, stop, channels):
@@ -261,6 +262,96 @@ class GammaRayBurstPlots(AbstractClass):
                             color = self.colours[i],
                             alpha = 0.15)
         super().plot_labels(ax)
+        plt.show()
+
+    def spectral_autocorrelation_quadlet(self, **kwargs):
+        """ """
+        # start, stop, channels = super().plot_setup(**kwargs)
+        start, stop, channels = self.pplot_setup(**kwargs)
+
+        # plotting setup
+        width  = 3.321
+        height = (3.321 / 2) * 4
+        fig = plt.figure(figsize=(width, height))
+        grid = gridspec.GridSpec(6, 1, height_ratios = [0.05, 1, 1, 1, 1, 0.05],
+                                        width_ratios = [1])
+        grid.update(left=0.17, right=0.97,
+                    bottom=0.07, top=0.93,
+                    wspace=0.02, hspace=0)
+        sum_lc_axes   = fig.add_subplot(grid[1,0])
+        sum_acf_axes  = fig.add_subplot(grid[2,0])
+        spec_lc_axes = fig.add_subplot(grid[3,0])
+        spec_acf_axes = fig.add_subplot(grid[4,0])
+
+        # get light curve
+        times, labs, arr = self.get_light_curve(start, stop, channels)
+        # # plot under light curve
+        # for i, label in enumerate(labs):
+        #     sum_lc_axes.bar(times, arr[i,0,:], arr[i,1,:], label = f'channel {i}, {label}',
+        #              bottom=arr[i,2,:], color = self.colours[i], align = 'edge')
+        bin_edges = times
+        rates = np.sum(arr[:,0,:],axis = 0)
+        sum_lc_axes.step(bin_edges, rates/1e3, 'k-', where = 'post',
+                            linewidth = 0.6)
+
+        sum_lc_axes.set_title('Time since trigger (s)', fontsize=8)
+        sum_lc_axes.xaxis.tick_top()
+        sum_lc_axes.set_ylabel('$10^3$ counts / second', fontsize=8)
+        sum_lc_axes.set_xlim(left = start, right = stop)
+
+        channels = [[0,1,2,3]]
+        delta_bin, [acf], [y_space], [sigma], [max_detection], [the_bin] = \
+            self.autocorrelate(channels, **kwargs)
+        sum_acf_axes.plot(delta_bin, acf, #label = f'Channel sum',
+                            c = 'k', linewidth = 0.6)
+        sum_acf_axes.plot(delta_bin, y_space, 'k:', linewidth = 0.6)
+        sum_acf_axes.axvline(the_bin, color = 'r', linestyle = ':', linewidth = 0.6)
+        sum_acf_axes.fill_between(delta_bin, y_space +     sigma,
+                            y_space -     sigma, alpha = 0.05, color = 'blue')
+        sum_acf_axes.fill_between(delta_bin, y_space + 3 * sigma,
+                            y_space - 3 * sigma, alpha = 0.05, color = 'blue')
+        sum_acf_axes.fill_between(delta_bin, y_space + 5 * sigma,
+                            y_space - 5 * sigma, alpha = 0.05, color = 'blue')
+
+        sum_acf_axes.set_xticks(())
+        sum_acf_axes.set_xlim(left = start, right = stop)
+        sum_acf_axes.tick_params(labelsize = 8)
+        sum_acf_axes.set_ylabel('$C(\\delta t)$', fontsize=8)
+
+        sum_acf_axes.text(
+		0.95, 0.95,
+		f'{max_detection:.2f} $\\sigma$ detection\n'
+        f'$\Delta t$ = {the_bin:.3f} seconds\n'
+        f'Filter = SavGol\nPolynomial Order = 3\nWindow = 101',
+        color = 'black', fontsize=8,
+		transform = sum_acf_axes.transAxes,
+		horizontalalignment='right', verticalalignment='top')
+
+
+        # rates = np.sum(arr[:,0,:],axis = 0)
+        # for i in self.channels:
+        #     spec_lc_axes.step(bin_edges, arr[:,0,:],/1e3, 'k-', where = 'post',
+        #                     linewidth = 0.6)
+
+        channels = [[0],[1],[2],[3]]
+        delta_bin, acfs, y_spaces, sigmas, max_detections, the_bins = \
+                self.autocorrelate(channels, **kwargs)
+        for i, (acf, y_space, sigma, m, b) in enumerate(
+                zip(acfs, y_spaces, sigmas, max_detections, the_bins)):
+            [ii] = channels[i]
+            spec_acf_axes.plot( delta_bin, acf, #label = f'Channel {ii+1}',
+                                c = self.colours[i], linewidth = 0.6,
+            label = f'{m:.2f} $\\sigma$ detection at {b:.3f}s',
+                                )
+            spec_acf_axes.fill_between(delta_bin, y_space + 3 * sigma,
+                y_space - 3 * sigma, alpha = 0.1, color = self.colours[i])
+
+        spec_acf_axes.set_xlim(left = start, right = stop)
+        spec_acf_axes.tick_params(labelsize = 8)
+        spec_acf_axes.set_ylabel('$C(\\delta t)$', fontsize=8)
+        spec_acf_axes.legend(fontsize = 8, frameon = False)
+        spec_acf_axes.set_xlabel('Time since trigger (s)', fontsize=8)
+        fig.savefig('auto.pdf')
         plt.show()
 
 

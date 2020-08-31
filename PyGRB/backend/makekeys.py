@@ -4,8 +4,18 @@ class MakeKeys(object):
     """
         Doc string goes here.
     """
-# def __init__(self,  count_FRED, count_FREDx, count_sg, count_bes,
-#                     lens, channel):
+    gauss_list   = ('start', 'scale', 'sigma')
+    conv_list    = ('start', 'scale', 'sigma', 'tau')
+    FRED_list    = ('start', 'scale', 'tau', 'xi')
+    FREDx_list   = ('start', 'scale', 'tau', 'xi', 'gamma', 'nu')
+
+    res_sg_list  = ('sg_A', 'res_begin', 'sg_lambda', 'sg_omega', 'sg_phi')
+    res_bes_list = ('bes_A', 'bes_Omega', 'bes_s', 'res_begin', 'bes_Delta')
+
+    param_lists  = (gauss_list, FRED_list, FREDx_list,
+                    conv_list, res_sg_list, res_bes_list)
+
+
     def __init__(self, lens, channel, **kwargs):
         super(MakeKeys, self).__init__()
 
@@ -31,17 +41,7 @@ class MakeKeys(object):
         # self.test_pulse_keys(count_FRED, count_FREDx)
         # self.test_residual_keys(count_sg, count_bes)
 
-        self.gauss_list   = ['start', 'scale', 'sigma']
-        self.FRED_list    = ['start', 'scale', 'tau', 'xi']
-        self.FREDx_list   = self.FRED_list.copy() + ['gamma', 'nu']
-        self.conv_list    = self.gauss_list.copy() + ['tau']
 
-        self.res_sg_list  = ['sg_A', 'res_begin', 'sg_lambda', 'sg_omega', 'sg_phi']
-        self.res_bes_list = [   'bes_A', 'bes_Omega', 'bes_s',
-                                'res_begin', 'bes_Delta']
-
-        self.param_lists  =[self.gauss_list, self.FRED_list, self.FREDx_list,
-                            self.conv_list, self.res_sg_list, self.res_bes_list]
         self.keys = []
         self._get_max_pulse()
         self.get_residual_list()
@@ -80,6 +80,33 @@ class MakeKeys(object):
         mysort = np.sort(myarr)
         mylist = [mysort[i] for i in range(len(mysort))]
         self.residual_list = mylist
+
+    @classmethod
+    def _get_pulse_from_key_list(cls, keys):
+        """ A method to return the name of the pulse type based on the keys.
+
+        Parameters
+        ----------
+
+        keys: str, list
+            The list of keys to test.
+
+        Returns
+        -------
+
+        pulse: str
+            The type of pulse.
+
+        """
+        pulses = dict()
+        pulses[cls.gauss_list]  = 'Gaussian Pulse'
+        pulses[cls.FRED_list]   = 'FRED Pulse'
+        pulses[cls.FREDx_list]  = 'FRED-X Pulse'
+        pulses[cls.conv_list]   = 'Convolution Pulse'
+        pulses[cls.res_sg_list] = 'Sine-Gaussian residual Pulse'
+        for list in cls.param_lists:
+            if ((len(keys) == len(list)) and (all(k in list for k in keys))):
+                return pulses[list]
 
     # @staticmethod
     # def test_pulse_keys(count_FRED, count_FREDx):

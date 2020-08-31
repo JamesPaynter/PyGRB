@@ -29,4 +29,5 @@ def get_Poisson_CI(delta, N):
 
 
 if __name__ == '__main__':
-    print(get_Poisson_CI(0.418, 5))
+    # print(get_Poisson_CI(0.418, 5))
+    pass

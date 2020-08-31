@@ -196,6 +196,18 @@ class BATSETTEList(object):
         plt.ylabel('Histogram counts', fontsize = 12)
         plt.show()
 
+    def bin(self, channels = [0,1,2,3], binsize = 0.0050000027):
+        start = self.channel_x_times[ 0]
+        finis = self.channel_x_times[-1]
+        Nbins = int( (finis - start) / binsize )
+        bins  = np.linspace(start, start + binsize*Nbins, Nbins)
+        self.bin_left  = bins[:-1]
+        self.bin_right = bins[1:]
+        self.counts = np.zeros((len(bins)-1,len(channels)))
+        for i in channels:
+            counts, bin_edges = np.histogram(self.channels[i], bins=bins)
+            self.counts[:,i] = counts
+
     def bin_and_plot(self, channels = [0,1,2,3], binsize = 0.0050000027):
         fig, ax = plt.subplots()
         start = self.channel_x_times[ 0]
@@ -210,6 +222,7 @@ class BATSETTEList(object):
             ax.plot(bins[0:-1], ch, color = colours[i], drawstyle = 'steps')
             ax.fill_between(bins[0:-1], ch + np.sqrt(ch), ch - np.sqrt(ch),
                             step = 'pre', color = colours[i], alpha = 0.15)
+
         # plt.show()
 
 
@@ -234,6 +247,7 @@ class BATSEGRB(BATSETTEList):
                 'should be `discsc` or `tte`.'.format(datatype))
         self.verbose   = verbose
 
+        bin_data = kwargs.pop('bin_data', False)
         super(BATSEGRB, self).__init__(**kwargs)
 
         self.kwargs    = {  'colours'   : self.colours,
@@ -242,6 +256,8 @@ class BATSEGRB(BATSETTEList):
                             'datatype'  : self.datatype,
                             'burst'     : self.trigger,
                             'satellite' : 'BATSE'}
+        if bin_data:
+            self.bin()
 
     def return_GRB(self):
         """ Creates a new GRB object with only bins and rates. """

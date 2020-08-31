@@ -193,6 +193,9 @@ class PulseFitter(Admin, EvidenceTables):
             open_result  = f'{self.outdir}/{result_label}_result.json'
             result = bilby.result.read_in_result(filename=open_result)
 
+            widths = self.GRB.bin_right - self.GRB.bin_left
+
+
             c_keys = ['a', 'b', 'c', 'd']
             k      = c_keys[i]
             for j in range(1, self.num_pulses + 1):
@@ -221,8 +224,8 @@ class PulseFitter(Admin, EvidenceTables):
                     posterior_draws[:,jj] = likelihood._sum_rates(x, p_draw,
                                                 likelihood.calculate_rate_lens)
                 posterior_draws_median = np.median(posterior_draws, axis = 1)
-                self.plot_lines(x, posteriors,
-                                    likelihood.calculate_rate_lens, likelihood)
+                self.plot_lines(x, widths, posteriors, likelihood.calculate_rate_lens,
+                                likelihood, i, p_chain_len)
 
             else:
                 for jj in range(p_chain_len):
@@ -232,13 +235,12 @@ class PulseFitter(Admin, EvidenceTables):
                     posterior_draws[:,jj] = likelihood._sum_rates(x, p_draw,
                                                 likelihood.calculate_rate)
                 posterior_draws_median = np.median(posterior_draws, axis = 1)
-                self.plot_lines(x, posteriors,
-                                    likelihood.calculate_rate, likelihood)
+                self.plot_lines(x, widths, posteriors, likelihood.calculate_rate,
+                                likelihood, i, p_chain_len)
 
             count_fits[:,i] = posterior_draws_median
             residuals[:,i] = self.GRB.counts[:,i] - posterior_draws_median
 
-            widths = self.GRB.bin_right - self.GRB.bin_left
             rates_i= self.GRB.counts[:,i] / widths
             rates_fit_i = posterior_draws_median / widths
             rates_err_i = np.sqrt(self.GRB.counts[:,i]) / widths
@@ -273,30 +275,61 @@ class PulseFitter(Admin, EvidenceTables):
                             residuals = True,
                             **strings)
 
-    def plot_lines(self, x, parameters, return_rate, likelihood):
+    def plot_lines(self, x, w, posteriors, return_rate, likelihood, channel, p_chain_len):
         import matplotlib
         matplotlib.use('TKAgg', force=True)
         import matplotlib.pyplot as plt
 
-        n_lines = 0
+        n_lines = 1
         for i, count_list in enumerate(likelihood.rate_counts):
             n_lines += len(count_list)
+
+        sum_rates_median = np.zeros_like(x)
+        idx = np.random.randint(0, p_chain_len, 100)
 
         j = 0
         fig, ax = plt.subplots(nrows = n_lines, ncols = 1)
         for i, (count_list, p_list, rate) in enumerate(zip(
         likelihood.rate_counts, likelihood.param_lists, likelihood.rate_lists)):
             if len(count_list) > 0:
-                MAP = dict()
-                for key, item in parameters.items():
-                    MAP[key] = np.median(item)
-                rates = return_rate(x, MAP, count_list, p_list, rate, likelihood.c)
-                if n_lines > 1:
-                    ax[j].plot(x, rates)
-                else:
-                    ax.plot(x, rates)
-                j += 1
-        plt.savefig()
+                for count in count_list:
+
+                    posterior_draws = np.zeros((len(x), p_chain_len))
+                    for jj in range(p_chain_len):
+                        p_draw = {}
+                        for key in posteriors:
+                            p_draw[key] = posteriors[key][jj]
+                        posterior_draws[:,jj] = return_rate(x, p_draw, [count], p_list, rate, likelihood.c)
+                    posterior_draws_median = np.median(posterior_draws, axis = 1)
+                    sum_rates_median += posterior_draws_median
+                    drawLines = []
+                    for ii in idx:
+                        drawLines.append(x)
+                        drawLines.append(posterior_draws[:,ii] / w)
+                    d = {'c': 'k', 'linewidth' : 0.6, 'alpha' : 0.05}
+                    ax[j].plot(*drawLines, **d)
+                    ax[j].plot(x, posterior_draws_median / w, c = f'{self.colours[channel]}')
+                    ax[j].set_ylabel('Counts / second')
+                    ax[j].text(
+            		0.95, 0.95,
+            		f'{MakePriors._get_pulse_from_key_list(p_list)} {count}',
+                    color = 'black', fontsize=8,
+            		transform = ax[j].transAxes,
+            		horizontalalignment='right', verticalalignment='top'
+                    )
+                    j += 1
+        ax[-1].plot(x, sum_rates_median / w, c = f'{self.colours[channel]}')
+        ax[-1].set_xlabel('Time since trigger (s)')
+        ax[-1].set_ylabel('Counts / second')
+        ax[-1].text(
+        0.95, 0.95,
+        f'Sum of all pulses',
+        color = 'black', fontsize=8,
+        transform = ax[j].transAxes,
+        horizontalalignment='right', verticalalignment='top'
+        )
+        name = f'{self.outdir}/{self.fstring}{self.clabels[channel]}_lines.png'
+        fig.savefig(name)
 
 
     def plot_lc(self, channels, return_axes = True, fstring = None):
