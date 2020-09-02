@@ -275,7 +275,8 @@ class PulseFitter(Admin, EvidenceTables):
                             residuals = True,
                             **strings)
 
-    def plot_lines(self, x, w, posteriors, return_rate, likelihood, channel, p_chain_len):
+    def plot_lines(self, x, w, posteriors, return_rate,
+                        likelihood, channel, p_chain_len):
         import matplotlib
         matplotlib.use('TKAgg', force=True)
         import matplotlib.pyplot as plt
@@ -299,7 +300,8 @@ class PulseFitter(Admin, EvidenceTables):
                         p_draw = {}
                         for key in posteriors:
                             p_draw[key] = posteriors[key][jj]
-                        posterior_draws[:,jj] = return_rate(x, p_draw, [count], p_list, rate, likelihood.c)
+                        posterior_draws[:,jj] = return_rate(
+                        x, p_draw, [count], p_list, rate, likelihood.c)
                     posterior_draws_median = np.median(posterior_draws, axis = 1)
                     sum_rates_median += posterior_draws_median
                     drawLines = []
@@ -308,7 +310,8 @@ class PulseFitter(Admin, EvidenceTables):
                         drawLines.append(posterior_draws[:,ii] / w)
                     d = {'c': 'k', 'linewidth' : 0.6, 'alpha' : 0.05}
                     ax[j].plot(*drawLines, **d)
-                    ax[j].plot(x, posterior_draws_median / w, c = f'{self.colours[channel]}')
+                    ax[j].plot(x, posterior_draws_median / w,
+                                c = f'{self.colours[channel]}')
                     ax[j].set_ylabel('Counts / second')
                     ax[j].text(
             		0.95, 0.95,
