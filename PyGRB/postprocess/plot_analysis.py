@@ -51,7 +51,7 @@ class PlotPulseFit(AbstractBasePlot):
         widths  = kwargs.get('widths')
         p_type  = kwargs.get('p_type')
         return posterior_draws, nDraws, fstring, clabels, outdir, widths, p_type
-        
+
     def plot_single_channel(self, x, y, y_err, y_cols, y_fit, channels,**plot_kwargs):
         # posterior_draws  = kwargs.get('posterior_draws')
         # nDraws  = kwargs.get('nDraws')
@@ -96,7 +96,7 @@ class PlotPulseFit(AbstractBasePlot):
             for ii in range(nDraws):
                 drawLines.append(x)
                 drawLines.append(posterior_draws[:,ii])
-            d = {'c': 'k', 'linewidth' : 0.5, 'alpha' : 0.02}
+            d = {'c': 'k', 'linewidth' : 0.5, 'alpha' : 0.03}
             fig_ax1.plot(*drawLines, **d)
         if y_fit is not None:
             fig_ax1.fill_between(x, y + y_err, y - y_err, step = 'mid',

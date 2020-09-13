@@ -74,7 +74,8 @@ class GammaRayBurstPlots(AbstractClass):
         start = kwargs.get('start', self.t_start)
         stop  = kwargs.get('stop',  self.t_stop)
 
-        r = self.rates
+        bg = self._get_rough_backgrounds()
+        r = self.rates - bg
         t = self.bin_left
         times = t[(t > start) & (t < stop)]
         rates = r[(t > start) & (t < stop)]
@@ -151,7 +152,15 @@ class GammaRayBurstPlots(AbstractClass):
         #              bottom=arr[i,2,:], color = self.colours[i], align = 'edge')
         bin_edges = times
         rates = np.sum(arr[:,0,:],axis = 0)
-        sum_lc_axes.step(bin_edges, rates/1e3, 'k-', where = 'post', linewidth = 0.6)
+        sum_lc_axes.step(bin_edges, rates/1e3, 'k-', where = 'pre', linewidth = 0.6)
+        error_lo, error_hi = get_Poisson_CI(0.318,
+            (rates * arr[0,1,:]).astype('int'))
+        sum_lc_axes.fill_between(times,
+                                (rates + error_hi)/1e3,
+                                (rates - error_lo)/1e3,
+                                step = 'pre',
+                                color = 'k',
+                                alpha = 0.4)
 
         sum_lc_axes.set_title('Time since trigger (s)', fontsize=8)
         sum_lc_axes.xaxis.tick_top()
@@ -280,7 +289,7 @@ class GammaRayBurstPlots(AbstractClass):
                     wspace=0.02, hspace=0)
         sum_lc_axes   = fig.add_subplot(grid[1,0])
         sum_acf_axes  = fig.add_subplot(grid[2,0])
-        spec_lc_axes = fig.add_subplot(grid[3,0])
+        spec_lc_axes  = fig.add_subplot(grid[3,0])
         spec_acf_axes = fig.add_subplot(grid[4,0])
 
         # get light curve
@@ -328,10 +337,21 @@ class GammaRayBurstPlots(AbstractClass):
 		horizontalalignment='right', verticalalignment='top')
 
 
-        # rates = np.sum(arr[:,0,:],axis = 0)
-        # for i in self.channels:
-        #     spec_lc_axes.step(bin_edges, arr[:,0,:],/1e3, 'k-', where = 'post',
-        #                     linewidth = 0.6)
+        # rates = arr[:,0,:],axis = 0)
+        for i in self.channels:
+            error_lo, error_hi = get_Poisson_CI(0.318,
+                (arr[i,0,:] * arr[i,1,:]).astype('int'))
+            spec_lc_axes.step(bin_edges, arr[i,0,:]/1e3, where = 'pre',
+                            color = self.colours[i], linewidth = 0.6)
+            spec_lc_axes.fill_between(bin_edges,
+                            (arr[i,0,:] + error_hi) /1e3,
+                            (arr[i,0,:] - error_lo) /1e3,
+                            step = 'pre',
+                            color = self.colours[i],
+                            alpha = 0.15)
+
+        spec_lc_axes.set_ylabel('$10^3$ counts / second', fontsize=8)
+        spec_lc_axes.set_xlim(left = start, right = stop)
 
         channels = [[0],[1],[2],[3]]
         delta_bin, acfs, y_spaces, sigmas, max_detections, the_bins = \
@@ -340,7 +360,7 @@ class GammaRayBurstPlots(AbstractClass):
                 zip(acfs, y_spaces, sigmas, max_detections, the_bins)):
             [ii] = channels[i]
             spec_acf_axes.plot( delta_bin, acf, #label = f'Channel {ii+1}',
-                                c = self.colours[i], linewidth = 0.6,
+                                c = self.colours[i], linewidth = 0.4,
             label = f'{m:.2f} $\\sigma$ detection at {b:.3f}s',
                                 )
             spec_acf_axes.fill_between(delta_bin, y_space + 3 * sigma,

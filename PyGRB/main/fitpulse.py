@@ -54,7 +54,7 @@ class PulseFitter(Admin, EvidenceTables):
         self.MC_counter          = None
         # intialise dict of models
         self.models = {}
-        self.offsets = None
+        self.offsets = kwargs.get('offsets', None)
         self.p_type  = kwargs.get('p_type', 'docs')
         self.directory_label  = kwargs.get('directory_label')
         self.overwrite_priors = kwargs.get('overwrite_priors')

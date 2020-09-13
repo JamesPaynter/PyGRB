@@ -65,24 +65,50 @@ masked_H32 = np.ma.compressed(mH)
 # plt.show()
 # H32 = np.ma.masked_where(T90s>0, H32s) #H32s[T90s>0]
  # & (drn_arr[:,0]<300)
-ax.scatter(masked_T90, masked_H32, color = 'green', marker = 'x', s = 3)
-ax.set_xlabel('T90')
-ax.set_ylabel('H32')
-ax.set_xscale('log')
-ax.set_yscale('log')
+
+# ax.scatter(masked_T90, masked_H32, color = 'green', marker = 'x', s = 3)
+# ax.set_xlabel('T90')
+# ax.set_ylabel('H32')
+# ax.set_xscale('log')
+# ax.set_yscale('log')
 
 # ox.scatter(np.arange(len(masked_T90)), masked_T90)
 
 print('T90 = ', masked_T90)
 print('H32 = ', masked_H32)
 
+mT = np.ma.masked_where(~(np.isfinite(masked_H32)), masked_T90)
+mH = np.ma.masked_where(~(np.isfinite(masked_H32)), masked_H32)
+x = np.ma.compressed(mT)
+y = np.ma.compressed(mH)
+from sklearn import mixture
+X = np.vstack([np.log10(x),np.log10(y)]).T
+gmm = mixture.GaussianMixture(n_components=2, covariance_type='full').fit(X)
+Y_ = gmm.predict(X)
+
+xx = np.linspace(np.min(np.log10(x)),np.max(np.log10(x)), 2000)
+yy = np.linspace(np.min(np.log10(y)),np.max(np.log10(y)), 2000)
+XX, YY = np.meshgrid(xx, yy)
+XY = np.array([XX.ravel(), YY.ravel()]).T
+Z = -gmm.score_samples(XY)
+Z = Z.reshape(XX.shape)
+CS = ax.contour(10**XX, 10**YY, Z, levels=np.logspace(0, 1, 12), colors = 'k',
+                    alpha = 0.6, linewidths = 0.6)
+ax.axvline(2, c= 'k', linestyle = '--', linewidth = 0.6)
+ax.scatter(10**X[Y_ == 0, 0], 10**X[Y_ == 0, 1], marker = '.', color = 'tab:red', s = 3)
+ax.scatter(10**X[Y_ == 1, 0], 10**X[Y_ == 1, 1], marker = '.', color = 'tab:purple', s = 3)
+# ax.scatter(10**gmm.means_[:,0], 10**gmm.means_[:,1], marker = 'x', color = 'k')
+ax.set_xlabel('Duration (s) (T90)')
+ax.set_ylabel('Hardness (H32)\n (100-300 keV counts / 50-100 keV counts)')
+ax.set_xscale('log')
+ax.set_yscale('log')
 
 def get3770(xa):
     GRB = TimeTaggedRates(3770)
     bg = GRB._get_rough_backgrounds() * 0.005
 
     start_A, end_A = -0.06, 0.1
-    start_B, end_B = 0.35, 0.48
+    start_B, end_B =  0.35, 0.48
 
     times_A = GRB.bin_left[(GRB.bin_left > start_A) & (GRB.bin_left < end_A)]
     counts_A = GRB.rates[  (GRB.bin_left > start_A) & (GRB.bin_left < end_A)] * 0.005
@@ -147,16 +173,16 @@ def get3770(xa):
     yyy = np.array([hard_A,hard_B,hard_S])
     yerr = np.array([hard_A_err,hard_B_err,hard_S_err])
     xa.scatter(xxx[2], yyy[2],
-                color = 'k', marker = 'o', label = 'GRB 950830')
+                color = 'k', marker = 'o', label = 'GRB 950830', s = 15)
     xa.scatter(xxx[0], yyy[0],
-                color = 'r', marker = 'o', label = 'GRB 950830 Pulse A')
+                color = 'k', marker = '+', label = 'GRB 950830 Pulse A', s = 15)
     xa.scatter(xxx[1], yyy[1],
-                color = 'r', marker = '+', label = 'GRB 950830 Pulse B')
-    xa.scatter(xxx, yyy-yerr, marker = '_', color = 'k')
-    xa.scatter(xxx, yyy+yerr, marker = '_', color = 'k')
+                color = 'k', marker = 'x', label = 'GRB 950830 Pulse B', s = 15)
+    xa.scatter(xxx, yyy-yerr, marker = '_', color = 'k', s = 15)
+    xa.scatter(xxx, yyy+yerr, marker = '_', color = 'k', s = 15)
     for i, err in enumerate(yerr):
         plt.plot(   [xxx[i], xxx[i]],
-                    [yyy[i] - err, yyy[i] + err], color = 'k')
+                    [yyy[i] - err, yyy[i] + err], color = 'k', linewidth = 0.6)
     xa.legend()
     # plt.show()
 
@@ -269,6 +295,8 @@ def drn_table(ax, ox):
 # drn_table(ax, ox)
 get3770(ax)
 plt.show()
+
+fig.savefig('hardness.pdf')
 
 #
 # figure, axes = plt.subplots()

@@ -15,7 +15,7 @@ class BaseBurstBATSE(BaseBATSE, GammaRayBurstPlots):
     """ A base class for BATSE burst data. """
 
     def __init__(self, *args, **kwargs):
-        
+
         self.offsets = kwargs.pop('offsets', [0, 0, 0, 0])
         super(BaseBurstBATSE, self).__init__(*args, **kwargs)
 
@@ -82,7 +82,9 @@ class BaseBurstBATSE(BaseBATSE, GammaRayBurstPlots):
 
     def _get_rough_backgrounds(self):
         """ Estimate the background based on bin means from outside burst. """
-        return np.mean(self.rates[self.bin_widths > 0.065], axis=0)
+        bg = np.mean(self.rates[self.bin_widths > 0.065], axis=0)
+        self._rough_backgrounds = bg
+        return bg
 
     def _subtract_rough_backgrounds(self):
         """ Do a background subtraction for autocorrelation. """
