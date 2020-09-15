@@ -215,5 +215,5 @@ References
 
 `BATSE Appendix G <https://heasarc.gsfc.nasa.gov/docs/cgro/nra/appendix_g.html#V.%20BATSE%20GUEST%20INVESTIGATOR%20PROGRAM>`_
 
-.. .. bibliography:: ../refs.bib
-..   :style: unsrt
+.. bibliography:: ../refs.bib
+  :style: unsrt
