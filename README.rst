@@ -6,7 +6,7 @@
 
 .. inclusion-marker-one-liner-start
 
-A GRB light-curve analysis package.
+A :math`\gamma`-ray burst (GRB) light-curve analysis package.
 
 .. inclusion-marker-one-liner-end
 
@@ -16,7 +16,7 @@ A GRB light-curve analysis package.
 
 Introduction
 ------------
-*PyGRB* is a package to download GRB .FITS files from the relevant data archives (eg. NASA HEARSAC).
+*PyGRB* is a package to download :math`\gamma`-ray burst (GRB) .FITS files from the relevant data archives (eg. NASA HEARSAC).
 At the moment only `BATSE <https://heasarc.gsfc.nasa.gov/FTP/compton/data/batse/>`__ data can be downloaded and analysed with the software, although with only slight tweaks GRBs from other satellites can be easily analysed.
 The code is then able to create light-curves from either pre-binned data or time-tagged photon-event data.
 Light-curves may then be fitted with with pulse models, for further analysis.
