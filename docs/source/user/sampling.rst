@@ -40,7 +40,7 @@ After the `tte` period has been exhausted, BATSE counts are collected in 64ms in
    BATSE trigger 2611. This is a short bright :math:`{\gamma}`-ray burst for which the `tte` data cuts out before the event is over.
 
 Notes
-"""""
+^^^^^
 
 BATSE sums the counts of the triggered detectors aboard the satellite.
 These are then converted to rates in units of counts per second by dividing by the integration time (bin width).
@@ -62,8 +62,8 @@ For :math:`{\gamma}`-ray bursts which are completely resolved in 'tte' data, it 
 
 
 
-Further reading
-"""""""""""""""
+References
+""""""""""
 
 `BATSE Appendix G <https://heasarc.gsfc.nasa.gov/docs/cgro/nra/appendix_g.html#V.%20BATSE%20GUEST%20INVESTIGATOR%20PROGRAM>`_
 
@@ -87,6 +87,7 @@ References
 """"""""""
 
 `Dead Times <https://doi.org/10.1029/2007GL032922>`_
+
 `Dead Times <https://doi.org/10.1029/2009JA014578>`_
 
 .. ~\cite{2010JGRA..115.0E21G}.
