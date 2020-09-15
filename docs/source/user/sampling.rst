@@ -23,17 +23,15 @@ Photon Counting
 
 Photon counting is a Poisson process.
 High energy detectors like BATSE accumulate photons at discrete multiples of their clock cycles (sampling frequencies).
-BATSE has a sampling frequency of 500 kHz (a clock cycle of 2 :math:`{\mu}` s).
-Modern satellites like Fermi record each photon arrival time (time-tagged event, `tte`) to the nearest integer multiple of the clock cycle.
+BATSE has a sampling frequency of 500 kHz (a clock cycle of 2 :math:`{\mu s}`).
+These detectors record each photon arrival time (time-tagged event, `tte`) to the nearest integer multiple of the clock cycle.
 For BATSE, hardware limitations restricted this to the first 32,768 Large Area Detector (LAD) events, inclusive of all detectors.
-Pre-trigger data is available for all 8 LADs.
-Post-trigger data is available for the triggered detectors only.
 Only the shortest, moderately bright :math:`{\gamma}`-ray bursts are contained completely within the `tte` data.
 After the `tte` period has been exhausted, BATSE counts are collected in 64ms intervals (Discriminator Science Data, `discsc`) for :math:`{\sim 240}` seconds after the trigger.
 
 .. figure:: ../images/T2611.png
-   :figwidth: 50%
-   :width: 80%
+   :figwidth: 70%
+   :width: 100%
    :align: center
    :alt: BATSE trigger 2611
 
@@ -42,9 +40,13 @@ After the `tte` period has been exhausted, BATSE counts are collected in 64ms in
 Notes
 ^^^^^
 
+Pre-trigger `tte` data is available for all 8 LADs.
+Post-trigger `tte` data is available for the triggered detectors only.
+
+
 BATSE sums the counts of the triggered detectors aboard the satellite.
 These are then converted to rates in units of counts per second by dividing by the integration time (bin width).
-To use Poisson statistics, 'PyGRB' converts rates back to counts by multiplying by the bin widths, and forcing them to be integer.
+To use Poisson statistics, `PyGRB` converts rates back to counts by multiplying by the bin widths, and forcing them to be integer.
 This does not take into account the detector deadtime (see below).
 Using rates rather than counts would underestimate the uncertainty in the radiation field, since for a Poisson distribution
 
@@ -58,7 +60,10 @@ The photon arrival times are convolved with the response of the detector, result
 Due to the onboard summing across triggered detectors we are forced to apply Poisson statistics to the summed counts, rather than the counts at each detector.
 
 
-For :math:`{\gamma}`-ray bursts which are completely resolved in 'tte' data, it is possible to analyse the counts at each detector.
+For :math:`{\gamma}`-ray bursts which are completely resolved in `tte` data, it is possible to analyse the counts at each detector.
+However, since `PyGRB`'s main focus is the analysis of `discsc` data (prebinned), which is summed over the triggered detectors, this has not yet been implemented.
+It is entirely possible to run the program independently over each triggered detector.
+But there is not yet a unified joint-likelihood framework which will consider a single radiation field across these detectors.
 
 
 
@@ -77,7 +82,7 @@ This dead time is proportional to the energy of the incident photon (or particle
 .. math::
   \tau \sim \alpha \ln \frac{E_{\gamma}}{E_0}
 
-Where :math:`E_{\gamma}` is the energy of the incident photon, :math:`E_0= 5.5` keV is the reset level of the detector, and :math:`{\alpha}=0.75` :math:`{\mu}` s is the signal decay time.
+Where :math:`E_{\gamma}` is the energy of the incident photon, :math:`E_0= 5.5` keV is the reset level of the detector, and :math:`{\alpha}=0.75` :math:`{\mu s}` is the signal decay time.
 This means that photon counting is not a true Poisson process when the count rate approaches the sampling frequency.
 
 
