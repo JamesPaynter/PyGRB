@@ -1,4 +1,5 @@
 .. _sampling:
+
 Sampling
 ========
 
@@ -16,11 +17,6 @@ The equation in the nested sampling animation should read
 .. math::
 
     S(t|A,\Delta,\tau,\xi) = A \exp \left[ - \xi \left(  \frac{t - \Delta}{\tau} + \frac{\tau}{t-\Delta}  \right)  -2 \right]
-
-
-See :cite:`1987:nelson` for an introduction to non-standard analysis.
-
-.. bibliography:: refs.bib
 
 
 Photon Counting
@@ -68,39 +64,20 @@ Due to the onboard summing across triggered detectors we are forced to apply Poi
 For :math:`{\gamma}`-ray bursts which are completely resolved in `tte` data, it is possible to analyse the counts at each detector.
 However, since `PyGRB`'s main focus is the analysis of `discsc` data (prebinned), which is summed over the triggered detectors, this has not yet been implemented.
 It is entirely possible to run the program independently over each triggered detector for `tte` data.
-But there is not yet a unified joint-likelihood framework which will consider a single radiation field across these detectors.
-
-
-
-References
-""""""""""
-
-`BATSE Appendix G <https://heasarc.gsfc.nasa.gov/docs/cgro/nra/appendix_g.html#V.%20BATSE%20GUEST%20INVESTIGATOR%20PROGRAM>`_
+There is not yet a unified joint-likelihood framework which will consider a single radiation field across these detectors.
 
 
 Dead Time
 ^^^^^^^^^
 
 BATSE has a small dead time after each photon count of approximately one clock cycle.
-This dead time is proportional to the energy of the incident photon (or particle event) which triggered the count.
+This dead time is proportional to the energy of the incident photon (or particle event) which triggered the count :cite:`2010JGRAGjesteland`.
 
 .. math::
   \tau \sim \alpha \ln \frac{E_{\gamma}}{E_0}
 
-Where :math:`E_{\gamma}` is the energy of the incident photon, :math:`E_0= 5.5` keV is the reset level of the detector, and :math:`{\alpha}=0.75` :math:`{\mu s}` is the signal decay time.
+Where :math:`E_{\gamma}` is the energy of the incident photon, :math:`E_0= 5.5` keV is the reset level of the detector, and :math:`{\alpha}=0.75` :math:`{\mu s}` is the signal decay time :cite:`2008GeoRLGrefenstette`.
 This means that photon counting is not a true Poisson process when the count rate approaches the sampling frequency.
-
-
-
-
-References
-""""""""""
-
-`Dead Times <https://doi.org/10.1029/2007GL032922>`_
-
-`Dead Times <https://doi.org/10.1029/2009JA014578>`_
-
-.. ~\cite{2010JGRA..115.0E21G}.
 
 
 Poisson rate
@@ -200,4 +177,13 @@ https://dynesty.readthedocs.io/en/latest/dynamic.html
 BATSE Data Types
 ----------------
 
-, and in (Time-to-Spill, `tte`),
+, and in (Time-to-Spill, `tts`),
+
+
+References
+----------
+
+`BATSE Appendix G <https://heasarc.gsfc.nasa.gov/docs/cgro/nra/appendix_g.html#V.%20BATSE%20GUEST%20INVESTIGATOR%20PROGRAM>`_
+
+.. bibliography:: ../refs.bib
+  :style: unsrt

@@ -8,11 +8,3 @@ PyGRB.main.fitpulse module
     :members:
     :undoc-members:
     :show-inheritance:
-
-PyGRB.main.visualisations module
---------------------------------
-
-.. automodule:: PyGRB.main.visualisations
-    :members:
-    :undoc-members:
-    :show-inheritance:
