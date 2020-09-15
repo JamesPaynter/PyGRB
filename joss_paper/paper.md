@@ -21,7 +21,7 @@ bibliography: paper.bib
 # Introduction
 
 
-Gamma-ray bursts are short and intense bursts of low energy (keV -- MeV) gamma radiation.
+Gamma-ray bursts (GRBs) are short and intense bursts of low energy (keV -- MeV) gamma radiation.
 Their cosmological origin and transient nature makes them important probes of the universe and its structure.
 Since their discovery astronomers have sought to model the high energy emission.
 A popular and enduring model, although phenomenological, is the fast-rise exponential-decay (FRED) pulse [@norris2005; @norris1996],
