@@ -22,7 +22,33 @@ The equation in the nested sampling animation should read
 Photon Counting
 ---------------
 
-Photon counting is a Poisson process.
+Photon emission is a stochastic process.
+The mean number of photons emitted during time interval :math:`t` is
+
+.. math::
+
+  \left< N(t) \right> = \lambda t,
+
+where :math:`\left< N(t) \right>` is the expectation value for :math:`N` over the integration time, with Poisson rate :math:`\lambda`.
+The probability distribution for the random variable :math:`N` is
+
+.. math::
+
+	\Pr(N(t) = n) = \frac{(\lambda t)^n e^{-\lambda t}}{n!}
+
+For photons :math:`\vec{\gamma}=\{\gamma_1, \gamma_2, \ldots, \gamma_n\}` emitted via a homogeneous Poisson process (:math:`\lambda(t)=\lambda`), then the inter-arrival time between photon :math:`\gamma_i` and :math:`\gamma_{i+1}` is exponentially distributed.
+The inter-arrival times between photon :math:`\gamma_i` and :math:`\gamma_{i+k}` follow a gamma distribution with
+
+.. math::
+
+	X \sim \Gamma(k, \lambda^{-1}),
+
+where :math:`k=1` recovers the exponential distribution
+
+.. math::
+
+	X \sim \exp (\lambda^{-1}).
+
 High energy detectors like BATSE accumulate photons at discrete multiples of their clock cycles (sampling frequencies).
 BATSE has a sampling frequency of 500 kHz (a clock cycle of 2 :math:`{\mu s}`).
 These detectors record each photon arrival time (time-tagged event, `tte`) to the nearest integer multiple of the clock cycle.
@@ -78,6 +104,7 @@ This dead time is proportional to the energy of the incident photon (or particle
 
 Where :math:`E_{\gamma}` is the energy of the incident photon, :math:`E_0= 5.5` keV is the reset level of the detector, and :math:`{\alpha}=0.75` :math:`{\mu s}` is the signal decay time :cite:`2008GeoRLGrefenstette`.
 This means that photon counting is not a true Poisson process when the count rate approaches the sampling frequency.
+Rather, it follows a truncated Poisson distribution.
 
 
 Poisson rate
@@ -132,7 +159,7 @@ The default priors are
 +---------------------------------+------------------------------------+--------------------+--------------+--------------+
 | :math:`\Delta_i`                | \-\-                               | \-\-               | uniform      | seconds      |
 +---------------------------------+------------------------------------+--------------------+--------------+--------------+
-| :math:`\Delta_{i+1}`            | :math:`\Delta\_i`                  | \-\-               | uniform      | seconds      |
+| :math:`\Delta_{i+1}`            | :math:`\Delta_i`                   | \-\-               | uniform      | seconds      |
 +---------------------------------+------------------------------------+--------------------+--------------+--------------+
 | :math:`B`                       | :math:`10^{-1}`                    | :math:`10^{3}`     | log\-uniform | counts / bin |
 +---------------------------------+------------------------------------+--------------------+--------------+--------------+
@@ -174,10 +201,10 @@ https://dynesty.readthedocs.io/en/latest/dynamic.html
 
 
 
-BATSE Data Types
-----------------
-
-, and in (Time-to-Spill, `tts`),
+.. BATSE Data Types
+.. ----------------
+..
+.. , and in (Time-to-Spill, `tts`),
 
 
 References
