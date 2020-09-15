@@ -18,6 +18,11 @@ The equation in the nested sampling animation should read
     S(t|A,\Delta,\tau,\xi) = A \exp \left[ - \xi \left(  \frac{t - \Delta}{\tau} + \frac{\tau}{t-\Delta}  \right)  -2 \right]
 
 
+See :cite:`1987:nelson` for an introduction to non-standard analysis.
+
+.. bibliography:: refs.bib
+
+
 Photon Counting
 ---------------
 
@@ -62,7 +67,7 @@ Due to the onboard summing across triggered detectors we are forced to apply Poi
 
 For :math:`{\gamma}`-ray bursts which are completely resolved in `tte` data, it is possible to analyse the counts at each detector.
 However, since `PyGRB`'s main focus is the analysis of `discsc` data (prebinned), which is summed over the triggered detectors, this has not yet been implemented.
-It is entirely possible to run the program independently over each triggered detector.
+It is entirely possible to run the program independently over each triggered detector for `tte` data.
 But there is not yet a unified joint-likelihood framework which will consider a single radiation field across these detectors.
 
 
