@@ -31,8 +31,34 @@ Post-trigger data is available for the triggered detectors only.
 Only the shortest, moderately bright :math:`{\gamma}`-ray bursts are contained completely within the `tte` data.
 After the `tte` period has been exhausted, BATSE counts are collected in 64ms intervals (Discriminator Science Data, `discsc`) for :math:`{\sim 240}` seconds after the trigger.
 
-Note
-""""
+.. figure:: ../images/T2611.png
+   :figwidth: 50%
+   :width: 80%
+   :align: center
+   :alt: BATSE trigger 2611
+
+   BATSE trigger 2611. This is a short bright :math:`{\gamma}`-ray burst for which the `tte` data cuts out before the event is over.
+
+Notes
+"""""
+
+BATSE sums the counts of the triggered detectors aboard the satellite.
+These are then converted to rates in units of counts per second by dividing by the integration time (bin width).
+To use Poisson statistics, 'PyGRB' converts rates back to counts by multiplying by the bin widths, and forcing them to be integer.
+This does not take into account the detector deadtime (see below).
+Using rates rather than counts would underestimate the uncertainty in the radiation field, since for a Poisson distribution
+
+.. math::
+
+  \sigma_\text{Poisson}\sim \sqrt{N}.
+
+
+A true Poisson process occurs at each detector.
+The photon arrival times are convolved with the response of the detector, resulting in a Poisson distributed count spectrum.
+Due to the onboard summing across triggered detectors we are forced to apply Poisson statistics to the summed counts, rather than the counts at each detector.
+
+
+For :math:`{\gamma}`-ray bursts which are completely resolved in 'tte' data, it is possible to analyse the counts at each detector.
 
 
 
@@ -55,8 +81,10 @@ Where :math:`E_{\gamma}` is the energy of the incident photon, :math:`E_0= 5.5` 
 This means that photon counting is not a true Poisson process when the count rate approaches the sampling frequency.
 
 
-Further reading
-"""""""""""""""
+
+
+References
+""""""""""
 
 `Dead Times <https://doi.org/10.1029/2007GL032922>`_
 `Dead Times <https://doi.org/10.1029/2009JA014578>`_
