@@ -97,12 +97,15 @@ Dead Time
 ^^^^^^^^^
 
 BATSE has a small dead time after each photon count of approximately one clock cycle.
-This dead time is proportional to the energy of the incident photon (or particle event) which triggered the count :cite:`2010JGRAGjesteland`.
+This dead time is proportional to the energy of the incident photon (or particle event) which triggered the count.
+
+.. :cite:`2010JGRAGjesteland`.
+.. :cite:`2008GeoRLGrefenstette`
 
 .. math::
   \tau \sim \alpha \ln \frac{E_{\gamma}}{E_0}
 
-Where :math:`E_{\gamma}` is the energy of the incident photon, :math:`E_0= 5.5` keV is the reset level of the detector, and :math:`{\alpha}=0.75` :math:`{\mu s}` is the signal decay time :cite:`2008GeoRLGrefenstette`.
+Where :math:`E_{\gamma}` is the energy of the incident photon, :math:`E_0= 5.5` keV is the reset level of the detector, and :math:`{\alpha}=0.75` :math:`{\mu s}` is the signal decay time.
 This means that photon counting is not a true Poisson process when the count rate approaches the sampling frequency.
 Rather, it follows a truncated Poisson distribution.
 
@@ -212,5 +215,5 @@ References
 
 `BATSE Appendix G <https://heasarc.gsfc.nasa.gov/docs/cgro/nra/appendix_g.html#V.%20BATSE%20GUEST%20INVESTIGATOR%20PROGRAM>`_
 
-.. bibliography:: ../refs.bib
-  :style: unsrt
+.. .. bibliography:: ../refs.bib
+..   :style: unsrt
