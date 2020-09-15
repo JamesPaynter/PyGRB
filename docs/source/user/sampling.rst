@@ -11,11 +11,49 @@ Sampling
     Animation of nested sampling converging on channel 3 of BATSE trigger 8099 with a FRED pulse fit.
 
 
-The equation should read
+The equation in the nested sampling animation should read
 
 .. math::
 
     S(t|A,\Delta,\tau,\xi) = A \exp \left[ - \xi \left(  \frac{t - \Delta}{\tau} + \frac{\tau}{t-\Delta}  \right)  -2 \right]
+
+Photon Counting
+---------------
+
+Photon counting is a Poisson process.
+High energy detectors like BATSE accumulate photons at discrete multiples of their clock cycles (sampling frequencies).
+BATSE has a sampling frequency of 500 Hz (clock cycle 2 :math:`{\mu}`s).
+Modern satellites like Fermi record each photon arrival time (time-tagged event, `tte`) to the nearest integer multiple of the clock cycle.
+For BATSE, hardware limitations restricted this to the first 32,768 Large Area Detector (LAD) events, inclusive of all detectors.
+.. Pre-trigger data is available for all 8 LADs.
+.. Post-trigger data is available for the triggered detectors only.
+Only the shortest, moderately bright :math:`{\gamma}`-ray bursts are contained completely within the `tte` data.
+From this point on for BATSE, counts are collected in 64ms intervals (Discriminator Science Data, `discsc`)
+
+Dead Time
+^^^^^^^^^
+
+BATSE has a small dead time after each photon count of approximately one clock cycle.
+This dead time is proportional to the energy of the incident photon (or particle event) which triggered the count.
+
+.. math::
+  \tau \sim \alpha \ln \frac{E_{\gamma}}{E_0}
+
+Where :math:`E_{\gamma}` is the energy of the incident photon, :math:`E_0= 5.5` keV is the reset level of the detector, and :math:`{\alpha}=0.75`:math:`{\mu}`s is the signal decay time.
+This means that photon counting is not a true Poisson process when the count rate approaches the sampling frequency.
+
+
+Further reading
+"""""""""""""""
+
+https://doi.org/10.1029/2007GL032922
+https://doi.org/10.1029/2009JA014578
+.. ~\cite{2010JGRA..115.0E21G}.
+
+BATSE Data Types
+----------------
+
+, and in (Time-to-Spill, `tte`),
 
 
 Poisson rate
