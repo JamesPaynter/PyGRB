@@ -1,5 +1,5 @@
 ---
-title: "PyGRB: A pure python gamma-ray burst analysis package."
+title: "PyGRB: A pure Python gamma-ray burst analysis package."
 tags:
   - python
   - astrophysics
