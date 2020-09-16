@@ -1,4 +1,4 @@
-|JOSS| |Travis| |Coverage| |Docs| |pypi| |version| |AstroPy|
+|JOSS| |DOI| |pypi| |version| |Travis| |Coverage| |Docs| |AstroPy|
 
 .. image:: https://github.com/JamesPaynter/PyGRB/blob/master/docs/source/images/logo.png
     :align: center
@@ -207,3 +207,6 @@ An incomplete list of possible improvements:
 
 .. |JOSS| image:: https://joss.theoj.org/papers/8aff0347e6993ec23b060052a80aaaa0/status.svg
     :target: https://joss.theoj.org/papers/8aff0347e6993ec23b060052a80aaaa0
+    
+.. |DOI| image:: https://zenodo.org/badge/213533787.svg
+   :target: https://zenodo.org/badge/latestdoi/213533787
