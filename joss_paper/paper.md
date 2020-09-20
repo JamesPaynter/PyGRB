@@ -33,7 +33,7 @@ $$
 # Statement of Need
 
 The analysis of large amounts of light-curves requires downloading FITS files from the relevant server.
-To do this by hand is a tiring prospect for the 2,704 Burst and Transient Source Explorer (BATSE [@batse]) GRBs.
+To do this by hand is a tiring prospect for the 2,704 GRBs observed by the Burst and Transient Source Explorer (BATSE) experiment [@batse].
 Having downloaded a FITS file, a scientist would then need to unpack the data from the file, and extract the relevant tables to construct a light-curve.
 They may then want to plot the light-curve for publication, requiring them to write more software to appropriately represent the data.
 Ultimately, they may want to look at population statistics, or compare different GRB pulses.
